@@ -12,8 +12,8 @@ class AuthRepositoriesImp implements AuthRepositories {
   final AuthRemoteDatasource authRemoteDatasource;
   final NetworkInfo networkInfo;
 
-  AuthRepositoriesImp(this.authLocalDataSource,
-      {required this.authRemoteDatasource, required this.networkInfo});
+  AuthRepositoriesImp({required this.authLocalDataSource,
+      required this.authRemoteDatasource, required this.networkInfo});
 
   @override
   Future<Either<String, User>> login(String email, String password) async {

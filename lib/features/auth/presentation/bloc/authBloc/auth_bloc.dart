@@ -1,4 +1,3 @@
-// lib/presentation/bloc/auth/auth_bloc.dart
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:supermarket/features/auth/domain/usecases/login_usecase.dart';
