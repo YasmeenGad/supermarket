@@ -1,95 +1,94 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 abstract class AppStyles {
-  static const TextStyle styleMedium16 = TextStyle(
+  static TextStyle styleMedium16 = GoogleFonts.poppins(
     fontSize: 16,
-    fontFamily: 'Actor',
     fontWeight: FontWeight.w500,
   );
-  static const TextStyle styleSemiBold16 = TextStyle(
+
+  static TextStyle styleSemiBold16 = GoogleFonts.poppins(
     fontSize: 16,
-    fontFamily: 'Actor',
     fontWeight: FontWeight.w600,
   );
-  static const TextStyle styleSemiBold48 = TextStyle(
+
+  static TextStyle styleSemiBold48 = GoogleFonts.poppins(
     fontSize: 48,
-    fontFamily: 'Actor',
     fontWeight: FontWeight.w600,
   );
-   static const TextStyle styleMedium14 = TextStyle(
+
+  static TextStyle styleMedium14 = GoogleFonts.poppins(
     fontSize: 14,
-    fontFamily: 'Actor',
     fontWeight: FontWeight.w500,
   );
-  static const TextStyle styleMedium18 = TextStyle(
+
+  static TextStyle styleMedium18 = GoogleFonts.poppins(
     fontSize: 18,
-    fontFamily: 'Actor',
     fontWeight: FontWeight.w500,
   );
-   static const TextStyle styleSemiBold26 = TextStyle(
+
+  static TextStyle styleSemiBold26 = GoogleFonts.poppins(
     fontSize: 26,
-    fontFamily: 'Actor',
     fontWeight: FontWeight.w600,
   );
-   static const TextStyle styleSemiBold14 = TextStyle(
+
+  static TextStyle styleSemiBold14 = GoogleFonts.poppins(
     fontSize: 14,
-    fontFamily: 'Actor',
     fontWeight: FontWeight.w600,
   );
-    static const TextStyle styleSemiBold18 = TextStyle(
+
+  static TextStyle styleSemiBold18 = GoogleFonts.poppins(
     fontSize: 18,
-    fontFamily: 'Actor',
     fontWeight: FontWeight.w600,
   );
-   static const TextStyle styleRegular20 = TextStyle(
+
+  static TextStyle styleRegular20 = GoogleFonts.poppins(
     fontSize: 20,
-    fontFamily: 'Actor',
     fontWeight: FontWeight.w400,
   );
-    static const TextStyle styleSemiBold24 = TextStyle(
+
+  static TextStyle styleSemiBold24 = GoogleFonts.poppins(
     fontSize: 24,
-    fontFamily: 'Actor',
     fontWeight: FontWeight.w600,
   );
-   static const TextStyle styleBold16 = TextStyle(
+
+  static TextStyle styleBold16 = GoogleFonts.poppins(
     fontSize: 16,
-    fontFamily: 'Actor',
     fontWeight: FontWeight.bold,
   );
-   static const TextStyle styleSemiBold12 = TextStyle(
+
+  static TextStyle styleSemiBold12 = GoogleFonts.poppins(
     fontSize: 12,
-    fontFamily: 'Actor',
     fontWeight: FontWeight.w600,
   );
-    static const TextStyle styleSemiBold20 = TextStyle(
+
+  static TextStyle styleSemiBold20 = GoogleFonts.poppins(
     fontSize: 20,
-    fontFamily: 'Actor',
     fontWeight: FontWeight.w600,
   );
- static const TextStyle styleBold24 = TextStyle(
+
+  static TextStyle styleBold24 = GoogleFonts.poppins(
     fontSize: 24,
-    fontFamily: 'Actor',
     fontWeight: FontWeight.bold,
   );
-   static const TextStyle styleMedium13 = TextStyle(
+
+  static TextStyle styleMedium13 = GoogleFonts.poppins(
     fontSize: 13,
-    fontFamily: 'Actor',
     fontWeight: FontWeight.w500,
   );
-   static const TextStyle styleBold20 = TextStyle(
+
+  static TextStyle styleBold20 = GoogleFonts.poppins(
     fontSize: 20,
-    fontFamily: 'Montserrat',
     fontWeight: FontWeight.bold,
   );
-    static const TextStyle styleSemiBold28 = TextStyle(
+
+  static TextStyle styleSemiBold28 = GoogleFonts.poppins(
     fontSize: 28,
-    fontFamily: 'Actor',
     fontWeight: FontWeight.w600,
   );
-     static const TextStyle styleRegular16 = TextStyle(
+
+  static TextStyle styleRegular16 = GoogleFonts.poppins(
     fontSize: 16,
-    fontFamily: 'Actor',
     fontWeight: FontWeight.w400,
   );
-  
 }

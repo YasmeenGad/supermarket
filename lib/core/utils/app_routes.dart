@@ -6,8 +6,8 @@ import 'package:supermarket/features/splash/presentation/views/splash_view.dart'
 
 class AppRoutes {
   static const String splashView = '/';
-  static const String onBoarding= '/onBoarding';
-  static const String registerRoute = '/register';
+  static const String onBoarding= 'onBoarding';
+  static const String registerRoute = 'register';
 
   static Map<String, WidgetBuilder> getRoutes() {
     return {
