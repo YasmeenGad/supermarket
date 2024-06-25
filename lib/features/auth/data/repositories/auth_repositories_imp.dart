@@ -23,7 +23,7 @@ class AuthRepositoriesImp implements AuthRepositories {
       final remoteUser = await authRemoteDatasource.login(email, password);
       return Right(remoteUser);
     } catch (e) {
-      return Left('Failed to login: $e');
+      return Left('failed to complete the process: $e');
     }
   }
 
@@ -39,7 +39,7 @@ class AuthRepositoriesImp implements AuthRepositories {
           await authRemoteDatasource.register(username, email, password);
       return Right(remoteUser);
     } catch (e) {
-      return Left('Registration failed: $e');
+      return Left('failed to complete the process: $e');
     }
   }
 }
