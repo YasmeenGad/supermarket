@@ -45,6 +45,7 @@ dependencies:
   flutter_svg: ^2.0.10+1
   google_fonts: ^6.2.1
   equatable: ^2.0.3
+  dartz: ^0.10.0
 
 flutter_assets:
   assets_path: assets/images/
