@@ -6,7 +6,7 @@ class LoginUsecase{
   final AuthRepositories authRepositories;
   LoginUsecase({required this.authRepositories});
 
-  Future<Either<Exception,User>> call(String email, String password)async{
+  Future<Either<String,User>> call(String email, String password)async{
     return await authRepositories.login(email, password);
   }
 }

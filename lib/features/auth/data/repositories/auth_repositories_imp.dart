@@ -16,47 +16,51 @@ class AuthRepositoriesImp implements AuthRepositories {
   @override
   Future<Either<String, User>> login(String email, String password) async {
     if (!await networkInfo.isConnected) {
-      return Left(Exception('No internet connection') as String);
+      return Left('No internet connection');
     }
 
-    final url = Uri.parse('https://supermarket-kiza.onrender.com/user/login');
-    final body = {'email': email, 'password': password};
-    final headers = {'Content-Type': 'application/json'};
+    final endpoint = 'https://supermarket-kiza.onrender.com/user/login';
+    final requestBody = {'email': email, 'password': password};
+    final requestHeaders = {'Content-Type': 'application/json'};
 
     try {
-      final response = await client.post(url, body: body, headers: headers);
+      final response = await client.post(Uri.parse(endpoint),
+          body: jsonEncode(requestBody), headers: requestHeaders);
 
       if (response.statusCode == 200) {
         return Right(UserModel.fromJson(jsonDecode(response.body)));
       } else {
-        return Left(Exception('Failed to login') as String);
+        return Left('Failed to login');
       }
     } catch (e) {
-      return Left(Exception('Failed to login: $e') as String);
+      return Left('Failed to login: $e');
     }
   }
 
   
   @override
   Future<Either<String, User>> register(
-      String userName, String userEmail, String userPassword) async {
+      String username, String email, String password) async {
     if (!await networkInfo.isConnected) {
       return Left('No internet connection');
     }
 
-    final baseUrl = 'https://supermarket-kiza.onrender.com/user/register';
-    final requestBody = {'username': userName, 'email': userEmail, 'password': userPassword};
-    final requestHeaders = {'Content-Type': 'application/json'};
+    final endpoint = 'https://supermarket-kiza.onrender.com/user/register';
+    final requestBody = {
+      'username': username,
+      'email': email,
+      'password': password
+    };
 
     try {
-      final response = await client.post(Uri.parse(baseUrl),
-          body: jsonEncode(requestBody), headers: requestHeaders);
+      final response = await client.post(Uri.parse(endpoint),
+          body: jsonEncode(requestBody),
+          headers: {'Content-Type': 'application/json'});
 
       if (response.statusCode == 200) {
         return Right(UserModel.fromJson(jsonDecode(response.body)));
-      } else {
-        return Left('Registration failed');
       }
+      return Left('Registration failed');
     } catch (e) {
       return Left('Registration failed: $e');
     }

@@ -8,7 +8,7 @@ class RegisterUsecase{
 
   RegisterUsecase({required this.authRepositories});
 
-  Future<Either<Exception,User>> call(String userName, String email, String password) async{  
+  Future<Either<String,User>> call(String userName, String email, String password) async{  
     return await authRepositories.register(userName, email, password);
   }
 }
