@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:supermarket/core/network/network_info.dart';
+import 'package:supermarket/features/auth/data/datasources/auth_local_datasource.dart';
 import 'package:supermarket/features/auth/data/datasources/auth_remote_datasources.dart';
 
 import 'package:supermarket/features/auth/domain/entities/user.dart';
@@ -7,10 +8,11 @@ import 'package:supermarket/features/auth/domain/entities/user.dart';
 import 'package:supermarket/features/auth/domain/repositories/auth_repositories.dart';
 
 class AuthRepositoriesImp implements AuthRepositories {
+  final AuthLocalDataSource authLocalDataSource;
   final AuthRemoteDatasource authRemoteDatasource;
   final NetworkInfo networkInfo;
 
-  AuthRepositoriesImp(
+  AuthRepositoriesImp(this.authLocalDataSource,
       {required this.authRemoteDatasource, required this.networkInfo});
 
   @override
@@ -21,6 +23,7 @@ class AuthRepositoriesImp implements AuthRepositories {
 
     try {
       final remoteUser = await authRemoteDatasource.login(email, password);
+      authLocalDataSource.cacheUser(remoteUser);
       return Right(remoteUser);
     } catch (e) {
       return Left('failed to complete the process: $e');
@@ -37,6 +40,7 @@ class AuthRepositoriesImp implements AuthRepositories {
     try {
       final remoteUser =
           await authRemoteDatasource.register(username, email, password);
+      authLocalDataSource.cacheUser(remoteUser);
       return Right(remoteUser);
     } catch (e) {
       return Left('failed to complete the process: $e');
