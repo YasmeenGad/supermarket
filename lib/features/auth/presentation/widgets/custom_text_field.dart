@@ -23,7 +23,7 @@ class CustomTextField extends StatelessWidget {
         children: [
           Text(
             "${textFieldModel.text}",
-            style: AppStyles.styleSemiBold16.copyWith(color: secondaryColor),
+            style: AppStyles.styleSemiBold16(context).copyWith(color: secondaryColor),
           ),
           SizedBox(
             height: 10,

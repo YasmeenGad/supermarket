@@ -26,7 +26,7 @@ class AuthRepositoriesImp implements AuthRepositories {
       authLocalDataSource.cacheUser(remoteUser);
       return Right(remoteUser);
     } catch (e) {
-      return Left('failed to complete the process: $e');
+      return Left('failed to login: $e');
     }
   }
 
@@ -43,7 +43,7 @@ class AuthRepositoriesImp implements AuthRepositories {
       authLocalDataSource.cacheUser(remoteUser);
       return Right(remoteUser);
     } catch (e) {
-      return Left('failed to complete the process: $e');
+      return Left('Faild to register: $e');
     }
   }
 }

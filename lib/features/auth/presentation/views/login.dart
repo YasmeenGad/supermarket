@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:supermarket/core/constants/app_colors.dart';
+import 'package:supermarket/core/models/custom_text_field_model.dart';
 import 'package:supermarket/core/utils/app_routes.dart';
 import 'package:supermarket/core/utils/app_styles.dart';
 import 'package:supermarket/core/utils/assets.dart';
 import 'package:supermarket/core/widgets/custom_button.dart';
 import 'package:supermarket/features/auth/presentation/widgets/custom_auth_text_section.dart';
-import 'package:supermarket/features/auth/presentation/widgets/custom_text_field_section.dart';
-
-class Register extends StatelessWidget {
-  const Register({super.key});
+import 'package:supermarket/features/auth/presentation/widgets/custom_text_field.dart';
+class Login extends StatelessWidget {
+  const Login({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -40,10 +40,11 @@ class Register extends StatelessWidget {
         children: [
           const SizedBox(height: 223),
           Align(
-              alignment: Alignment.centerLeft, child: CustomAuthTextSection(title: 'Sign Up', subtitle: 'Enter your credentials to continue',)),
+              alignment: Alignment.centerLeft, child: CustomAuthTextSection(title: 'Logining', subtitle: 'Enter your email and password')),
           const SizedBox(height: 46),
-          CustomTextFieldSection(),
-          const CustomButton(text: 'Sign Up'),
+          CustomTextField(textFieldModel: CustomTextFieldModel(text: 'Email', hintText: 'email')),
+          CustomTextField(textFieldModel: CustomTextFieldModel(text: 'Password', hintText: 'password')),
+          const CustomButton(text: 'Login'),
           const SizedBox(
             height: 25,
           ),
@@ -51,15 +52,15 @@ class Register extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Already have an account? ',
+                'Don\'t have an account? ',
                 style: AppStyles.styleSemiBold14(context).copyWith(color: darkColor),
               ),
               GestureDetector(
-                onTap: (){
-                  Navigator.pushReplacementNamed(context, AppRoutes.loginRoute);
+                onTap: () {
+                  Navigator.pushReplacementNamed(context, AppRoutes.registerRoute);
                 },
                 child: Text(
-                  'Login',
+                  'SignUp',
                   style: AppStyles.styleSemiBold14(context).copyWith(color: primaryColor),
                 ),
               ),

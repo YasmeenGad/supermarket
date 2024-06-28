@@ -3,7 +3,9 @@ import 'package:supermarket/core/constants/app_colors.dart';
 import 'package:supermarket/core/utils/app_styles.dart';
 
 class CustomAuthTextSection extends StatelessWidget {
-  const CustomAuthTextSection({super.key});
+  const CustomAuthTextSection({super.key, required this.title, required this.subtitle});
+  final String title;
+  final String subtitle;
 
   @override
   Widget build(BuildContext context) {
@@ -11,15 +13,15 @@ class CustomAuthTextSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Sign Up',
-          style: AppStyles.styleSemiBold26.copyWith(color: darkColor),
+          '${title}',
+          style: AppStyles.styleSemiBold26(context).copyWith(color: darkColor),
         ),
         SizedBox(
           height: 15,
         ),
         Text(
-          'Enter your credentials to continue',
-          style: AppStyles.styleMedium16.copyWith(color: secondaryColor),
+          '${subtitle}',
+          style: AppStyles.styleMedium16(context).copyWith(color: secondaryColor),
         ),
       ],
     );
