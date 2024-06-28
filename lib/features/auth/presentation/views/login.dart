@@ -25,6 +25,7 @@ class _LoginState extends State<Login> {
   bool isPassword = true;
   bool isEmailValid = false;
 
+
   void validateEmail(String value) {
     final email = value;
     if (Validators.validateEmail(email) == null) {
@@ -36,6 +37,13 @@ class _LoginState extends State<Login> {
         isEmailValid = false;
       });
     }
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
   }
 
   @override

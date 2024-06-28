@@ -23,7 +23,7 @@ class _RegisterState extends State<Register> {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-    bool isPassword = true;
+  bool isPassword = true;
   bool isEmailValid = false;
    void validateEmail(String value) {
     final email = value;
@@ -36,6 +36,14 @@ class _RegisterState extends State<Register> {
         isEmailValid = false;
       });
     }
+  }
+
+  @override
+  void dispose() {
+    usernameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
   }
 
   @override
