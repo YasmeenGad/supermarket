@@ -1,15 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:supermarket/core/constants/app_colors.dart';
+import 'package:supermarket/core/models/custom_text_field_model.dart';
 import 'package:supermarket/core/utils/app_routes.dart';
 import 'package:supermarket/core/utils/app_styles.dart';
 import 'package:supermarket/core/utils/assets.dart';
+import 'package:supermarket/core/utils/validator.dart';
 import 'package:supermarket/core/widgets/custom_button.dart';
 import 'package:supermarket/features/auth/presentation/widgets/custom_auth_text_section.dart';
-import 'package:supermarket/features/auth/presentation/widgets/custom_text_field_section.dart';
-
-class Register extends StatelessWidget {
+import 'package:supermarket/features/auth/presentation/widgets/custom_text_field.dart';
+class Register extends StatefulWidget {
   const Register({super.key});
 
+  @override
+  State<Register> createState() => _RegisterState();
+}
+
+class _RegisterState extends State<Register> {
+
+  final formKey = GlobalKey<FormState>();
+  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,7 +53,37 @@ class Register extends StatelessWidget {
           Align(
               alignment: Alignment.centerLeft, child: CustomAuthTextSection(title: 'Sign Up', subtitle: 'Enter your credentials to continue',)),
           const SizedBox(height: 46),
-          CustomTextFieldSection(),
+          CustomTextField(
+            validator: (value){
+            return   Validators.validateUsername(value);
+            },
+            formKey: formKey,
+            controller: usernameController,
+            textFieldModel:
+                CustomTextFieldModel(text: 'Username', hintText: 'username'),
+          ),
+          CustomTextField(
+            validator: (value){
+            return   Validators.validateEmail(value);
+            },
+            formKey: formKey,
+            controller: emailController,
+            textFieldModel: CustomTextFieldModel(
+                text: 'Email',
+                hintText: 'email',
+                suffixIcon: Image.asset(Assets.imagesVector)),
+          ),
+           CustomTextField(
+            validator: (value){
+            return   Validators.validatePassword(value);
+            },
+            formKey: formKey,
+            controller: passwordController,
+            textFieldModel: CustomTextFieldModel(
+                text: 'Password',
+                hintText: 'password',
+                suffixIcon: Icon(Icons.visibility_off)),
+          ),
           const CustomButton(text: 'Sign Up'),
           const SizedBox(
             height: 25,

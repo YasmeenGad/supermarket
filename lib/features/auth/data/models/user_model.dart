@@ -1,19 +1,20 @@
 import 'package:supermarket/features/auth/domain/entities/user.dart';
 
-// ignore: must_be_immutable
-class UserModel extends User{
 
-  String id;
-  String username;
-  String email;
-
-  UserModel(this.id, this.username, this.email) : super(id: id, username: username, email: email);
+class UserModel extends User {
+  UserModel({
+    required String id,
+    required String username,
+    required String email,
+    required String password,
+  }) : super(id: id, username: username, email: email, password: password);
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
-      json['id'],
-      json['username'],
-      json['email'],
+      id: json['id'],
+      username: json['username'],
+      email: json['email'],
+      password: json['password'],
     );
   }
 
@@ -22,6 +23,7 @@ class UserModel extends User{
       'id': id,
       'username': username,
       'email': email,
+      'password': password,
     };
   }
 }

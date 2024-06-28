@@ -42,8 +42,8 @@ class Login extends StatelessWidget {
           Align(
               alignment: Alignment.centerLeft, child: CustomAuthTextSection(title: 'Logining', subtitle: 'Enter your email and password')),
           const SizedBox(height: 46),
-          CustomTextField(textFieldModel: CustomTextFieldModel(text: 'Email', hintText: 'email')),
-          CustomTextField(textFieldModel: CustomTextFieldModel(text: 'Password', hintText: 'password')),
+          // CustomTextField(textFieldModel: CustomTextFieldModel(text: 'Email', hintText: 'email')),
+          // CustomTextField(textFieldModel: CustomTextFieldModel(text: 'Password', hintText: 'password')),
           const CustomButton(text: 'Login'),
           const SizedBox(
             height: 25,
