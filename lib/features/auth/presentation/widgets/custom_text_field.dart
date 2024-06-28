@@ -6,12 +6,17 @@ import 'package:supermarket/core/utils/app_styles.dart';
 class CustomTextField extends StatelessWidget {
   const CustomTextField({
     super.key,
-    required this.textFieldModel,  this.formKey, required this.controller, this.validator,
+    required this.textFieldModel,
+    this.formKey,
+    required this.controller,
+    this.validator,  this.isPassword, this.onChanged,
   });
   final CustomTextFieldModel textFieldModel;
   final formKey;
- final TextEditingController controller;
-final String? Function(String?)? validator;
+  final TextEditingController controller;
+  final String? Function(String?)? validator;
+  final bool? isPassword;
+ final  void Function(String)? onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -26,12 +31,15 @@ final String? Function(String?)? validator;
         children: [
           Text(
             "${textFieldModel.text}",
-            style: AppStyles.styleSemiBold16(context).copyWith(color: secondaryColor),
+            style: AppStyles.styleSemiBold16(context)
+                .copyWith(color: secondaryColor),
           ),
           SizedBox(
             height: 10,
           ),
           TextFormField(
+            onChanged: onChanged,
+            obscureText: isPassword?? false,
             validator: validator,
             controller: controller,
             key: formKey,

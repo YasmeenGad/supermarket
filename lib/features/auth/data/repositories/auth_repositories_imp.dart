@@ -12,38 +12,40 @@ class AuthRepositoriesImp implements AuthRepositories {
   final AuthRemoteDatasource authRemoteDatasource;
   final NetworkInfo networkInfo;
 
-  AuthRepositoriesImp({required this.authLocalDataSource,
-      required this.authRemoteDatasource, required this.networkInfo});
+  AuthRepositoriesImp(
+      {required this.authLocalDataSource,
+      required this.authRemoteDatasource,
+      required this.networkInfo});
 
   @override
   Future<Either<String, User>> login(String email, String password) async {
     if (!await networkInfo.isConnected) {
       return Left('No internet connection');
-    }
-
-    try {
-      final remoteUser = await authRemoteDatasource.login(email, password);
-      authLocalDataSource.cacheUser(remoteUser);
-      return Right(remoteUser);
-    } catch (e) {
-      return Left('failed to login: $e');
+    } else {
+      try {
+        final remoteUser = await authRemoteDatasource.login(email, password);
+        authLocalDataSource.cacheUser(remoteUser);
+        return Right(remoteUser);
+      } catch (e) {
+        return Left('$e');
+      }
     }
   }
 
   @override
   Future<Either<String, User>> register(
-      String username, String email, String password) async {
+      String userName, String email, String password) async {
     if (!await networkInfo.isConnected) {
       return Left('No internet connection');
-    }
-
-    try {
-      final remoteUser =
-          await authRemoteDatasource.register(username, email, password);
-      authLocalDataSource.cacheUser(remoteUser);
-      return Right(remoteUser);
-    } catch (e) {
-      return Left('Faild to register: $e');
+    } else {
+      try {
+        final remoteUser =
+            await authRemoteDatasource.register(userName, email, password);
+        authLocalDataSource.cacheUser(remoteUser);
+        return Right(remoteUser);
+      } catch (e) {
+        return Left(e.toString());
+      }
     }
   }
 }

@@ -25,7 +25,8 @@ class AuthRemoteDatasourceImp implements AuthRemoteDatasource {
       if (response.statusCode == 200) {
         return UserModel.fromJson(jsonDecode(response.body));
       } else {
-        throw Exception('Failed to login');
+        final errorResponse = jsonDecode(response.body);
+        throw ('${errorResponse['message']}');
       }
     } catch (e) {
       throw Exception('Failed to login: $e');
@@ -34,11 +35,11 @@ class AuthRemoteDatasourceImp implements AuthRemoteDatasource {
 
   @override
   Future<UserModel> register(
-      String username, String email, String password) async {
+      String userName, String email, String password) async {
     final registerUrl =
         Uri.parse('https://supermarket-kiza.onrender.com/user/register');
     final data = {
-      'username': username,
+      'userName': userName,
       'email': email,
       'password': password,
     };
@@ -49,13 +50,16 @@ class AuthRemoteDatasourceImp implements AuthRemoteDatasource {
         body: jsonEncode(data),
         headers: {'Content-Type': 'application/json'},
       );
+      // print("response");
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
         return UserModel.fromJson(jsonDecode(response.body));
+      } else {
+        final errorResponse = jsonDecode(response.body);
+        throw ('${errorResponse['message']}');
       }
-      throw Exception('Registration failed');
-    } catch (error) {
-      throw Exception('Registration failed: $error');
+    } on Exception catch (e) {
+      throw Exception('Failed to register: $e');
     }
   }
 }
