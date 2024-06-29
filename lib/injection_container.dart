@@ -5,55 +5,52 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:supermarket/features/auth/data/datasources/auth_local_datasource.dart';
 import 'package:supermarket/features/auth/data/datasources/auth_remote_datasources.dart';
 import 'package:supermarket/features/auth/data/repositories/auth_repositories_imp.dart';
+import 'package:supermarket/features/auth/domain/repositories/auth_repositories.dart';
 import 'package:supermarket/features/auth/domain/usecases/login_usecase.dart';
 import 'package:supermarket/features/auth/domain/usecases/register_usecase.dart';
 import 'package:supermarket/features/auth/presentation/bloc/authBloc/auth_bloc.dart';
 
 import 'core/network/network_info.dart';
 
-
 final sl = GetIt.instance;
 
-
 Future<void> init() async {
-
-  // Initializes the dependencies for the 'feature auth' module 
+  // External dependencies
   final httpClient = http.Client();
   final internetConnectionChecker = InternetConnectionChecker();
   final sharedPreferences = await SharedPreferences.getInstance();
+
+  // Core
   final networkInfo = NetworkInfoImpl(internetConnectionChecker);
-  
 
-  // data sources
-  final authRemoteDatasource = AuthRemoteDatasourceImp(client: httpClient);
-  final authLocalDataSource = AuthLocalDataSourceImpl(sharedPreferences: sharedPreferences);
-
-  // repositories
-  final authRepositories = AuthRepositoriesImp(
-    authLocalDataSource: authLocalDataSource,
-    authRemoteDatasource: authRemoteDatasource,
-    networkInfo: networkInfo,
-  );
-  
-  // use cases
-  final loginUseCase = LoginUsecase(authRepositories: authRepositories);
-  final registerUseCase = RegisterUsecase(authRepositories: authRepositories);
-  
-  // bloc
-  final authBloc = AuthBloc(
-    login: loginUseCase,
-    register: registerUseCase,
-  );
-  
-  // register all the dependencies
+  // Register External dependencies
   sl.registerLazySingleton(() => httpClient);
   sl.registerLazySingleton(() => internetConnectionChecker);
   sl.registerLazySingleton(() => sharedPreferences);
-  sl.registerLazySingleton(() => networkInfo);
-  sl.registerLazySingleton(() => authRemoteDatasource);
-  sl.registerLazySingleton(() => authLocalDataSource);
-  sl.registerLazySingleton(() => authRepositories);
-  sl.registerLazySingleton(() => loginUseCase);
-  sl.registerLazySingleton(() => registerUseCase);
-  sl.registerFactory(() => authBloc);
+
+  // Register Core
+  sl.registerLazySingleton<NetworkInfo>(() => networkInfo);
+
+  // Data sources
+  sl.registerLazySingleton<AuthRemoteDatasource>(
+      () => AuthRemoteDatasourceImp(client: httpClient));
+  sl.registerLazySingleton<AuthLocalDataSource>(
+      () => AuthLocalDataSourceImpl(sharedPreferences: sharedPreferences));
+
+  // Repositories
+  sl.registerLazySingleton<AuthRepositories>(() => AuthRepositoriesImp(
+        authLocalDataSource: sl(),
+        authRemoteDatasource: sl(),
+        networkInfo: sl(),
+      ));
+
+  // Use cases
+  sl.registerLazySingleton(() => LoginUsecase(authRepositories: sl()));
+  sl.registerLazySingleton(() => RegisterUsecase(repository: sl()));
+
+  // Blocs
+  sl.registerFactory(() => AuthBloc(
+        login: sl(),
+        register: sl(),
+      ));
 }

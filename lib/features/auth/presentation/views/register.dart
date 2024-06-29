@@ -141,10 +141,10 @@ class _RegisterState extends State<Register> {
                   content: Text('An account has been created successfully'),
                   backgroundColor: Colors.green,
                 ));
-                // Navigator.pushReplacementNamed(context, AppRoutes.homeRoute);
+                Navigator.pushReplacementNamed(context, AppRoutes.loginRoute);
               } else if (state is AuthFailure) {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text(state.message),
+                  content: Text(state.error),
                   backgroundColor: Colors.red,
                 ));
               }

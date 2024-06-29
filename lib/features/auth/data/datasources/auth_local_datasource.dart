@@ -6,10 +6,13 @@ import 'dart:convert';
 abstract class AuthLocalDataSource {
   Future<void> cacheUser(UserModel user);
   Future<UserModel?> getCachedUser();
+  Future<void> cacheToken(String token); 
+  Future<String?> getCachedToken();
 }
 
 class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   static const CACHED_USER = 'CACHED_USER';
+  static const CASHED_TOKEN= 'CACHED_TOKEN';
   final SharedPreferences sharedPreferences;
 
   AuthLocalDataSourceImpl({required this.sharedPreferences});
@@ -28,5 +31,15 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
     } else {
       return null;
     }
+  }
+  
+  @override
+  Future<void> cacheToken(String token) async{
+    await sharedPreferences.setString(CASHED_TOKEN, token);
+  }
+  
+  @override
+  Future<String?> getCachedToken() async{
+     return await sharedPreferences.getString(CASHED_TOKEN);
   }
 }

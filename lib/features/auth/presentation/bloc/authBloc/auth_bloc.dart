@@ -2,7 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:supermarket/features/auth/domain/usecases/login_usecase.dart';
 import 'package:supermarket/features/auth/domain/usecases/register_usecase.dart';
-import '../../../domain/entities/user.dart';
 
 
 
@@ -34,7 +33,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     result.fold(
       (failure) => emit(AuthFailure(failure.toString())),
-      (user) => emit(AuthSuccess(user)),
+      (message) => emit(AuthSuccess(message)),
     );
   }
 }

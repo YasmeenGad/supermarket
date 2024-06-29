@@ -1,14 +1,12 @@
 import 'package:dartz/dartz.dart';
-import 'package:supermarket/features/auth/domain/entities/user.dart';
-import 'package:supermarket/features/auth/domain/repositories/auth_repositories.dart';
+import '../repositories/auth_repositories.dart';
 
-class RegisterUsecase{
+class RegisterUsecase {
+  final AuthRepositories repository;
 
-  final AuthRepositories authRepositories;
+  RegisterUsecase({ required this.repository});
 
-  RegisterUsecase({required this.authRepositories});
-
-  Future<Either<String,User>> call(String userName, String email, String password) async{  
-    return await authRepositories.register(userName, email, password);
+  Future<Either<String, String>> call(String userName, String email, String password) {
+    return repository.register(userName, email, password);
   }
 }

@@ -25,7 +25,6 @@ class _LoginState extends State<Login> {
   bool isPassword = true;
   bool isEmailValid = false;
 
-
   void validateEmail(String value) {
     final email = value;
     if (Validators.validateEmail(email) == null) {
@@ -99,7 +98,9 @@ class _LoginState extends State<Login> {
                   textFieldModel: CustomTextFieldModel(
                     text: 'Email',
                     hintText: 'email',
-                    suffixIcon: isEmailValid ? Icon(Icons.check, color: Colors.green) : null,
+                    suffixIcon: isEmailValid
+                        ? Icon(Icons.check, color: Colors.green)
+                        : null,
                   ),
                 ),
                 CustomTextField(
@@ -117,7 +118,9 @@ class _LoginState extends State<Login> {
                           isPassword = !isPassword;
                         });
                       },
-                      icon: isPassword ? Icon(Icons.visibility) : Icon(Icons.visibility_off),
+                      icon: isPassword
+                          ? Icon(Icons.visibility)
+                          : Icon(Icons.visibility_off),
                     ),
                   ),
                 ),
@@ -131,17 +134,23 @@ class _LoginState extends State<Login> {
                   content: Text('You have been logged in successfully'),
                   backgroundColor: Colors.green,
                 ));
-                Navigator.pushReplacementNamed(context, AppRoutes.homeRoute);
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  AppRoutes.homeRoute,
+                  (route) => false,
+                );
               } else if (state is AuthFailure) {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text(state.message),
+                  content: Text(state.error),
                   backgroundColor: Colors.red,
                 ));
               }
             },
             builder: (context, state) {
               if (state is AuthLoading) {
-                return const CircularProgressIndicator();
+                return const CircularProgressIndicator(
+                  color: primaryColor,
+                );
               }
               return GestureDetector(
                 onTap: () {
@@ -166,15 +175,18 @@ class _LoginState extends State<Login> {
             children: [
               Text(
                 'Don\'t have an account?',
-                style: AppStyles.styleSemiBold14(context).copyWith(color: darkColor),
+                style: AppStyles.styleSemiBold14(context)
+                    .copyWith(color: darkColor),
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.pushReplacementNamed(context, AppRoutes.registerRoute);
+                  Navigator.pushReplacementNamed(
+                      context, AppRoutes.registerRoute);
                 },
                 child: Text(
                   'Sign Up',
-                  style: AppStyles.styleSemiBold14(context).copyWith(color: primaryColor),
+                  style: AppStyles.styleSemiBold14(context)
+                      .copyWith(color: primaryColor),
                 ),
               ),
             ],
