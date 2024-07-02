@@ -129,7 +129,7 @@ class _LoginState extends State<Login> {
                     alignment: Alignment.centerRight,
                     child: GestureDetector(
                       onTap: (){
-                        Navigator.pushNamed(context, AppRoutes.resetPasswordRoute);
+                        Navigator.pushNamed(context, AppRoutes.forgetPasswordRoute);
                       },
                         child: Text("Forget Password?",
                             style: AppStyles.styleMedium16(context)))),

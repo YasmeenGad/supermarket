@@ -21,8 +21,7 @@ class AuthRepositoriesImp implements AuthRepositories {
     } else {
       try {
         final remoteUser = await authRemoteDatasource.login(email, password);
-        authLocalDataSource.cacheUser(remoteUser);
-        await authLocalDataSource.cacheToken(remoteUser.token);
+        await authLocalDataSource.cacheToken(remoteUser.token ?? '');
         print(remoteUser.token);
         return Right('Login successful');
       } catch (e) {
@@ -38,9 +37,10 @@ class AuthRepositoriesImp implements AuthRepositories {
       return Left('No internet connection');
     } else {
       try {
-        final message =
+        final newUser =
             await authRemoteDatasource.register(userName, email, password);
-        return Right(message);
+        await authLocalDataSource.cacheUser(newUser);
+        return Right('Register successful');
       } catch (e) {
         return Left(e.toString());
       }
@@ -49,7 +49,7 @@ class AuthRepositoriesImp implements AuthRepositories {
 
   @override
   Future<Either<String, String>> sendOtp(String email) async {
-     if (await networkInfo.isConnected) {
+    if (await networkInfo.isConnected) {
       try {
         final message = await authRemoteDatasource.sendOtp(email);
         return Right(message);
@@ -61,7 +61,7 @@ class AuthRepositoriesImp implements AuthRepositories {
     }
   }
 
- @override
+  @override
   Future<Either<String, String>> verifyOtp(String otp) async {
     if (await networkInfo.isConnected) {
       try {
@@ -77,10 +77,12 @@ class AuthRepositoriesImp implements AuthRepositories {
   }
 
   @override
-  Future<Either<String, String>> resetPassword(String token,String newPassword) async {
-   if (await networkInfo.isConnected) {
+  Future<Either<String, String>> resetPassword(
+      String token, String newPassword) async {
+    if (await networkInfo.isConnected) {
       try {
-        final message = await authRemoteDatasource.resetPassword(token, newPassword);
+        final message =
+            await authRemoteDatasource.resetPassword(token, newPassword);
         return Right(message);
       } catch (e) {
         return Left('Failed to Reset Password: $e');
@@ -89,5 +91,4 @@ class AuthRepositoriesImp implements AuthRepositories {
       return Left('No Internet Connection');
     }
   }
-  }
-
+}
