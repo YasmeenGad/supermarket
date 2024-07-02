@@ -28,3 +28,22 @@ class AuthSuccess extends AuthState {
   @override
   List<Object> get props => [message];
 }
+class AuthLoadingResetPassword extends AuthState {}
+
+class AuthFailureResetPassword extends AuthState {
+  final String error;
+
+  const AuthFailureResetPassword(this.error);
+
+  @override
+  List<Object> get props => [error];
+}
+
+class AuthSuccessResetPassword extends AuthState {
+  final String token;
+
+  const AuthSuccessResetPassword(this.token);
+
+  @override
+  List<Object> get props => [token];
+}

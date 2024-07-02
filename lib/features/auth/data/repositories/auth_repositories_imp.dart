@@ -32,16 +32,62 @@ class AuthRepositoriesImp implements AuthRepositories {
   }
 
   @override
-  Future<Either<String, String>> register(String userName, String email, String password) async {
+  Future<Either<String, String>> register(
+      String userName, String email, String password) async {
     if (!await networkInfo.isConnected) {
       return Left('No internet connection');
     } else {
       try {
-        final message = await authRemoteDatasource.register(userName, email, password);
+        final message =
+            await authRemoteDatasource.register(userName, email, password);
         return Right(message);
       } catch (e) {
         return Left(e.toString());
       }
     }
   }
-}
+
+  @override
+  Future<Either<String, String>> sendOtp(String email) async {
+     if (await networkInfo.isConnected) {
+      try {
+        final message = await authRemoteDatasource.sendOtp(email);
+        return Right(message);
+      } catch (e) {
+        return Left('Failed to Send Reset Code: $e');
+      }
+    } else {
+      return Left('No Internet Connection');
+    }
+  }
+
+ @override
+  Future<Either<String, String>> verifyOtp(String otp) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final token = await authRemoteDatasource.verifyOtp(otp);
+        await authLocalDataSource.cacheToken(token); // Cache the token locally
+        return Right(token);
+      } catch (e) {
+        return Left('$e');
+      }
+    } else {
+      return Left('No Internet Connection');
+    }
+  }
+
+  @override
+  Future<Either<String, String>> resetPassword(String token,String newPassword) async {
+   if (await networkInfo.isConnected) {
+      try {
+        final message = await authRemoteDatasource.resetPassword(token, newPassword);
+        return Right(message);
+      } catch (e) {
+        return Left('Failed to Reset Password: $e');
+      }
+    } else {
+      return Left('No Internet Connection');
+    }
+  }
+  }
+

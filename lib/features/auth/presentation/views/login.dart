@@ -8,6 +8,7 @@ import 'package:supermarket/core/utils/assets.dart';
 import 'package:supermarket/core/utils/validator.dart';
 import 'package:supermarket/core/widgets/custom_button.dart';
 import 'package:supermarket/features/auth/presentation/bloc/authBloc/auth_bloc.dart';
+import 'package:supermarket/features/auth/presentation/bloc/authBloc/auth_event.dart';
 import 'package:supermarket/features/auth/presentation/widgets/custom_auth_text_section.dart';
 import 'package:supermarket/features/auth/presentation/widgets/custom_text_field.dart';
 
@@ -111,7 +112,7 @@ class _LoginState extends State<Login> {
                   controller: passwordController,
                   textFieldModel: CustomTextFieldModel(
                     text: 'Password',
-                    hintText: 'password',
+                    hintText: '****',
                     suffixIcon: IconButton(
                       onPressed: () {
                         setState(() {
@@ -123,6 +124,17 @@ class _LoginState extends State<Login> {
                           : Icon(Icons.visibility_off),
                     ),
                   ),
+                ),
+                Align(
+                    alignment: Alignment.centerRight,
+                    child: GestureDetector(
+                      onTap: (){
+                        Navigator.pushNamed(context, AppRoutes.resetPasswordRoute);
+                      },
+                        child: Text("Forget Password?",
+                            style: AppStyles.styleMedium16(context)))),
+                const SizedBox(
+                  height: 16,
                 ),
               ],
             ),
@@ -158,7 +170,7 @@ class _LoginState extends State<Login> {
                     final email = emailController.text;
                     final password = passwordController.text;
 
-                    context.read<AuthBloc>().add(LoginEvent(email, password));
+                    context.read<AuthBloc>().add(LoginEvent(email: email, password: password, ));
                   }
                 },
                 child: CustomButton(

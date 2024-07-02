@@ -8,6 +8,7 @@ import 'package:supermarket/core/utils/assets.dart';
 import 'package:supermarket/core/utils/validator.dart';
 import 'package:supermarket/core/widgets/custom_button.dart';
 import 'package:supermarket/features/auth/presentation/bloc/authBloc/auth_bloc.dart';
+import 'package:supermarket/features/auth/presentation/bloc/authBloc/auth_event.dart';
 import 'package:supermarket/features/auth/presentation/widgets/custom_auth_text_section.dart';
 import 'package:supermarket/features/auth/presentation/widgets/custom_text_field.dart';
 
@@ -120,7 +121,7 @@ class _RegisterState extends State<Register> {
                   controller: passwordController,
                   textFieldModel: CustomTextFieldModel(
                     text: 'Password',
-                    hintText: 'password',
+                    hintText: '****',
                     suffixIcon: IconButton(
                       onPressed: () {
                         setState(() {
@@ -141,7 +142,7 @@ class _RegisterState extends State<Register> {
                   content: Text('An account has been created successfully'),
                   backgroundColor: Colors.green,
                 ));
-                Navigator.pushReplacementNamed(context, AppRoutes.loginRoute);
+                 Navigator.pushReplacementNamed(context, AppRoutes.loginRoute);
               } else if (state is AuthFailure) {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   content: Text(state.error),
@@ -151,7 +152,7 @@ class _RegisterState extends State<Register> {
             },
             builder: (context, state) {
               if (state is AuthLoading) {
-                return const CircularProgressIndicator();
+                return const CircularProgressIndicator(color: primaryColor,);
               }
               return GestureDetector(
                 onTap: () {
@@ -162,7 +163,7 @@ class _RegisterState extends State<Register> {
 
                     context
                         .read<AuthBloc>()
-                        .add(RegisterEvent(userName, email, password));
+                        .add(RegisterEvent(userName: userName, email: email, password: password));
                   }
                 },
                 child: CustomButton(

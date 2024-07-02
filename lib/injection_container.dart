@@ -8,6 +8,8 @@ import 'package:supermarket/features/auth/data/repositories/auth_repositories_im
 import 'package:supermarket/features/auth/domain/repositories/auth_repositories.dart';
 import 'package:supermarket/features/auth/domain/usecases/login_usecase.dart';
 import 'package:supermarket/features/auth/domain/usecases/register_usecase.dart';
+import 'package:supermarket/features/auth/domain/usecases/sendCode_and_verify_otp_usecase.dart';
+
 import 'package:supermarket/features/auth/presentation/bloc/authBloc/auth_bloc.dart';
 
 import 'core/network/network_info.dart';
@@ -47,10 +49,16 @@ Future<void> init() async {
   // Use cases
   sl.registerLazySingleton(() => LoginUsecase(authRepositories: sl()));
   sl.registerLazySingleton(() => RegisterUsecase(repository: sl()));
+  sl.registerLazySingleton(() => SendOtpUsecase(repository: sl()));
+  sl.registerLazySingleton(() => VerifyOtpUsecase(repository: sl()));
+  sl.registerLazySingleton(() => ResetPasswordUsecase(repository: sl()));
 
   // Blocs
   sl.registerFactory(() => AuthBloc(
         login: sl(),
         register: sl(),
+        sendCode: sl(),
+        verifyOtp: sl(),
+        resetPassword: sl(),
       ));
 }

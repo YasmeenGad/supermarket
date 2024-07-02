@@ -32,7 +32,7 @@ class CustomTextField extends StatelessWidget {
           Text(
             "${textFieldModel.text}",
             style: AppStyles.styleSemiBold16(context)
-                .copyWith(color: secondaryColor),
+                .copyWith(color: darkColor),
           ),
           SizedBox(
             height: 10,
