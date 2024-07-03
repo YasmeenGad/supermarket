@@ -7,7 +7,7 @@ abstract class AuthRemoteDatasource {
   Future<UserModel> register(String username, String email, String password);
   Future<String> sendOtp(String email);
   Future<String> verifyOtp(String otp);
-  Future<String> resetPassword(String token,String newPassword);
+  Future<String> resetPassword(String token, String newPassword);
 }
 
 class AuthRemoteDatasourceImp implements AuthRemoteDatasource {
@@ -17,70 +17,62 @@ class AuthRemoteDatasourceImp implements AuthRemoteDatasource {
 
   @override
   Future<UserModel> login(String email, String password) async {
-    final loginUrl =
-        Uri.parse('https://supermarket-kiza.onrender.com/user/login');
+    final loginUrl = Uri.parse('http://10.0.2.2:4000/user/login');
     final requestBody = {'email': email, 'password': password};
     final requestHeaders = {'Content-Type': 'application/json'};
 
-    try {
-      final response = await client.post(loginUrl,
-          body: jsonEncode(requestBody), headers: requestHeaders);
+    final response = await client.post(loginUrl,
+        body: jsonEncode(requestBody), headers: requestHeaders);
 
-      if (response.statusCode == 200) {
-        return UserModel.fromJson(jsonDecode(response.body));
-      } else {
-        final errorResponse = jsonDecode(response.body);
-        throw ('${errorResponse['message']}');
-      }
-    } catch (e) {
-      throw Exception('Failed to login: $e');
+    if (response.statusCode == 200) {
+      return UserModel.fromJson(jsonDecode(response.body));
+    } else {
+      final errorResponse = jsonDecode(response.body);
+      throw ('${errorResponse['message']}');
     }
   }
 
   @override
-  Future<UserModel> register(String userName, String email, String password) async {
-    final registerUrl = Uri.parse('https://supermarket-kiza.onrender.com/user/register');
+  Future<UserModel> register(
+      String userName, String email, String password) async {
+    final registerUrl = Uri.parse('http://10.0.2.2:4000/user/register');
     final data = {'userName': userName, 'email': email, 'password': password};
 
-    try {
-      final response = await client.post(registerUrl, body: jsonEncode(data), headers: {'Content-Type': 'application/json'});
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        final responseBody = jsonDecode(response.body);
-        return UserModel.fromJson(responseBody['newUser']);
-      } else {
-        final errorResponse = jsonDecode(response.body);
-        throw ('${errorResponse['message']}');
-      }
-    } catch (e) {
-      throw Exception('Failed to register: $e');
+    final response = await client.post(registerUrl,
+        body: jsonEncode(data), headers: {'Content-Type': 'application/json'});
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      final responseBody = jsonDecode(response.body);
+      return UserModel.fromJson(responseBody['newUser']);
+    } else {
+      final errorResponse = jsonDecode(response.body);
+      throw ('${errorResponse['message']}');
     }
   }
 
   @override
   Future<String> resetPassword(String token, String newPassword) async {
-    final url = Uri.parse('https://supermarket-kiza.onrender.com/user/reset');
-     final requestBody = {'password': newPassword};
-    final requestHeaders = {'Content-Type': 'application/json', 'Authorization': 'Bearer $token'};
+    final url = Uri.parse('http://10.0.2.2:4000/user/reset');
+    final requestBody = {'password': newPassword};
+    final requestHeaders = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token'
+    };
+      print('Token: $token');
+    final response = await client.patch(url,
+        body: jsonEncode(requestBody), headers: requestHeaders);
 
-    try {
-      final response = await client.post(url, body: jsonEncode(requestBody), headers: requestHeaders);
-
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        final responseBody = jsonDecode(response.body);
-        return responseBody['message'];
-      } else {
-        final errorResponse = jsonDecode(response.body);
-        throw ('${errorResponse['message']}');
-      }
-    } catch (e) {
-      throw Exception('Failed to reset password: $e');
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      final responseBody = jsonDecode(response.body);
+      return responseBody['message'];
+    } else {
+      final errorResponse = jsonDecode(response.body);
+      throw ('${errorResponse['message']}');
     }
   }
 
   @override
   Future<String> sendOtp(String email) async {
-    final url =
-        Uri.parse('https://supermarket-kiza.onrender.com/user/sendCode');
+    final url = Uri.parse('http://10.0.2.2:4000/user/sendCode');
     final response = await client.post(
       url,
       body: jsonEncode({'email': email}),
@@ -97,7 +89,7 @@ class AuthRemoteDatasourceImp implements AuthRemoteDatasource {
 
   @override
   Future<String> verifyOtp(String otp) async {
-    final url = Uri.parse('https://supermarket-kiza.onrender.com/user/verify');
+    final url = Uri.parse('http://10.0.2.2:4000/user/verify');
     print('Sending OTP: $otp');
     final response = await client.post(
       url,

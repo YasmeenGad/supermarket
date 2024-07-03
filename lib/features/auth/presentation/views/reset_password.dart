@@ -6,14 +6,16 @@ import 'package:supermarket/core/utils/app_routes.dart';
 import 'package:supermarket/core/utils/app_styles.dart';
 import 'package:supermarket/core/utils/validator.dart';
 import 'package:supermarket/core/widgets/custom_button.dart';
+import 'package:supermarket/features/auth/data/datasources/auth_local_datasource.dart';
 import 'package:supermarket/features/auth/presentation/bloc/authBloc/auth_bloc.dart';
 import 'package:supermarket/features/auth/presentation/bloc/authBloc/auth_event.dart';
 import 'package:supermarket/features/auth/presentation/widgets/custom_text_field.dart';
+import 'package:supermarket/injection_container.dart';
 
 class ResetPassword extends StatefulWidget {
-  final String token;
+   String token;
 
-  const ResetPassword({Key? key, required this.token}) : super(key: key);
+  ResetPassword({Key? key, required this.token}) : super(key: key);
 
   @override
   State<ResetPassword> createState() => _ResetPasswordState();
@@ -23,6 +25,21 @@ class _ResetPasswordState extends State<ResetPassword> {
   final TextEditingController _passwordController = TextEditingController();
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool isPassword = true;
+  final authLocalDataSource= sl<AuthLocalDataSource>();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Initialize token from arguments here
+    if (widget.token.isEmpty) {
+      widget.token = ModalRoute.of(context)!.settings.arguments as String;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -93,8 +110,10 @@ class _ResetPasswordState extends State<ResetPassword> {
                 BlocConsumer<AuthBloc, AuthState>(
                   listener: (context, state) {
                     if (state is AuthSuccessResetPassword) {
+
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: Text('Password reset successfully')));
+                          authLocalDataSource.removeCachedToken();
                       Navigator.pushNamed(context, AppRoutes.loginRoute);
                     } else if (state is AuthFailureResetPassword) {
                       ScaffoldMessenger.of(context)
@@ -103,15 +122,19 @@ class _ResetPasswordState extends State<ResetPassword> {
                   },
                   builder: (context, state) {
                     if (state is AuthLoadingResetPassword) {
-                      return Center(child: CircularProgressIndicator(color: primaryColor,));
+                      return Center(
+                        child: CircularProgressIndicator(color: primaryColor),
+                      );
                     }
                     return GestureDetector(
                       onTap: () {
                         if (_formKey.currentState!.validate()) {
                           BlocProvider.of<AuthBloc>(context).add(
-                              ResetPasswordEvent(
-                                  token: widget.token,
-                                  newPassword: _passwordController.text));
+                            ResetPasswordEvent(
+                              token: widget.token,
+                              newPassword: _passwordController.text,
+                            ),
+                          );
                         }
                       },
                       child: CustomButton(text: 'Reset Password'),

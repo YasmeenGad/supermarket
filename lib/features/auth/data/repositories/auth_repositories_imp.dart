@@ -22,6 +22,7 @@ class AuthRepositoriesImp implements AuthRepositories {
       try {
         final remoteUser = await authRemoteDatasource.login(email, password);
         await authLocalDataSource.cacheToken(remoteUser.token ?? '');
+
         print(remoteUser.token);
         return Right('Login successful');
       } catch (e) {
@@ -85,6 +86,10 @@ class AuthRepositoriesImp implements AuthRepositories {
             await authRemoteDatasource.resetPassword(token, newPassword);
         return Right(message);
       } catch (e) {
+        if (e.toString().contains('Token expired')) {
+          return Left('Token expired, please login and try again');
+        }
+        print(e);
         return Left('Failed to Reset Password: $e');
       }
     } else {

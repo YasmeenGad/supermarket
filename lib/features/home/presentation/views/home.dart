@@ -29,6 +29,6 @@ class Home extends StatelessWidget {
   Future<String> getCashedUserName() async {
     final authocalDataSource = sl<AuthLocalDataSource>();
     final userName = await authocalDataSource.getCachedUser();
-    return userName.userName;
+    return userName!.userName;
   }
 }

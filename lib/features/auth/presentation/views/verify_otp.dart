@@ -80,6 +80,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
                     if (state is AuthSuccessResetPassword) {
                       Navigator.pushNamed(
                           context, AppRoutes.resetPasswordRoute, arguments: state.token);
+                          print(state.token);
                     } else if (state is AuthFailureResetPassword) {
                       ScaffoldMessenger.of(context)
                           .showSnackBar(SnackBar(content: Text(state.error)));
