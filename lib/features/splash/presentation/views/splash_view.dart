@@ -1,7 +1,7 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:supermarket/features/Home/presentation/views/home_layout.dart';
 import 'package:supermarket/features/auth/data/datasources/auth_local_datasource.dart';
-import 'package:supermarket/features/Product_details.dart/presentation/views/home.dart';
 import 'package:supermarket/features/splash/presentation/views/onboarding_view.dart';
 import 'package:supermarket/features/splash/presentation/widgets/container_splash_view.dart';
 import 'package:supermarket/injection_container.dart';
@@ -15,7 +15,7 @@ class SplashView extends StatelessWidget {
       return AnimatedSplashScreen(
       splashIconSize: MediaQuery.of(context).size.height,
       splash: const ContainerSplashView(),
-      nextScreen: snapshot.data??false ? Home(): OnBoardingView(),
+      nextScreen: snapshot.data??false ? HomeLayout(): OnBoardingView(),
       splashTransition: SplashTransition.scaleTransition,
       duration: 3000,
     );

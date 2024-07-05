@@ -148,7 +148,7 @@ class _LoginState extends State<Login> {
                 ));
                 Navigator.pushNamedAndRemoveUntil(
                   context,
-                  AppRoutes.homeRoute,
+                  AppRoutes.homeLayoutRoute,
                   (route) => false,
                 );
               } else if (state is AuthFailure) {

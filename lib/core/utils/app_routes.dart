@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supermarket/features/Home/presentation/views/home_layout.dart';
 import 'package:supermarket/features/auth/presentation/views/forget_password.dart';
 import 'package:supermarket/features/auth/presentation/views/login.dart';
 import 'package:supermarket/features/auth/presentation/views/register.dart';
@@ -13,7 +14,7 @@ class AppRoutes {
   static const String onBoarding = 'onBoarding';
   static const String registerRoute = 'register';
   static const String loginRoute = 'login';
-  static const String homeRoute = 'home';
+  static const String homeLayoutRoute = 'homeLayoutRoute';
   static const String forgetPasswordRoute = 'forgetPassword';
   static const String otpRoute = 'otp';
   static const String resetPasswordRoute = 'resetPassword';
@@ -23,7 +24,7 @@ class AppRoutes {
       onBoarding: (context) => const OnBoardingView(),
       registerRoute: (context) => const Register(),
       loginRoute: (context) => const Login(),
-      homeRoute: (context) => const Home(),
+      homeLayoutRoute: (context) => const HomeLayout(),
       forgetPasswordRoute: (context) => ForgetPassword(),
       otpRoute: (context) => VerifyOtp(),
       resetPasswordRoute: (context) => ResetPassword(

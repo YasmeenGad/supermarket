@@ -8,7 +8,7 @@ import 'package:supermarket/features/Home/data/datasources/product_remote_dataso
 import 'package:supermarket/features/Home/data/repositories/product_repositories_impl.dart';
 import 'package:supermarket/features/Home/domain/repositories/product_repository.dart';
 import 'package:supermarket/features/Home/domain/usecases/get_all_products_usecase.dart';
-import 'package:supermarket/features/Home/presentation/bloc/bloc/all_products_bloc_bloc.dart';
+import 'package:supermarket/features/Home/presentation/bloc/all_product_bloc/all_products_bloc_bloc.dart';
 
 import 'package:supermarket/features/auth/data/datasources/auth_local_datasource.dart';
 import 'package:supermarket/features/auth/data/datasources/auth_remote_datasources.dart';
