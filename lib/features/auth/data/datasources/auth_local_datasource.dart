@@ -13,7 +13,6 @@ abstract class AuthLocalDataSource {
 class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   static const CACHED_USER = 'CACHED_USER';
   static const CASHED_TOKEN = 'CACHED_TOKEN';
-  static const CASHED_USERNAME = 'CASHED_USERNAME';
   final SharedPreferences sharedPreferences;
 
   AuthLocalDataSourceImpl({required this.sharedPreferences});

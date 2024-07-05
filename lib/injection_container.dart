@@ -2,6 +2,14 @@ import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:supermarket/features/Home/data/datasources/all_products_local_datasource.dart';
+import 'package:supermarket/features/Home/data/datasources/product_remote_data_source_impl.dart';
+import 'package:supermarket/features/Home/data/datasources/product_remote_datasource.dart';
+import 'package:supermarket/features/Home/data/repositories/product_repositories_impl.dart';
+import 'package:supermarket/features/Home/domain/repositories/product_repository.dart';
+import 'package:supermarket/features/Home/domain/usecases/get_all_products_usecase.dart';
+import 'package:supermarket/features/Home/presentation/bloc/bloc/all_products_bloc_bloc.dart';
+
 import 'package:supermarket/features/auth/data/datasources/auth_local_datasource.dart';
 import 'package:supermarket/features/auth/data/datasources/auth_remote_datasources.dart';
 import 'package:supermarket/features/auth/data/repositories/auth_repositories_imp.dart';
@@ -9,7 +17,6 @@ import 'package:supermarket/features/auth/domain/repositories/auth_repositories.
 import 'package:supermarket/features/auth/domain/usecases/login_usecase.dart';
 import 'package:supermarket/features/auth/domain/usecases/register_usecase.dart';
 import 'package:supermarket/features/auth/domain/usecases/sendCode_and_verify_otp_usecase.dart';
-
 import 'package:supermarket/features/auth/presentation/bloc/authBloc/auth_bloc.dart';
 
 import 'core/network/network_info.dart';
@@ -33,32 +40,53 @@ Future<void> init() async {
   // Register Core
   sl.registerLazySingleton<NetworkInfo>(() => networkInfo);
 
-  // Data sources
+  // Auth Data sources
   sl.registerLazySingleton<AuthRemoteDatasource>(
       () => AuthRemoteDatasourceImp(client: httpClient));
   sl.registerLazySingleton<AuthLocalDataSource>(
       () => AuthLocalDataSourceImpl(sharedPreferences: sharedPreferences));
 
-  // Repositories
+  // Product Data sources
+  sl.registerLazySingleton<ProductRemoteDataSource>(
+      () => ProductRemoteDataSourceImpl(client: httpClient, authLocalDataSource: sl()));
+  sl.registerLazySingleton<AllProductsLocalDataSource>(
+      () => AllProductsLocalDataSourceImpl(sharedPreferences: sharedPreferences));
+
+  // Auth Repositories
   sl.registerLazySingleton<AuthRepositories>(() => AuthRepositoriesImp(
         authLocalDataSource: sl(),
         authRemoteDatasource: sl(),
         networkInfo: sl(),
       ));
 
-  // Use cases
+  // Product Repositories
+  sl.registerLazySingleton<ProductRepository>(() => ProductRepositoryImpl(
+        localDataSource: sl(),
+        remoteDataSource: sl(),
+        networkInfo: sl(),
+      ));
+
+  // Auth Use cases
   sl.registerLazySingleton(() => LoginUsecase(authRepositories: sl()));
   sl.registerLazySingleton(() => RegisterUsecase(repository: sl()));
   sl.registerLazySingleton(() => SendOtpUsecase(repository: sl()));
   sl.registerLazySingleton(() => VerifyOtpUsecase(repository: sl()));
   sl.registerLazySingleton(() => ResetPasswordUsecase(repository: sl()));
 
-  // Blocs
+  // Product Use cases
+  sl.registerLazySingleton(() => GetAllProducts(sl()));
+
+  // Auth Blocs
   sl.registerFactory(() => AuthBloc(
         login: sl(),
         register: sl(),
         sendCode: sl(),
         verifyOtp: sl(),
         resetPassword: sl(),
+      ));
+
+  // Product Blocs
+  sl.registerFactory(() => AllProductsBlocBloc(
+        getAllProducts: sl(),
       ));
 }
