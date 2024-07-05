@@ -1,9 +1,10 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:supermarket/features/auth/data/models/login_response.dart';
 import 'package:supermarket/features/auth/data/models/user_model.dart';
 
 abstract class AuthRemoteDatasource {
-  Future<UserModel> login(String email, String password);
+  Future<LoginResponse> login(String email, String password);
   Future<UserModel> register(String username, String email, String password);
   Future<String> sendOtp(String email);
   Future<String> verifyOtp(String otp);
@@ -16,7 +17,7 @@ class AuthRemoteDatasourceImp implements AuthRemoteDatasource {
   AuthRemoteDatasourceImp({required this.client});
 
   @override
-  Future<UserModel> login(String email, String password) async {
+  Future<LoginResponse> login(String email, String password) async {
     final loginUrl = Uri.parse('http://10.0.2.2:4000/user/login');
     final requestBody = {'email': email, 'password': password};
     final requestHeaders = {'Content-Type': 'application/json'};
@@ -25,7 +26,7 @@ class AuthRemoteDatasourceImp implements AuthRemoteDatasource {
         body: jsonEncode(requestBody), headers: requestHeaders);
 
     if (response.statusCode == 200) {
-      return UserModel.fromJson(jsonDecode(response.body));
+      return LoginResponse.fromJson(jsonDecode(response.body));
     } else {
       final errorResponse = jsonDecode(response.body);
       throw ('${errorResponse['message']}');

@@ -21,7 +21,7 @@ class AuthRepositoriesImp implements AuthRepositories {
     } else {
       try {
         final remoteUser = await authRemoteDatasource.login(email, password);
-        await authLocalDataSource.cacheToken(remoteUser.token ?? '');
+        await authLocalDataSource.cacheToken(remoteUser.token);
 
         print(remoteUser.token);
         return Right('Login successful');
