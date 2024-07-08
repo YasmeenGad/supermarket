@@ -48,6 +48,7 @@ class ProductRepositoryImpl implements ProductRepository {
        try {
         final bestSellingProducts = await remoteDataSource.getBestSellingProducts();
         localDataSource.cacheBestSellingProducts(bestSellingProducts);
+        
         return Right(bestSellingProducts);
       } catch (e) {
         return Left('Failed to get products: $e');

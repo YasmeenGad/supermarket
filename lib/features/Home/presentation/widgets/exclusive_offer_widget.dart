@@ -2,11 +2,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:supermarket/core/constants/app_colors.dart';
 import 'package:supermarket/core/utils/app_styles.dart';
-import 'package:supermarket/features/Home/data/models/product_model.dart';
 
 class ExclusiveOfferWidget extends StatelessWidget {
   const ExclusiveOfferWidget({super.key, required this.product});
-  final ProductModel product;
+  final  product;
 
   @override
   Widget build(BuildContext context) {

@@ -1,6 +1,6 @@
 part of 'best_selling_products_bloc.dart';
 
-sealed class BestSellingProductsState extends Equatable {
+abstract class BestSellingProductsState extends Equatable {
   const BestSellingProductsState();
   
   @override

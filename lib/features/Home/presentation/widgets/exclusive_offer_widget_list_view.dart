@@ -1,11 +1,10 @@
 import 'package:flutter/cupertino.dart';
-import 'package:supermarket/features/Home/data/models/product_model.dart';
 import 'package:supermarket/features/Home/presentation/widgets/exclusive_offer_widget.dart';
 
 class ExclusiveOfferWidgetListView extends StatelessWidget {
   const ExclusiveOfferWidgetListView({super.key, required this.products});
 
-  final List<ProductModel> products;
+  final List products;
 
   @override
   Widget build(BuildContext context) {

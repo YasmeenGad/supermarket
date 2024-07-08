@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supermarket/core/constants/app_colors.dart';
 import 'package:supermarket/core/network/network_info.dart';
 import 'package:supermarket/core/utils/app_styles.dart';
+import 'package:supermarket/features/Home/presentation/bloc/BestSellingProducts/best_selling_products_bloc.dart';
 import 'package:supermarket/features/Home/presentation/bloc/all_product_bloc/all_products_bloc_bloc.dart';
 import 'package:supermarket/features/Home/presentation/widgets/custom_app_bar.dart';
 import 'package:supermarket/features/Home/presentation/widgets/custom_carouser_slider.dart';
@@ -21,11 +22,6 @@ class _HomeWidgetState extends State<HomeWidget> {
   final pageController = sl<PageController>();
   int currentPageIndex = 0;
   final internetConnect = sl<NetworkInfo>();
-  @override
-  void dispose() {
-    pageController.dispose();
-    super.dispose();
-  }
 
   @override
   void initState() {
@@ -36,7 +32,11 @@ class _HomeWidgetState extends State<HomeWidget> {
       },
     );
     // BlocProvider.of<AllProductsBlocBloc>(context).add(FetchProducts());
+    // Dispatch the event to fetch all products
     context.read<AllProductsBlocBloc>().add(FetchProducts());
+
+    // Dispatch the event to fetch best-selling products
+    context.read<BestSellingProductsBloc>().add(GetBestSellingProducts());
 
     super.initState();
   }
@@ -48,98 +48,128 @@ class _HomeWidgetState extends State<HomeWidget> {
       height: MediaQuery.sizeOf(context).height,
       color: Colors.white,
       child: Padding(
-        padding: const EdgeInsets.only( top:7,left: 23, right: 23),
-        child: CustomScrollView(slivers: [
-          SliverToBoxAdapter(
-            child: Column(
-          children: [
-            const CustomAppBar(),
-            SizedBox(height: 12),
-            ImagePageView(
-              pageController: pageController,
-            ),
-            SizedBox(height: 16),
-            DotsIndicator(
-              currentPageIndex: currentPageIndex,
-            ),
-            SizedBox(height: 24),
-            Row(
-              children: [
-                FittedBox(
-                    fit: BoxFit.scaleDown,
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "Exclusive Offer",
-                      style: AppStyles.styleSemiBold24(context)
-                          .copyWith(color: darkColor),
-                    )),
-                Expanded(child: SizedBox()),
-                FittedBox(
-                    fit: BoxFit.scaleDown,
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "see all",
-                      style: AppStyles.styleSemiBold16(context)
-                          .copyWith(color: primaryColor),
-                    )),
-              ],
-            ),
-            SizedBox(height: 16),
-            BlocListener<AllProductsBlocBloc, AllProductsBlocState>(
-                listener: (context, state) {
-              if (state is AllProductsBlocError) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(state.message)),
-                );
-              }
-            }, child: BlocBuilder<AllProductsBlocBloc, AllProductsBlocState>(
-              builder: (context, state) {
-                if (state is AllProductsBlocLoading) {
-                  return Container(
-                    width: MediaQuery.sizeOf(context).width *0.2,
-                    height: MediaQuery.sizeOf(context).height *0.25,
-                   
-                    child: Center(
-                      child: CircularProgressIndicator(
-                        color: primaryColor,
-                      ),
+          padding: const EdgeInsets.only(top: 7, left: 23, right: 23, bottom: 16),
+          child: CustomScrollView(
+            slivers: [
+              SliverToBoxAdapter(
+                child: Column(
+                  children: [
+                    const CustomAppBar(),
+                    SizedBox(height: 12),
+                    ImagePageView(
+                      pageController: pageController,
                     ),
-                  );
-                } else if (state is AllProductsBlocLoaded) {
-                  return ExclusiveOfferWidgetListView(
-                    products: state.products,
-                  );
-                }
-                return SizedBox();
-              },
-            )),
-            SizedBox(height: 16),
-            Row(
-              children: [
-                FittedBox(
-                    fit: BoxFit.scaleDown,
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "Best Selling",
-                      style: AppStyles.styleSemiBold24(context)
-                          .copyWith(color: darkColor),
+                    SizedBox(height: 16),
+                    DotsIndicator(
+                      currentPageIndex: currentPageIndex,
+                    ),
+                    SizedBox(height: 24),
+                    Row(
+                      children: [
+                        FittedBox(
+                            fit: BoxFit.scaleDown,
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "Exclusive Offer",
+                              style: AppStyles.styleSemiBold24(context)
+                                  .copyWith(color: darkColor),
+                            )),
+                        Expanded(child: SizedBox()),
+                        FittedBox(
+                            fit: BoxFit.scaleDown,
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "see all",
+                              style: AppStyles.styleSemiBold16(context)
+                                  .copyWith(color: primaryColor),
+                            )),
+                      ],
+                    ),
+                    SizedBox(height: 16),
+                    BlocListener<AllProductsBlocBloc,
+                        AllProductsBlocState>(listener: (context, state) {
+                      if (state is AllProductsBlocError) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(state.message)),
+                        );
+                      }
+                    }, child:
+                        BlocBuilder<AllProductsBlocBloc, AllProductsBlocState>(
+                      builder: (context, state) {
+                        if (state is AllProductsBlocLoading) {
+                          return Container(
+                            width: MediaQuery.sizeOf(context).width * 0.2,
+                            height: MediaQuery.sizeOf(context).height * 0.25,
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                color: primaryColor,
+                              ),
+                            ),
+                          );
+                        } else if (state is AllProductsBlocLoaded) {
+                          return ExclusiveOfferWidgetListView(
+                            products: state.products,
+                          );
+                        }
+                        return SizedBox();
+                      },
                     )),
-                Expanded(child: SizedBox()),
-                FittedBox(
-                    fit: BoxFit.scaleDown,
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "see all",
-                      style: AppStyles.styleSemiBold16(context)
-                          .copyWith(color: primaryColor),
+                    SizedBox(height: 16),
+                    Row(
+                      children: [
+                        FittedBox(
+                            fit: BoxFit.scaleDown,
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "Best Selling",
+                              style: AppStyles.styleSemiBold24(context)
+                                  .copyWith(color: darkColor),
+                            )),
+                        Expanded(child: SizedBox()),
+                        FittedBox(
+                            fit: BoxFit.scaleDown,
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "see all",
+                              style: AppStyles.styleSemiBold16(context)
+                                  .copyWith(color: primaryColor),
+                            )),
+                      ],
+                    ),
+                    SizedBox(height: 16),
+                    BlocListener<BestSellingProductsBloc,
+                        BestSellingProductsState>(listener: (context, state) {
+                      if (state is BestSellingProductsError) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(state.message)),
+                        );
+                      }
+                    }, child: BlocBuilder<BestSellingProductsBloc,
+                        BestSellingProductsState>(
+                      builder: (context, state) {
+                        if (state is BestSellingProductsLoading) {
+                          return Container(
+                            width: MediaQuery.sizeOf(context).width * 0.2,
+                            height: MediaQuery.sizeOf(context).height * 0.25,
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                color: primaryColor,
+                              ),
+                            ),
+                          );
+                        } else if (state is BestSellingProductsLoaded) {
+                          return ExclusiveOfferWidgetListView(
+                            products: state.products,
+                          );
+                        }
+                        return SizedBox();
+                      },
                     )),
-              ],
-            ),
-          ],
-        ),
-          )
-        ],)
-      ),
+                  ],
+                ),
+              )
+            ],
+          )),
     );
   }
 }
