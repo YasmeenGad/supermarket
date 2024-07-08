@@ -9,3 +9,4 @@ const Color darkColor = Color(0xff030303);
 const Color bgSearchColor = Color(0xffF2F3F2);
 const Color lightGreenColor = Color(0xff4C4F4D);
 const Color darkGreenColor =Color(0XFF3E423F);
+const Color borderColor =Color(0XFFE2E2E2);

@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import '../entities/product.dart';
+import 'package:supermarket/features/Home/data/models/product_model.dart';
 import '../repositories/product_repository.dart';
 
 class GetAllProducts {
@@ -7,7 +7,7 @@ class GetAllProducts {
 
   GetAllProducts(this.repository);
 
-  Future<Either<String, List<Product>>> call() async {
+  Future<Either<String, List<ProductModel>>> call() async {
     return await repository.getAllProducts();
   }
 }

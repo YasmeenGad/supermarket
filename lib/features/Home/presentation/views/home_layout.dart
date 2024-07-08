@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:supermarket/core/constants/app_colors.dart';
+import 'package:supermarket/features/Home/presentation/widgets/home_widget.dart';
 
 class HomeLayout extends StatefulWidget {
   const HomeLayout({super.key});
@@ -10,10 +11,9 @@ class HomeLayout extends StatefulWidget {
 }
 
 class _HomeLayoutState extends State<HomeLayout> {
-
   int selectedIndex = 0;
   final List<Widget> widgetOptions = <Widget>[
-    Container(),
+    HomeWidget(),
     Container(),
     Container(),
     Container(),
@@ -30,36 +30,57 @@ class _HomeLayoutState extends State<HomeLayout> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: widgetOptions.elementAt(selectedIndex),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.white,
-        type: BottomNavigationBarType.fixed,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_bag,size: 30,),
-            label: 'Shop',
-            
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(16),
+            topRight: Radius.circular(16),
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search,size: 30,),
-            label: 'Explore',
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(16),
+            topRight: Radius.circular(16),
           ),
-          BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.cart,size: 30,),
-            label: 'Cart',
+          child: BottomNavigationBar(
+            elevation: 2,
+            // showSelectedLabels: true,
+            iconSize: 30,
+            backgroundColor: Colors.white,
+            items: const <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(Icons.shopping_bag),
+                label: 'Shop',
+                backgroundColor: Colors.white,
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.search),
+                label: 'Explore',
+                backgroundColor: Colors.white,
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(CupertinoIcons.cart),
+                label: 'Cart',
+                backgroundColor: Colors.white,
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.favorite_outline_outlined),
+                label: 'Favorite',
+                backgroundColor: Colors.white,
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.person_3_outlined),
+                label: 'Account',
+                backgroundColor: Colors.white,
+              ),
+            ],
+            currentIndex: selectedIndex,
+            selectedItemColor: primaryColor,
+            unselectedItemColor: blackColor,
+            onTap: onItemTapped,
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite_outline_outlined,size: 30,),
-            label: 'Favorite',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person_3_outlined,size: 30,),
-            label: 'Account',
-          ),
-        ],
-        currentIndex: selectedIndex,
-        selectedItemColor: primaryColor,
-        unselectedItemColor: blackColor,
-        onTap: onItemTapped,
+        ),
       ),
     );
   }

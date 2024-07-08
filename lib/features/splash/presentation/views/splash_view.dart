@@ -25,7 +25,6 @@ class SplashView extends StatelessWidget {
     Future<bool> isUserLoggedIn() async {
     final authLocalDataSource = sl<AuthLocalDataSource>();
     final token = await authLocalDataSource.getCachedToken();
-    print(token);
     return token != null && token.isNotEmpty;
   }
 }

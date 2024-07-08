@@ -1,13 +1,15 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:supermarket/features/Home/data/datasources/all_products_local_datasource.dart';
 import 'package:supermarket/features/Home/data/datasources/product_remote_data_source_impl.dart';
-import 'package:supermarket/features/Home/data/datasources/product_remote_datasource.dart';
 import 'package:supermarket/features/Home/data/repositories/product_repositories_impl.dart';
 import 'package:supermarket/features/Home/domain/repositories/product_repository.dart';
 import 'package:supermarket/features/Home/domain/usecases/get_all_products_usecase.dart';
+import 'package:supermarket/features/Home/domain/usecases/get_best_selling_product_usecase.dart';
+import 'package:supermarket/features/Home/presentation/bloc/BestSellingProducts/best_selling_products_bloc.dart';
 import 'package:supermarket/features/Home/presentation/bloc/all_product_bloc/all_products_bloc_bloc.dart';
 
 import 'package:supermarket/features/auth/data/datasources/auth_local_datasource.dart';
@@ -25,6 +27,7 @@ final sl = GetIt.instance;
 
 Future<void> init() async {
   // External dependencies
+  final pageController = PageController();
   final httpClient = http.Client();
   final internetConnectionChecker = InternetConnectionChecker();
   final sharedPreferences = await SharedPreferences.getInstance();
@@ -36,6 +39,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => httpClient);
   sl.registerLazySingleton(() => internetConnectionChecker);
   sl.registerLazySingleton(() => sharedPreferences);
+  sl.registerLazySingleton(() => pageController);
 
   // Register Core
   sl.registerLazySingleton<NetworkInfo>(() => networkInfo);
@@ -47,10 +51,12 @@ Future<void> init() async {
       () => AuthLocalDataSourceImpl(sharedPreferences: sharedPreferences));
 
   // Product Data sources
-  sl.registerLazySingleton<ProductRemoteDataSource>(
-      () => ProductRemoteDataSourceImpl(client: httpClient, authLocalDataSource: sl()));
-  sl.registerLazySingleton<AllProductsLocalDataSource>(
-      () => AllProductsLocalDataSourceImpl(sharedPreferences: sharedPreferences));
+  sl.registerLazySingleton<ProductRemoteDataSource>(() =>
+      ProductRemoteDataSourceImpl(
+          client: httpClient, authLocalDataSource: sl()));
+  sl.registerLazySingleton<AllProductsLocalDataSource>(() =>
+      AllProductsLocalDataSourceImpl(
+          sharedPreferences: sharedPreferences)); // Correct registration
 
   // Auth Repositories
   sl.registerLazySingleton<AuthRepositories>(() => AuthRepositoriesImp(
@@ -76,6 +82,9 @@ Future<void> init() async {
   // Product Use cases
   sl.registerLazySingleton(() => GetAllProducts(sl()));
 
+  // Best Selling Products Use Case
+  sl.registerLazySingleton(() => GetBestSellingProductUsecase(sl()));
+
   // Auth Blocs
   sl.registerFactory(() => AuthBloc(
         login: sl(),
@@ -88,5 +97,9 @@ Future<void> init() async {
   // Product Blocs
   sl.registerFactory(() => AllProductsBlocBloc(
         getAllProducts: sl(),
+      ));
+  // Best Sellin Products Blocs
+  sl.registerFactory(() => BestSellingProductsBloc(
+        bestSellingProductUsecase: sl(),
       ));
 }

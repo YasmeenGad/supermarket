@@ -5,6 +5,14 @@ class Assets {
   /// assets/images/8140 1.png
   static const String images81401 = "assets/images/8140 1.png";
 
+  /// Assets for imagesApple
+  /// assets/images/apple.png
+  static const String imagesApple = "assets/images/apple.png";
+
+  /// Assets for imagesCarouselSliderImage
+  /// assets/images/carousel_slider_image.png
+  static const String imagesCarouselSliderImage = "assets/images/carousel_slider_image.png";
+
   /// Assets for imagesGroup1
   /// assets/images/Group1.png
   static const String imagesGroup1 = "assets/images/Group1.png";

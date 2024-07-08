@@ -1,7 +1,8 @@
-import '../../domain/entities/product.dart';
+import 'package:supermarket/features/Home/domain/entities/best_selling_products.dart';
 
-class ProductModel extends Product {
-  ProductModel({
+class BestSellingProductsModel extends BestSellingProducts {
+  BestSellingProductsModel({
+    required String id,
     required String productName,
     required double price,
     required int stock,
@@ -10,10 +11,11 @@ class ProductModel extends Product {
     required double rate,
     required String createdAt,
     required String updatedAt,
-    required String photo,
+    String? photo,
     required String categoryName,
     required bool bestSelling,
   }) : super(
+          id: id,
           productName: productName,
           price: price,
           stock: stock,
@@ -27,24 +29,26 @@ class ProductModel extends Product {
           bestSelling: bestSelling,
         );
 
-  factory ProductModel.fromJson(Map<String, dynamic> json) {
-    return ProductModel(
-      productName: json['productName']?? '',
-      price: json['price'].toDouble()?? '',
-      stock: json['stock']?? '',
-      quantity: json['quantity']?? '',
-      productDetail: json['productDetail']?? '',
-      rate: json['rate'].toDouble()?? '',
-      createdAt: json['createdAt']?? '',
-      updatedAt: json['updatedAt']?? '',
-      photo: json['photo']?? '',
-      categoryName: json['categoryName']?? '',
+  factory BestSellingProductsModel.fromJson(Map<String, dynamic> json) {
+    return BestSellingProductsModel(
+      id: json['_id'] ?? '',
+      productName: json['productName'] ?? '',
+      price: (json['price'] ?? 0).toDouble(),
+      stock: json['stock'] ?? 0,
+      quantity: json['quantity'] ?? 0,
+      productDetail: json['productDetail'] ?? '',
+      rate: (json['rate'] ?? 0).toDouble(),
+      createdAt: json['createdAt'] ?? '',
+      updatedAt: json['updatedAt'] ?? '',
+      photo: json['photo'],
+      categoryName: json['categoryName'] ?? '',
       bestSelling: json['bestSelling'] == 'true',
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
+      '_id': id,
       'productName': productName,
       'price': price,
       'stock': stock,
@@ -58,12 +62,9 @@ class ProductModel extends Product {
       'bestSelling': bestSelling.toString(),
     };
   }
-  
 
   @override
   String toString() {
-    return 'ProductModel(productName: $productName, price: $price, stock: $stock, quantity: $quantity, productDetail: $productDetail, rate: $rate, createdAt: $createdAt, updatedAt: $updatedAt, photo: $photo, categoryName: $categoryName, bestSelling: $bestSelling)';
+    return 'ProductModel(id: $id, productName: $productName, price: $price, stock: $stock, quantity: $quantity, productDetail: $productDetail, rate: $rate, createdAt: $createdAt, updatedAt: $updatedAt, photo: $photo, categoryName: $categoryName, bestSelling: $bestSelling)';
   }
-
-  
 }

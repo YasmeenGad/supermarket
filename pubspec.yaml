@@ -41,12 +41,14 @@ dependencies:
   http: ^1.2.1
   shared_preferences: ^2.2.3
   animated_splash_screen: ^1.3.0
-  go_router: ^14.2.0
   flutter_svg: ^2.0.10+1
   google_fonts: ^6.2.1
   equatable: ^2.0.3
   dartz: ^0.10.0
   flutter_otp_text_field: ^1.1.3+2
+  anim_search_bar: ^2.0.3
+  expandable_page_view: ^1.0.17
+  cached_network_image: ^3.3.1
 
 flutter_assets:
   assets_path: assets/images/
