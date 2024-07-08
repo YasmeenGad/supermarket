@@ -5,6 +5,7 @@ import 'package:supermarket/core/network/network_info.dart';
 import 'package:supermarket/core/utils/app_styles.dart';
 import 'package:supermarket/features/Home/presentation/bloc/BestSellingProducts/best_selling_products_bloc.dart';
 import 'package:supermarket/features/Home/presentation/bloc/all_product_bloc/all_products_bloc_bloc.dart';
+import 'package:supermarket/features/Home/presentation/views/see_all_products.dart';
 import 'package:supermarket/features/Home/presentation/widgets/custom_app_bar.dart';
 import 'package:supermarket/features/Home/presentation/widgets/custom_carouser_slider.dart';
 import 'package:supermarket/features/Home/presentation/widgets/dot_indicator.dart';
@@ -48,14 +49,15 @@ class _HomeWidgetState extends State<HomeWidget> {
       height: MediaQuery.sizeOf(context).height,
       color: Colors.white,
       child: Padding(
-          padding: const EdgeInsets.only(top: 7, left: 23, right: 23, bottom: 16),
+          padding:
+              const EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 16),
           child: CustomScrollView(
             slivers: [
               SliverToBoxAdapter(
                 child: Column(
                   children: [
                     const CustomAppBar(),
-                    SizedBox(height: 12),
+                    SizedBox(height: 8),
                     ImagePageView(
                       pageController: pageController,
                     ),
@@ -78,10 +80,28 @@ class _HomeWidgetState extends State<HomeWidget> {
                         FittedBox(
                             fit: BoxFit.scaleDown,
                             alignment: Alignment.centerLeft,
-                            child: Text(
-                              "see all",
-                              style: AppStyles.styleSemiBold16(context)
-                                  .copyWith(color: primaryColor),
+                            child: InkWell(
+                              onTap: () {
+                                // Dispatch the event to fetch all products
+                                final allProductsState =
+                                    context.read<AllProductsBlocBloc>().state;
+                                if (allProductsState is AllProductsBlocLoaded) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => SeeAllProducts(
+                                        products: allProductsState.products,
+                                        title: 'Exclusive Offer',
+                                      ),
+                                    ),
+                                  );
+                                }
+                              },
+                              child: Text(
+                                "see all",
+                                style: AppStyles.styleSemiBold16(context)
+                                    .copyWith(color: primaryColor),
+                              ),
                             )),
                       ],
                     ),
@@ -129,10 +149,30 @@ class _HomeWidgetState extends State<HomeWidget> {
                         FittedBox(
                             fit: BoxFit.scaleDown,
                             alignment: Alignment.centerLeft,
-                            child: Text(
-                              "see all",
-                              style: AppStyles.styleSemiBold16(context)
-                                  .copyWith(color: primaryColor),
+                            child: InkWell(
+                              onTap: () {
+                                // Dispatch the event to fetch best selling products
+                                final allProductsState = context
+                                    .read<BestSellingProductsBloc>()
+                                    .state;
+                                if (allProductsState
+                                    is BestSellingProductsLoaded) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => SeeAllProducts(
+                                        products: allProductsState.products,
+                                        title: 'Best Selling',
+                                      ),
+                                    ),
+                                  );
+                                }
+                              },
+                              child: Text(
+                                "see all",
+                                style: AppStyles.styleSemiBold16(context)
+                                    .copyWith(color: primaryColor),
+                              ),
                             )),
                       ],
                     ),

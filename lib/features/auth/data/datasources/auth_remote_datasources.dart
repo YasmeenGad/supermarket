@@ -18,7 +18,7 @@ class AuthRemoteDatasourceImp implements AuthRemoteDatasource {
 
   @override
   Future<LoginResponse> login(String email, String password) async {
-    final loginUrl = Uri.parse('http://10.0.2.2:4000/user/login');
+    final loginUrl = Uri.parse('http://192.168.217.13:4000/user/login');
     final requestBody = {'email': email, 'password': password};
     final requestHeaders = {'Content-Type': 'application/json'};
 
@@ -36,7 +36,7 @@ class AuthRemoteDatasourceImp implements AuthRemoteDatasource {
   @override
   Future<UserModel> register(
       String userName, String email, String password) async {
-    final registerUrl = Uri.parse('http://10.0.2.2:4000/user/register');
+    final registerUrl = Uri.parse('http://192.168.217.13:4000/user/register');
     final data = {'userName': userName, 'email': email, 'password': password};
 
     final response = await client.post(registerUrl,
@@ -52,7 +52,7 @@ class AuthRemoteDatasourceImp implements AuthRemoteDatasource {
 
   @override
   Future<String> resetPassword(String token, String newPassword) async {
-    final url = Uri.parse('http://10.0.2.2:4000/user/reset');
+    final url = Uri.parse('http://192.168.217.13:4000/user/reset');
     final requestBody = {'password': newPassword};
     final requestHeaders = {
       'Content-Type': 'application/json',
@@ -73,7 +73,7 @@ class AuthRemoteDatasourceImp implements AuthRemoteDatasource {
 
   @override
   Future<String> sendOtp(String email) async {
-    final url = Uri.parse('http://10.0.2.2:4000/user/sendCode');
+    final url = Uri.parse('http://192.168.217.13:4000/user/sendCode');
     final response = await client.post(
       url,
       body: jsonEncode({'email': email}),
@@ -90,7 +90,7 @@ class AuthRemoteDatasourceImp implements AuthRemoteDatasource {
 
   @override
   Future<String> verifyOtp(String otp) async {
-    final url = Uri.parse('http://10.0.2.2:4000/user/verify');
+    final url = Uri.parse('http://192.168.50.140:4000/user/verify');
     print('Sending OTP: $otp');
     final response = await client.post(
       url,

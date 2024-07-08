@@ -193,8 +193,10 @@ class _RegisterState extends State<Register> {
                       .copyWith(color: primaryColor),
                 ),
               ),
+              
             ],
           ),
+          SizedBox(height: 16,),
         ],
       ),
     );

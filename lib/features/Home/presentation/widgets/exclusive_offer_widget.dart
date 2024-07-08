@@ -19,7 +19,7 @@ class ExclusiveOfferWidget extends StatelessWidget {
       ),
       child: Padding(
         padding:
-            const EdgeInsets.only(top: 34, left: 22, right: 22, bottom: 16),
+            const EdgeInsets.only(top: 25, left: 16, right: 16, bottom: 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

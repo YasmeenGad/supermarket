@@ -45,8 +45,9 @@ class _HomeLayoutState extends State<HomeLayout> {
           ),
           child: BottomNavigationBar(
             elevation: 2,
+            type: BottomNavigationBarType.fixed,
             // showSelectedLabels: true,
-            iconSize: 30,
+            iconSize: 24,
             backgroundColor: Colors.white,
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(

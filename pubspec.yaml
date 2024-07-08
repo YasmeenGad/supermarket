@@ -49,7 +49,7 @@ dependencies:
   anim_search_bar: ^2.0.3
   expandable_page_view: ^1.0.17
   cached_network_image: ^3.3.1
-
+  badges: ^3.1.2
 flutter_assets:
   assets_path: assets/images/
   output_path: lib/core/utils/

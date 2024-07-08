@@ -18,7 +18,7 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
 
   Future<List<ProductModel>> getAllProducts() async {
     final token = await authLocalDataSource.getCachedToken();
-    final getAllProductsUrl = Uri.parse('http://10.0.2.2:4000/product/all');
+    final getAllProductsUrl = Uri.parse('http://192.168.217.13:4000/product/all');
     final response = await client.get(
       getAllProductsUrl,
       headers: {'Authorization': 'Bearer $token'},
@@ -40,7 +40,7 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
   Future<List<BestSellingProductsModel>> getBestSellingProducts() async {
     final token = await authLocalDataSource.getCachedToken();
     final getBestSellingProductsUrl =
-        Uri.parse('http://10.0.2.2:4000/product/best');
+        Uri.parse('http://192.168.217.13:4000/product/best');
     final response = await client.get(
       getBestSellingProductsUrl,
       headers: {'Authorization': 'Bearer $token'},

@@ -24,7 +24,7 @@ class SuperMarket extends StatelessWidget {
           BlocProvider(create: (context) => sl<AllProductsBlocBloc>()),
           BlocProvider(
             create: (context) => sl<BestSellingProductsBloc>(),
-          )
+          ),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
