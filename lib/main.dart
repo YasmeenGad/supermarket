@@ -5,6 +5,7 @@ import 'package:supermarket/core/utils/app_routes.dart';
 import 'package:supermarket/features/Home/presentation/bloc/BestSellingProducts/best_selling_products_bloc.dart';
 import 'package:supermarket/features/Home/presentation/bloc/all_product_bloc/all_products_bloc_bloc.dart';
 import 'package:supermarket/features/auth/presentation/bloc/authBloc/auth_bloc.dart';
+import 'package:supermarket/features/search/presentation/bloc/search_product_bloc/search_product_bloc.dart';
 import 'package:supermarket/injection_container.dart';
 
 void main(List<String> args) async {
@@ -25,6 +26,7 @@ class SuperMarket extends StatelessWidget {
           BlocProvider(
             create: (context) => sl<BestSellingProductsBloc>(),
           ),
+          BlocProvider(create: (context) => sl<SearchProductBloc>()),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,

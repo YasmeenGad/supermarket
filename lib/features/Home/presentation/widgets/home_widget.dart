@@ -50,14 +50,15 @@ class _HomeWidgetState extends State<HomeWidget> {
       color: Colors.white,
       child: Padding(
           padding:
-              const EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 16),
+              const EdgeInsets.only(top: 30, left: 16, right: 16, bottom: 16),
           child: CustomScrollView(
             slivers: [
               SliverToBoxAdapter(
                 child: Column(
                   children: [
+                  
                     const CustomAppBar(),
-                    SizedBox(height: 8),
+                    SizedBox(height: 12),
                     ImagePageView(
                       pageController: pageController,
                     ),

@@ -21,6 +21,10 @@ class Assets {
   /// assets/images/login.svg
   static const String imagesLogin = "assets/images/login.svg";
 
+  /// Assets for imagesSearch
+  /// assets/images/search.jpg
+  static const String imagesSearch = "assets/images/search.jpg";
+
   /// Assets for imagesSingin
   /// assets/images/Singin.png
   static const String imagesSingin = "assets/images/Singin.png";

@@ -20,6 +20,11 @@ import 'package:supermarket/features/auth/domain/usecases/login_usecase.dart';
 import 'package:supermarket/features/auth/domain/usecases/register_usecase.dart';
 import 'package:supermarket/features/auth/domain/usecases/sendCode_and_verify_otp_usecase.dart';
 import 'package:supermarket/features/auth/presentation/bloc/authBloc/auth_bloc.dart';
+import 'package:supermarket/features/search/data/datasources/search_remote_datasource.dart';
+import 'package:supermarket/features/search/data/repositories/search_product_repo_impl.dart';
+import 'package:supermarket/features/search/domain/repositories/search_product_repo.dart';
+import 'package:supermarket/features/search/domain/usecases/search_product_usecase.dart';
+import 'package:supermarket/features/search/presentation/bloc/search_product_bloc/search_product_bloc.dart';
 
 import 'core/network/network_info.dart';
 
@@ -58,6 +63,11 @@ Future<void> init() async {
       AllProductsLocalDataSourceImpl(
           sharedPreferences: sharedPreferences)); // Correct registration
 
+  // search data source
+  sl.registerLazySingleton<SearchRemoteDataSource>(() =>
+      SearchRemoteDatasourceImpl(
+          client: httpClient, authLocalDataSource: sl()));
+
   // Auth Repositories
   sl.registerLazySingleton<AuthRepositories>(() => AuthRepositoriesImp(
         authLocalDataSource: sl(),
@@ -72,6 +82,12 @@ Future<void> init() async {
         networkInfo: sl(),
       ));
 
+  // Search Repositories
+  sl.registerLazySingleton<SearchProductsRepository>(
+      () => SearchProductsRepositoryImpl(
+            searchRemoteDatasource: sl(),
+          ));
+
   // Auth Use cases
   sl.registerLazySingleton(() => LoginUsecase(authRepositories: sl()));
   sl.registerLazySingleton(() => RegisterUsecase(repository: sl()));
@@ -84,6 +100,11 @@ Future<void> init() async {
 
   // Best Selling Products Use Case
   sl.registerLazySingleton(() => GetBestSellingProductUsecase(sl()));
+
+  // search use case
+  sl.registerLazySingleton(() => SearchProductUsecase(
+        searchProductsRepository: sl(),
+      ));
 
   // Auth Blocs
   sl.registerFactory(() => AuthBloc(
@@ -101,5 +122,10 @@ Future<void> init() async {
   // Best Sellin Products Blocs
   sl.registerFactory(() => BestSellingProductsBloc(
         bestSellingProductUsecase: sl(),
+      ));
+
+  // Search Blocs
+  sl.registerFactory(() => SearchProductBloc(
+        sl(),
       ));
 }
