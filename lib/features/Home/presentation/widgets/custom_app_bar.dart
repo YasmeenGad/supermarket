@@ -1,7 +1,7 @@
-import 'package:anim_search_bar/anim_search_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart' as badges;
+import 'package:supermarket/features/search/presentation/widgets/custom_search.dart';
 
 class CustomAppBar extends StatefulWidget {
   const CustomAppBar({super.key});
@@ -16,19 +16,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Flexible(
-          child: AnimSearchBar(
-            suffixIcon: Icon(Icons.search),
-            width: 400,
-            textController: textController,
-            onSuffixTap: () {
-              setState(() {
-                textController.clear();
-              });
-            },
-            onSubmitted: (String) {},
-          ),
-        ),
+       CustomSearch(),
         SizedBox(
           width: 16,
         ),

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:supermarket/core/constants/ip.dart';
 import 'package:supermarket/features/Home/data/models/best_selling_products_model.dart';
 import 'package:supermarket/features/auth/data/datasources/auth_local_datasource.dart';
 import '../models/product_model.dart';
@@ -18,7 +19,7 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
 
   Future<List<ProductModel>> getAllProducts() async {
     final token = await authLocalDataSource.getCachedToken();
-    final getAllProductsUrl = Uri.parse('http://192.168.217.13:4000/product/all');
+    final getAllProductsUrl = Uri.parse('http://$ip:4000/product/all');
     final response = await client.get(
       getAllProductsUrl,
       headers: {'Authorization': 'Bearer $token'},
@@ -40,7 +41,7 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
   Future<List<BestSellingProductsModel>> getBestSellingProducts() async {
     final token = await authLocalDataSource.getCachedToken();
     final getBestSellingProductsUrl =
-        Uri.parse('http://192.168.217.13:4000/product/best');
+        Uri.parse('http://$ip:4000/product/best');
     final response = await client.get(
       getBestSellingProductsUrl,
       headers: {'Authorization': 'Bearer $token'},
