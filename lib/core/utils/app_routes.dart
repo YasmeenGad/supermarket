@@ -5,7 +5,6 @@ import 'package:supermarket/features/auth/presentation/views/login.dart';
 import 'package:supermarket/features/auth/presentation/views/register.dart';
 import 'package:supermarket/features/auth/presentation/views/reset_password.dart';
 import 'package:supermarket/features/auth/presentation/views/verify_otp.dart';
-import 'package:supermarket/features/Product_details.dart/presentation/views/home.dart';
 import 'package:supermarket/features/search/presentation/views/search_view.dart';
 import 'package:supermarket/features/splash/presentation/views/onboarding_view.dart';
 import 'package:supermarket/features/splash/presentation/views/splash_view.dart';

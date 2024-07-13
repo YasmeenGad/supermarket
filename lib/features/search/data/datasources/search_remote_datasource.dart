@@ -23,7 +23,7 @@ class SearchRemoteDatasourceImpl implements SearchRemoteDataSource {
       },
       body: jsonEncode({'name': productName}),
     );
-    // print('Search Product Response: ${response.statusCode} ${response.body}');
+    print('Search Product Response: ${response.statusCode} ${response.body}');
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);

@@ -17,19 +17,19 @@ class SearchedProductsModel extends SearchedProducts {
     required DateTime updatedAt,
     required String photo,
   }) : super(
-          id: id,
-          productName: productName,
-          bestSelling: bestSelling,
-          price: price,
-          stock: stock,
-          quantity: quantity,
-          productDetail: productDetail,
-          rate: rate,
-          categoryName: categoryName,
-          createdAt: createdAt,
-          updatedAt: updatedAt,
-          photo: photo,
-        );
+        id: id,
+        productName: productName,
+        bestSelling: bestSelling,
+        price: price,
+        stock: stock,
+        quantity: quantity,
+        productDetail: productDetail,
+        rate: rate,
+        categoryName: categoryName,
+        createdAt: createdAt,
+        updatedAt: updatedAt,
+        photo: photo,
+      );
 
   factory SearchedProductsModel.fromJson(Map<String, dynamic> json) {
     return SearchedProductsModel(
@@ -67,19 +67,9 @@ class SearchedProductsModel extends SearchedProducts {
 
   @override
   String toString() {
-    return SearchedProductsModel(
-            id: id,
-            productName: productName,
-            bestSelling: bestSelling,
-            price: price,
-            stock: stock,
-            quantity: quantity,
-            productDetail: productDetail,
-            rate: rate,
-            categoryName: categoryName,
-            createdAt: createdAt,
-            updatedAt: updatedAt,
-            photo: photo)
-        .toString();
+    return 'SearchedProductsModel{id: $id, productName: $productName, bestSelling: $bestSelling, '
+        'price: $price, stock: $stock, quantity: $quantity, productDetail: $productDetail, '
+        'rate: $rate, categoryName: $categoryName, createdAt: $createdAt, updatedAt: $updatedAt, '
+        'photo: $photo}';
   }
 }

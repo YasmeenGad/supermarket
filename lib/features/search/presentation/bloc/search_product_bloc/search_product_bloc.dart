@@ -9,20 +9,21 @@ part 'search_product_state.dart';
 class SearchProductBloc extends Bloc<SearchProductEvent, SearchProductState> {
   final SearchProductUsecase searchProductUsecase;
   SearchProductBloc(this.searchProductUsecase) : super(SearchProductInitial()) {
-    on<SearchProductEvent>(_searchProducts);
+    on<SearchProduct>(_searchProducts);
+    on<ClearSearchEvent>((event, emit) {
+      emit(SearchProductInitial());
+    });
   }
 
   Future<void> _searchProducts(
-      SearchProductEvent event, Emitter<SearchProductState> emit) async {
-    if (event is SearchProduct) {
-      emit(SearchProductLoading());
+      SearchProduct event, Emitter<SearchProductState> emit) async {
+    emit(SearchProductLoading());
 
-      final result = await searchProductUsecase(event.query);
+    final result = await searchProductUsecase(event.query);
 
-      result.fold(
-        (failure) => emit(SearchProductError(message: failure)),
-        (products) => emit(SearchProductLoaded(products: products)),
-      );
-    }
+    result.fold(
+      (failure) => emit(SearchProductError(message: failure)),
+      (products) => emit(SearchProductLoaded(products: products)),
+    );
   }
 }
