@@ -9,6 +9,8 @@ class ContainerSplashView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: MediaQuery.sizeOf(context).width,
+      height: MediaQuery.sizeOf(context).height,
       color: primaryColor,
       child: SvgPicture.asset(
         Assets.imagesSplashScreen,

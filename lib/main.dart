@@ -1,3 +1,4 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supermarket/core/utils/app_routes.dart';
@@ -11,7 +12,12 @@ import 'package:supermarket/injection_container.dart';
 void main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
   await init();
-  runApp(const SuperMarket());
+  runApp(
+    DevicePreview(
+      enabled: false,
+      builder: (context) => const SuperMarket(),
+    ),
+  );
 }
 
 class SuperMarket extends StatelessWidget {
@@ -32,6 +38,8 @@ class SuperMarket extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           initialRoute: AppRoutes.splashView,
           routes: AppRoutes.getRoutes(),
+          locale: DevicePreview.locale(context),
+          builder: DevicePreview.appBuilder,
         ));
   }
 }

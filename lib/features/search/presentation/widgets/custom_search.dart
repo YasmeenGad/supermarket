@@ -124,9 +124,9 @@ class _CustomSearchState extends State<CustomSearch> {
               );
             } else if (state is SearchProductError) {
               print(state.message);
-              return Expanded(flex: 2, child: Image.asset(Assets.imagesSearch));
+              return Expanded(flex: 2, child: Center(child: Image.asset(Assets.imagesSearch)));
             } else {
-              return Expanded(flex: 2, child: Image.asset(Assets.imagesSearch));
+              return Expanded(flex: 2, child: Center(child: Image.asset(Assets.imagesSearch)));
             }
           }),
         ],

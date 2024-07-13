@@ -46,10 +46,10 @@ dependencies:
   equatable: ^2.0.3
   dartz: ^0.10.0
   flutter_otp_text_field: ^1.1.3+2
-  anim_search_bar: ^2.0.3
   expandable_page_view: ^1.0.17
   cached_network_image: ^3.3.1
   badges: ^3.1.2
+  device_preview: ^1.2.0
 flutter_assets:
   assets_path: assets/images/
   output_path: lib/core/utils/
