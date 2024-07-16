@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:supermarket/core/utils/app_routes.dart';
 import 'package:supermarket/features/Home/presentation/widgets/exclusive_offer_widget.dart';
 
 class ExclusiveOfferWidgetListView extends StatelessWidget {
@@ -16,8 +17,13 @@ class ExclusiveOfferWidgetListView extends StatelessWidget {
         itemBuilder: (context, index) {
           return Padding(
             padding: const EdgeInsets.only(right: 15),
-            child: ExclusiveOfferWidget(
-              product: products[index],
+            child: GestureDetector(
+              onTap: (){
+                Navigator.pushNamed(context, AppRoutes.productDeatailsRoute,arguments: products[index]);
+              },
+              child: ExclusiveOfferWidget(
+                product: products[index],
+              ),
             ),
           );
         },

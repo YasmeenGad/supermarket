@@ -35,7 +35,7 @@ class _ResetPasswordState extends State<ResetPassword> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // Initialize token from arguments here
+    // Initialize token from arguments 
     if (widget.token.isEmpty) {
       widget.token = ModalRoute.of(context)!.settings.arguments as String;
     }

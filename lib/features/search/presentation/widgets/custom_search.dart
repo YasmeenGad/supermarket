@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supermarket/core/constants/app_colors.dart';
+import 'package:supermarket/core/utils/app_routes.dart';
 import 'package:supermarket/core/utils/app_styles.dart';
 import 'package:supermarket/core/utils/assets.dart';
 import 'package:supermarket/features/Home/presentation/widgets/exclusive_offer_widget.dart';
@@ -119,12 +120,17 @@ class _CustomSearchState extends State<CustomSearch> {
             if (state is SearchProductLoading) {
               return const Center(child: CircularProgressIndicator());
             } else if (state is SearchProductLoaded) {
-              return ExclusiveOfferWidget(
-                product: state.products,
+              return GestureDetector(
+                onTap: (){
+                  Navigator.pushNamed(context, AppRoutes.productDeatailsRoute, arguments: state.products);
+                },
+                child: ExclusiveOfferWidget(
+                  product: state.products,
+                ),
               );
             } else if (state is SearchProductError) {
               print(state.message);
-              return Expanded(flex: 2, child: Center(child: Image.asset(Assets.imagesSearch)));
+              return Expanded(flex: 2, child: Center(child: Text("${state.message}")));
             } else {
               return Expanded(flex: 2, child: Center(child: Image.asset(Assets.imagesSearch)));
             }

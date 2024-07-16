@@ -14,7 +14,7 @@ void main(List<String> args) async {
   await init();
   runApp(
     DevicePreview(
-      enabled: false,
+      enabled: true,
       builder: (context) => const SuperMarket(),
     ),
   );

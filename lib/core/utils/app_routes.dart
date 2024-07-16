@@ -1,5 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:supermarket/features/Home/presentation/views/home_layout.dart';
+import 'package:supermarket/features/Product_details/presentation/views/product_details_view.dart';
 import 'package:supermarket/features/auth/presentation/views/forget_password.dart';
 import 'package:supermarket/features/auth/presentation/views/login.dart';
 import 'package:supermarket/features/auth/presentation/views/register.dart';
@@ -19,6 +22,7 @@ class AppRoutes {
   static const String otpRoute = 'otp';
   static const String resetPasswordRoute = 'resetPassword';
   static const String searchViewRoute='searchViewRoute';
+  static const String productDeatailsRoute='productDetailsRoute';
   static Map<String, WidgetBuilder> getRoutes() {
     return {
       splashView: (context) => const SplashView(),
@@ -32,6 +36,7 @@ class AppRoutes {
             token: ModalRoute.of(context)!.settings.arguments as String,
           ),
       searchViewRoute: (context) => const SearchView(),
+      productDeatailsRoute: (context) =>  ProductDetailsView(products: ModalRoute.of(context)!.settings.arguments ),
     };
   }
 }

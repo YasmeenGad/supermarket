@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:supermarket/core/constants/app_colors.dart';
+import 'package:supermarket/core/utils/app_routes.dart';
 import 'package:supermarket/core/utils/app_styles.dart';
 import 'package:supermarket/features/Home/presentation/widgets/exclusive_offer_widget.dart';
 
@@ -48,8 +49,13 @@ class SeeAllProducts extends StatelessWidget {
                   childAspectRatio: 0.60,
                 ),
                 itemBuilder: (context, index) {
-                  return ExclusiveOfferWidget(
-                    product: products[index],
+                  return GestureDetector(
+                    onTap: (){
+                      Navigator.pushNamed(context, AppRoutes.productDeatailsRoute,arguments: products[index]);
+                    },
+                    child: ExclusiveOfferWidget(
+                      product: products[index],
+                    ),
                   );
                 },
               ),

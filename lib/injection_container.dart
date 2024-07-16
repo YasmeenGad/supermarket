@@ -85,6 +85,7 @@ Future<void> init() async {
   // Search Repositories
   sl.registerLazySingleton<SearchProductsRepository>(
       () => SearchProductsRepositoryImpl(
+            networkInfo: sl(),
             searchRemoteDatasource: sl(),
           ));
 
