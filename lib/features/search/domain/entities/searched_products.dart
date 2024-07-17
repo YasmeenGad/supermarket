@@ -1,6 +1,8 @@
 // entities/product_entity.dart
 
-class SearchedProducts {
+import 'package:equatable/equatable.dart';
+
+class SearchedProducts extends Equatable {
   final String id;
   final String productName;
   final bool bestSelling;
@@ -29,5 +31,19 @@ class SearchedProducts {
     required this.photo,
   });
 
-
+  @override
+  List<Object?> get props => [
+        id,
+        productName,
+        bestSelling,
+        price,
+        stock,
+        quantity,
+        productDetail,
+        rate,
+        categoryName,
+        createdAt,
+        updatedAt,
+        photo
+      ];
 }

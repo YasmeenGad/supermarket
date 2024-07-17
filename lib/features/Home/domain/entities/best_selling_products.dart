@@ -1,4 +1,6 @@
-class BestSellingProducts {
+import 'package:equatable/equatable.dart';
+
+class BestSellingProducts extends Equatable {
   final String id;
   final String productName;
   final double price;
@@ -26,4 +28,20 @@ class BestSellingProducts {
     required this.categoryName,
     required this.bestSelling,
   });
+  
+  @override
+  List<Object?> get props => [
+    id, 
+    productName, 
+    price, 
+    stock, 
+    quantity, 
+    productDetail, 
+    rate, 
+    createdAt, 
+    updatedAt, 
+    photo, 
+    categoryName, 
+    bestSelling
+  ];
 }
