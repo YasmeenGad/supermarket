@@ -20,6 +20,11 @@ import 'package:supermarket/features/auth/domain/usecases/login_usecase.dart';
 import 'package:supermarket/features/auth/domain/usecases/register_usecase.dart';
 import 'package:supermarket/features/auth/domain/usecases/sendCode_and_verify_otp_usecase.dart';
 import 'package:supermarket/features/auth/presentation/bloc/authBloc/auth_bloc.dart';
+import 'package:supermarket/features/explore/data/datasources/category_remote_datasource.dart';
+import 'package:supermarket/features/explore/data/repositories/category_repo_impl.dart';
+import 'package:supermarket/features/explore/domain/repositories/category_repo.dart';
+import 'package:supermarket/features/explore/domain/usecases/category_usecase.dart';
+import 'package:supermarket/features/explore/presentation/bloc/categoruBloc/category_bloc.dart';
 import 'package:supermarket/features/search/data/datasources/search_remote_datasource.dart';
 import 'package:supermarket/features/search/data/repositories/search_product_repo_impl.dart';
 import 'package:supermarket/features/search/domain/repositories/search_product_repo.dart';
@@ -68,6 +73,13 @@ Future<void> init() async {
       SearchRemoteDatasourceImpl(
           client: httpClient, authLocalDataSource: sl()));
 
+  // explore data source
+  sl.registerLazySingleton<CategoryRemoteDataSource>(
+      () => CategoryRemoteDataSourceImpl(
+            client: httpClient,
+            authLocalDataSource: sl(),
+          ));
+
   // Auth Repositories
   sl.registerLazySingleton<AuthRepositories>(() => AuthRepositoriesImp(
         authLocalDataSource: sl(),
@@ -89,6 +101,13 @@ Future<void> init() async {
             searchRemoteDatasource: sl(),
           ));
 
+  // explore Repositories
+  sl.registerLazySingleton<CategoryRepository>(() => CategoryRepositoryImpl(
+        networkInfo: sl(),
+        remoteDataSource: sl(),
+        localDataSource: sl(),
+      ));
+
   // Auth Use cases
   sl.registerLazySingleton(() => LoginUsecase(authRepositories: sl()));
   sl.registerLazySingleton(() => RegisterUsecase(repository: sl()));
@@ -105,6 +124,11 @@ Future<void> init() async {
   // search use case
   sl.registerLazySingleton(() => SearchProductUsecase(
         searchProductsRepository: sl(),
+      ));
+
+  // explore use case
+  sl.registerLazySingleton(() => GetCategoriesUseCase(
+        sl(),
       ));
 
   // Auth Blocs
@@ -127,6 +151,11 @@ Future<void> init() async {
 
   // Search Blocs
   sl.registerFactory(() => SearchProductBloc(
+        sl(),
+      ));
+
+  // explore Blocs
+  sl.registerFactory(() => CategoryBloc(
         sl(),
       ));
 }
