@@ -38,26 +38,28 @@ class SeeAllProducts extends StatelessWidget {
         child: CustomScrollView(
           slivers: [
             SliverToBoxAdapter(
-              child: GridView.builder(
-                itemCount: products.length,
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 8.0,
-                  crossAxisSpacing: 8.0,
-                  childAspectRatio: 0.60,
+              child: Flexible(
+                child: GridView.builder(
+                  itemCount: products.length,
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 10.0,
+                    crossAxisSpacing: 10.0,
+                    childAspectRatio: 0.60,
+                  ),
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: (){
+                        Navigator.pushNamed(context, AppRoutes.productDeatailsRoute,arguments: products[index]);
+                      },
+                      child: ExclusiveOfferWidget(
+                        product: products[index],
+                      ),
+                    );
+                  },
                 ),
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: (){
-                      Navigator.pushNamed(context, AppRoutes.productDeatailsRoute,arguments: products[index]);
-                    },
-                    child: ExclusiveOfferWidget(
-                      product: products[index],
-                    ),
-                  );
-                },
               ),
             )
           ],
