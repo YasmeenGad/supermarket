@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:supermarket/core/constants/app_colors.dart';
 import 'package:supermarket/features/Home/presentation/widgets/home_widget.dart';
+import 'package:supermarket/features/explore/presentation/views/all_categories_view.dart';
 
 class HomeLayout extends StatefulWidget {
   const HomeLayout({super.key});
@@ -14,7 +15,7 @@ class _HomeLayoutState extends State<HomeLayout> {
   int selectedIndex = 0;
   final List<Widget> widgetOptions = <Widget>[
     HomeWidget(),
-    Container(),
+    AllCategoriesView(),
     Container(),
     Container(),
     Container(),

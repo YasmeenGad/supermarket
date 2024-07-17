@@ -20,6 +20,7 @@ import 'package:supermarket/features/auth/domain/usecases/login_usecase.dart';
 import 'package:supermarket/features/auth/domain/usecases/register_usecase.dart';
 import 'package:supermarket/features/auth/domain/usecases/sendCode_and_verify_otp_usecase.dart';
 import 'package:supermarket/features/auth/presentation/bloc/authBloc/auth_bloc.dart';
+import 'package:supermarket/features/explore/data/datasources/category_local_datasource.dart';
 import 'package:supermarket/features/explore/data/datasources/category_remote_datasource.dart';
 import 'package:supermarket/features/explore/data/repositories/category_repo_impl.dart';
 import 'package:supermarket/features/explore/domain/repositories/category_repo.dart';
@@ -79,6 +80,9 @@ Future<void> init() async {
             client: httpClient,
             authLocalDataSource: sl(),
           ));
+
+  sl.registerLazySingleton<CategoryLocalDataSource>(
+      () => CategoryLocalDataSourceImpl(sharedPreferences: sharedPreferences));
 
   // Auth Repositories
   sl.registerLazySingleton<AuthRepositories>(() => AuthRepositoriesImp(

@@ -9,9 +9,21 @@ class Assets {
   /// assets/images/apple.png
   static const String imagesApple = "assets/images/apple.png";
 
+  /// Assets for imagesBeverages
+  /// assets/images/beverages.png
+  static const String imagesBeverages = "assets/images/beverages.png";
+
   /// Assets for imagesCarouselSliderImage
   /// assets/images/carousel_slider_image.png
   static const String imagesCarouselSliderImage = "assets/images/carousel_slider_image.png";
+
+  /// Assets for imagesEggs
+  /// assets/images/eggs.png
+  static const String imagesEggs = "assets/images/eggs.png";
+
+  /// Assets for imagesFruits
+  /// assets/images/fruits.png
+  static const String imagesFruits = "assets/images/fruits.png";
 
   /// Assets for imagesGroup1
   /// assets/images/Group1.png
@@ -20,6 +32,10 @@ class Assets {
   /// Assets for imagesLogin
   /// assets/images/login.svg
   static const String imagesLogin = "assets/images/login.svg";
+
+  /// Assets for imagesMeat
+  /// assets/images/meat.png
+  static const String imagesMeat = "assets/images/meat.png";
 
   /// Assets for imagesSearch
   /// assets/images/search.jpg
@@ -36,5 +52,9 @@ class Assets {
   /// Assets for imagesVector
   /// assets/images/Vector.png
   static const String imagesVector = "assets/images/Vector.png";
+
+  /// Assets for imagesVegetables
+  /// assets/images/vegetables.png
+  static const String imagesVegetables = "assets/images/vegetables.png";
 }
 
