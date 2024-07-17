@@ -78,6 +78,9 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                   style: AppStyles.styleMedium13(context)
                       .copyWith(color: secondaryColor),
                 ),
+                const SizedBox(
+                  height: 16,
+                ),
                 const Divider(
                   thickness: 1,
                   height: 12,
