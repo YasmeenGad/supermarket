@@ -20,6 +20,7 @@ class _AllCategoriesViewState extends State<AllCategoriesView> {
     Color(0xffF7A593).withOpacity(0.5),
     Color(0xffD3B0E0).withOpacity(0.5),
     Color(0xffFDE598).withOpacity(0.5),
+    Color(0xffB7DFF5).withOpacity(0.5),
   ];
   final List<Widget> categoryImages = [
     Image.asset("${Assets.imagesMeat}"),
@@ -27,6 +28,7 @@ class _AllCategoriesViewState extends State<AllCategoriesView> {
     Image.asset("${Assets.imagesBeverages}"),
     Image.asset("${Assets.imagesFruits}"),
     Image.asset("${Assets.imagesVegetables}"),
+    Image.asset("${Assets.imagesBakery}"),
   ];
 
   @override

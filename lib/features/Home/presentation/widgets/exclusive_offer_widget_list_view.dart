@@ -9,7 +9,8 @@ class ExclusiveOfferWidgetListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    // grid view
+    return      SizedBox(
       height: 275,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
@@ -29,5 +30,28 @@ class ExclusiveOfferWidgetListView extends StatelessWidget {
         },
       ),
     );
+    // GridView.builder(
+    //             itemCount: products.length,
+    //             shrinkWrap: true,
+    //             physics: NeverScrollableScrollPhysics(),
+    //             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+    //               crossAxisCount: 2,
+    //               mainAxisSpacing: 10.0,
+    //               crossAxisSpacing: 10.0,
+    //               childAspectRatio: 0.60,
+    //             ),
+    //             itemBuilder: (context, index) {
+    //               return GestureDetector(
+    //                 onTap: (){
+    //                   Navigator.pushNamed(context, AppRoutes.productDeatailsRoute,arguments: products[index]);
+    //                 },
+    //                 child: ExclusiveOfferWidget(
+    //                   product: products[index],
+    //                 ),
+    //               );
+    //             },
+    //           );
+    
+
   }
 }
