@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supermarket/core/constants/app_colors.dart';
 import 'package:supermarket/core/utils/app_styles.dart';
 import 'package:supermarket/core/utils/assets.dart';
+import 'package:supermarket/core/widgets/custom_loading_indicator.dart';
 import 'package:supermarket/features/explore/presentation/bloc/categoruBloc/category_bloc.dart';
 import 'package:supermarket/features/explore/presentation/widgets/custom_category_widget.dart';
 import 'package:supermarket/features/search/presentation/bloc/search_category_bloc/search_category_bloc.dart';
@@ -18,10 +19,10 @@ class AllCategoriesView extends StatefulWidget {
 
 class _AllCategoriesViewState extends State<AllCategoriesView> {
   final List<Color> colors = [
+    Color(0xffF7A593).withOpacity(0.5),
     Color(0xffD3B0E0).withOpacity(0.5),
     Color(0xff53B175).withOpacity(0.5),
     Color(0xffF8A44C).withOpacity(0.5),
-    Color(0xffF7A593).withOpacity(0.5),
     Color(0xffFDE598).withOpacity(0.5),
     Color(0xffB7DFF5).withOpacity(0.5),
   ];
@@ -137,9 +138,7 @@ class _AllCategoriesViewState extends State<AllCategoriesView> {
               builder: (context, state) {
                 if (state is SearchCategoryLoading) {
                   return SliverToBoxAdapter(
-                    child: Center(
-                      child: CircularProgressIndicator(color: primaryColor),
-                    ),
+                    child: CustomLoadingIndicator(),
                   );
                 } else if (state is SearchCategoryLoaded) {
                   return SliverGrid(
@@ -166,14 +165,7 @@ class _AllCategoriesViewState extends State<AllCategoriesView> {
                     builder: (context, state) {
                       if (state is CategoryLoading) {
                         return SliverToBoxAdapter(
-                          child: Container(
-                            width: double.infinity,
-                            height: MediaQuery.sizeOf(context).height,
-                            child: Center(
-                              child: CircularProgressIndicator(
-                                  color: primaryColor),
-                            ),
-                          ),
+                          child: CustomLoadingIndicator(),
                         );
                       } else if (state is CategoryLoaded) {
                         return SliverGrid(
@@ -210,10 +202,7 @@ class _AllCategoriesViewState extends State<AllCategoriesView> {
                     builder: (context, state) {
                       if (state is CategoryLoading) {
                         return SliverToBoxAdapter(
-                          child: Center(
-                            child:
-                                CircularProgressIndicator(color: primaryColor),
-                          ),
+                          child: CustomLoadingIndicator(),
                         );
                       } else if (state is CategoryLoaded) {
                         return SliverGrid(

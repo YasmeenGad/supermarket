@@ -7,8 +7,8 @@ class CustomLoadingIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.sizeOf(context).width * 0.2,
-      height: MediaQuery.sizeOf(context).height * 0.25,
+      width: MediaQuery.sizeOf(context).width * 0.3,
+      height: MediaQuery.sizeOf(context).height * 0.4,
       child: Center(
         child: CircularProgressIndicator(
           color: primaryColor,
