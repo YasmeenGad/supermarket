@@ -1,6 +1,7 @@
 
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:supermarket/core/constants/ip.dart';
 import 'package:supermarket/features/auth/data/datasources/auth_local_datasource.dart';
 import 'package:supermarket/features/filter/data/models/filtered_products_model.dart';
 
@@ -9,11 +10,11 @@ abstract class FilteredProductsRemoteDatasource {
       String categoryName);
 }
 
-class CategoryRemoteDataSourceImpl implements FilteredProductsRemoteDatasource {
+class FilteredProductsRemoteDatasourceImpl implements FilteredProductsRemoteDatasource {
   final http.Client client;
   final AuthLocalDataSource authLocalDataSource;
 
-  CategoryRemoteDataSourceImpl(
+  FilteredProductsRemoteDatasourceImpl(
       {required this.authLocalDataSource, required this.client});
 
   @override
@@ -21,7 +22,7 @@ class CategoryRemoteDataSourceImpl implements FilteredProductsRemoteDatasource {
       String categoryName) async {
     final token = await authLocalDataSource.getCachedToken();
     final response = await client.post(
-      Uri.parse('http://localhost:4000/category/filter'),
+      Uri.parse('http://$ip:4000/category/filter'),
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer $token',

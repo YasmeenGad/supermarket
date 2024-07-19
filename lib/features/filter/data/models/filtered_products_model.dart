@@ -1,29 +1,32 @@
-// product_model.dart
-class FilteredProductsModel {
-  final String productName;
-  final int price;
-  final String productDetail;
-  final int rate;
-  final String photo;
-  final bool bestSelling;
+import 'package:supermarket/features/filter/domain/entities/filtered_products.dart';
+
+class FilteredProductsModel extends FilteredProducts {
+  
 
   FilteredProductsModel({
-    required this.productName,
-    required this.price,
-    required this.productDetail,
-    required this.rate,
-    required this.photo,
-    required this.bestSelling,
-  });
+    required final String productName,
+    required final int price,
+    required final String productDetail,
+    required final int rate,
+    required final String photo,
+    required final bool bestSelling,
+  }): super(
+    productName: productName,
+    price: price,
+    productDetail: productDetail,
+    rate: rate,
+    photo: photo,
+    bestSelling: bestSelling
+  );
 
   factory FilteredProductsModel.fromJson(Map<String, dynamic> json) {
     return FilteredProductsModel(
-      productName: json['productName'],
-      price: json['price'],
-      productDetail: json['productDetail'],
-      rate: json['rate'],
-      photo: json['photo'],
-      bestSelling: json['bestSelling'] == 'true',
+      productName: json['productName'] ?? '',
+      price: json['price']?? 0.0,
+      productDetail: json['productDetail']?? '',
+      rate: json['rate']?? 0.0,
+      photo: json['photo']?? '',
+      bestSelling: json['bestSelling'] == 'true'? true : false,
     );
   }
 

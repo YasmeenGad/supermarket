@@ -7,6 +7,7 @@ import 'package:supermarket/features/Home/presentation/bloc/BestSellingProducts/
 import 'package:supermarket/features/Home/presentation/bloc/all_product_bloc/all_products_bloc_bloc.dart';
 import 'package:supermarket/features/auth/presentation/bloc/authBloc/auth_bloc.dart';
 import 'package:supermarket/features/explore/presentation/bloc/categoruBloc/category_bloc.dart';
+import 'package:supermarket/features/filter/presentation/bloc/filtered_products_bloc/filtered_products_bloc.dart';
 import 'package:supermarket/features/search/presentation/bloc/search_category_bloc/search_category_bloc.dart';
 import 'package:supermarket/features/search/presentation/bloc/search_product_bloc/search_product_bloc.dart';
 import 'package:supermarket/injection_container.dart';
@@ -37,6 +38,8 @@ class SuperMarket extends StatelessWidget {
           BlocProvider(create: (context) => sl<SearchProductBloc>()),
           BlocProvider(create: (context) => sl<CategoryBloc>()),
           BlocProvider(create: (context) => sl<SearchCategoryBloc>()),
+          BlocProvider(create: (context) => sl<FilteredProductsBloc>()),
+
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,

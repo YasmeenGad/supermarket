@@ -26,6 +26,12 @@ import 'package:supermarket/features/explore/data/repositories/category_repo_imp
 import 'package:supermarket/features/explore/domain/repositories/category_repo.dart';
 import 'package:supermarket/features/explore/domain/usecases/category_usecase.dart';
 import 'package:supermarket/features/explore/presentation/bloc/categoruBloc/category_bloc.dart';
+import 'package:supermarket/features/filter/data/datasources/filtered_products_local_datasource.dart';
+import 'package:supermarket/features/filter/data/datasources/filtered_products_remote_datasource.dart';
+import 'package:supermarket/features/filter/data/repositories/filtered_products_repo_impl.dart';
+import 'package:supermarket/features/filter/domain/repositories/filtered_products_repo.dart';
+import 'package:supermarket/features/filter/domain/usecases/filtered_products_usecase.dart';
+import 'package:supermarket/features/filter/presentation/bloc/filtered_products_bloc/filtered_products_bloc.dart';
 import 'package:supermarket/features/search/data/datasources/search_category_remote_datasource.dart';
 import 'package:supermarket/features/search/data/datasources/search_remote_datasource.dart';
 import 'package:supermarket/features/search/data/repositories/search_category_repo_impl.dart';
@@ -95,6 +101,17 @@ Future<void> init() async {
             client: httpClient,
             authLocalDataSource: sl(),
           ));
+  // filter products remote data source
+  sl.registerLazySingleton<FilteredProductsRemoteDatasource>(
+      () => FilteredProductsRemoteDatasourceImpl(
+            client: httpClient,
+            authLocalDataSource: sl(),
+          ));
+  // filter products local data source
+  sl.registerLazySingleton<FilteredProductsLocalDatasource>(
+    () => FilteredProductsLocalDatasourceImpl(
+        sharedPreferences: sharedPreferences),
+  );
 
   // Auth Repositories
   sl.registerLazySingleton<AuthRepositories>(() => AuthRepositoriesImp(
@@ -131,6 +148,14 @@ Future<void> init() async {
             searchCategoryRemoteDatasource: sl(),
           ));
 
+  // Filter Products Repositories
+  sl.registerLazySingleton<FilteredProductsRepository>(
+      () => FilteredProductsRepositoryImpl(
+            sl(),
+            sl(),
+            sl(),
+          ));
+
   // Auth Use cases
   sl.registerLazySingleton(() => LoginUsecase(authRepositories: sl()));
   sl.registerLazySingleton(() => RegisterUsecase(repository: sl()));
@@ -156,6 +181,11 @@ Future<void> init() async {
 
   // search category use case
   sl.registerLazySingleton(() => SearchCategoryUsecase(
+        sl(),
+      ));
+
+  // Filter Products use case
+  sl.registerLazySingleton(() => FilteredProductsUsecase(
         sl(),
       ));
 
@@ -190,5 +220,10 @@ Future<void> init() async {
   // search category Blocs
   sl.registerFactory(() => SearchCategoryBloc(
         CategoryUseCase: sl(),
+      ));
+
+  // Filter Products Blocs
+  sl.registerFactory(() => FilteredProductsBloc(
+        filteredProductsUsecase: sl(),
       ));
 }

@@ -8,6 +8,7 @@ import 'package:supermarket/features/auth/presentation/views/login.dart';
 import 'package:supermarket/features/auth/presentation/views/register.dart';
 import 'package:supermarket/features/auth/presentation/views/reset_password.dart';
 import 'package:supermarket/features/auth/presentation/views/verify_otp.dart';
+import 'package:supermarket/features/filter/presentation/views/filtered_products_view.dart';
 import 'package:supermarket/features/search/presentation/views/search_view.dart';
 import 'package:supermarket/features/splash/presentation/views/onboarding_view.dart';
 import 'package:supermarket/features/splash/presentation/views/splash_view.dart';
@@ -23,6 +24,7 @@ class AppRoutes {
   static const String resetPasswordRoute = 'resetPassword';
   static const String searchViewRoute='searchViewRoute';
   static const String productDeatailsRoute='productDetailsRoute';
+  static const String filteredProductsViewRoute='filteredProductsViewRoute';
   static Map<String, WidgetBuilder> getRoutes() {
     return {
       splashView: (context) => const SplashView(),
@@ -37,6 +39,7 @@ class AppRoutes {
           ),
       searchViewRoute: (context) => const SearchView(),
       productDeatailsRoute: (context) =>  ProductDetailsView(products: ModalRoute.of(context)!.settings.arguments ),
+      filteredProductsViewRoute: (context) =>  FilteredProductsView(categoryName: ModalRoute.of(context)!.settings.arguments as String ),
     };
   }
 }

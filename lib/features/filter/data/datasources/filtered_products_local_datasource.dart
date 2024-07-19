@@ -10,10 +10,10 @@ abstract class FilteredProductsLocalDatasource {
 
 const CACHED_CATEGORY_PRODUCTS = 'CACHED_CATEGORY_PRODUCTS';
 
-class CategoryLocalDataSourceImpl implements FilteredProductsLocalDatasource {
+class FilteredProductsLocalDatasourceImpl implements FilteredProductsLocalDatasource {
   final SharedPreferences sharedPreferences;
 
-  CategoryLocalDataSourceImpl({required this.sharedPreferences});
+  FilteredProductsLocalDatasourceImpl({required this.sharedPreferences});
 
   @override
   Future<List<FilteredProductsModel>> getLastProductsByCategory() {

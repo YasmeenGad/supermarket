@@ -6,8 +6,11 @@ import 'package:supermarket/core/constants/app_colors.dart';
 import 'package:supermarket/core/utils/app_styles.dart';
 import 'package:supermarket/core/utils/assets.dart';
 import 'package:supermarket/core/widgets/custom_loading_indicator.dart';
+import 'package:supermarket/features/Home/presentation/views/see_all_products.dart';
 import 'package:supermarket/features/explore/presentation/bloc/categoruBloc/category_bloc.dart';
 import 'package:supermarket/features/explore/presentation/widgets/custom_category_widget.dart';
+import 'package:supermarket/features/filter/domain/entities/filtered_products.dart';
+import 'package:supermarket/features/filter/presentation/bloc/filtered_products_bloc/filtered_products_bloc.dart';
 import 'package:supermarket/features/search/presentation/bloc/search_category_bloc/search_category_bloc.dart';
 
 class AllCategoriesView extends StatefulWidget {

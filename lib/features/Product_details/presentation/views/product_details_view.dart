@@ -10,7 +10,7 @@ import 'package:supermarket/features/Product_details/presentation/widgets/custom
 
 class ProductDetailsView extends StatefulWidget {
   ProductDetailsView({super.key, this.products});
-  final products;
+  final dynamic products;
 
   @override
   State<ProductDetailsView> createState() => _ProductDetailsViewState();
@@ -45,7 +45,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 CustomProductDetailsImage(
-                  image: widget.products.photo ?? "",
+                  image: "${widget.products.photo ?? ""} ",
                 ),
                 CustomListTileProductDetails(
                   productName: widget.products.productName,
