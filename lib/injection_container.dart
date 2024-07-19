@@ -26,10 +26,15 @@ import 'package:supermarket/features/explore/data/repositories/category_repo_imp
 import 'package:supermarket/features/explore/domain/repositories/category_repo.dart';
 import 'package:supermarket/features/explore/domain/usecases/category_usecase.dart';
 import 'package:supermarket/features/explore/presentation/bloc/categoruBloc/category_bloc.dart';
+import 'package:supermarket/features/search/data/datasources/search_category_remote_datasource.dart';
 import 'package:supermarket/features/search/data/datasources/search_remote_datasource.dart';
+import 'package:supermarket/features/search/data/repositories/search_category_repo_impl.dart';
 import 'package:supermarket/features/search/data/repositories/search_product_repo_impl.dart';
+import 'package:supermarket/features/search/domain/repositories/search_category_repo.dart';
 import 'package:supermarket/features/search/domain/repositories/search_product_repo.dart';
+import 'package:supermarket/features/search/domain/usecases/search_category_usecase.dart';
 import 'package:supermarket/features/search/domain/usecases/search_product_usecase.dart';
+import 'package:supermarket/features/search/presentation/bloc/search_category_bloc/search_category_bloc.dart';
 import 'package:supermarket/features/search/presentation/bloc/search_product_bloc/search_product_bloc.dart';
 
 import 'core/network/network_info.dart';
@@ -84,6 +89,13 @@ Future<void> init() async {
   sl.registerLazySingleton<CategoryLocalDataSource>(
       () => CategoryLocalDataSourceImpl(sharedPreferences: sharedPreferences));
 
+  // search category data source
+  sl.registerLazySingleton<SearchCategoryRemoteDatasource>(
+      () => SearchCategoryRemoteDatasourceImpl(
+            client: httpClient,
+            authLocalDataSource: sl(),
+          ));
+
   // Auth Repositories
   sl.registerLazySingleton<AuthRepositories>(() => AuthRepositoriesImp(
         authLocalDataSource: sl(),
@@ -112,6 +124,13 @@ Future<void> init() async {
         localDataSource: sl(),
       ));
 
+  // search category Repositories
+  sl.registerLazySingleton<SearchCategoryRepository>(
+      () => SearchCategoryRepoImpl(
+            networkInfo: sl(),
+            searchCategoryRemoteDatasource: sl(),
+          ));
+
   // Auth Use cases
   sl.registerLazySingleton(() => LoginUsecase(authRepositories: sl()));
   sl.registerLazySingleton(() => RegisterUsecase(repository: sl()));
@@ -132,6 +151,11 @@ Future<void> init() async {
 
   // explore use case
   sl.registerLazySingleton(() => GetCategoriesUseCase(
+        sl(),
+      ));
+
+  // search category use case
+  sl.registerLazySingleton(() => SearchCategoryUsecase(
         sl(),
       ));
 
@@ -161,5 +185,10 @@ Future<void> init() async {
   // explore Blocs
   sl.registerFactory(() => CategoryBloc(
         sl(),
+      ));
+
+  // search category Blocs
+  sl.registerFactory(() => SearchCategoryBloc(
+        CategoryUseCase: sl(),
       ));
 }

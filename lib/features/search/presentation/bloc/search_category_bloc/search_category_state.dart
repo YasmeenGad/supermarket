@@ -9,21 +9,21 @@ sealed class SearchCategoryState extends Equatable {
 
 final class SearchCategoryInitial extends SearchCategoryState {}
 
-class CategoryLoading extends SearchCategoryState {}
+class SearchCategoryLoading extends SearchCategoryState {}
 
-class CategoryLoaded extends SearchCategoryState {
+class SearchCategoryLoaded extends SearchCategoryState {
   final SearchedCategory category;
 
-  CategoryLoaded({required this.category});
+  SearchCategoryLoaded({required this.category});
 
   @override
   List<Object> get props => [category];
 }
 
-class CategoryError extends SearchCategoryState {
+class SearchCategoryError extends SearchCategoryState {
   final String message;
 
-  CategoryError({required this.message});
+  SearchCategoryError({required this.message});
 
   @override
   List<Object> get props => [message];

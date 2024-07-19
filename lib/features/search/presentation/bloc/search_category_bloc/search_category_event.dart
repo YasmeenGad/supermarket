@@ -15,3 +15,4 @@ class GetCategoryEvent extends SearchCategoryEvent {
   @override
   List<Object> get props => [categoryName];
 }
+class ClearSearchEvent extends SearchCategoryEvent {}

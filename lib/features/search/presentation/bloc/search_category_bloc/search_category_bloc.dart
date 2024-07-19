@@ -10,14 +10,17 @@ class SearchCategoryBloc extends Bloc<SearchCategoryEvent, SearchCategoryState> 
   final SearchCategoryUsecase CategoryUseCase;
   SearchCategoryBloc({required this.CategoryUseCase}) : super(SearchCategoryInitial()) {
     on<GetCategoryEvent>(_onGetCategoryEvent);
+        on<ClearSearchEvent>((event, emit) {
+      emit(SearchCategoryInitial());
+    });
   }
 
   Future<void> _onGetCategoryEvent(GetCategoryEvent event, Emitter<SearchCategoryState> emit) async {
-    emit(CategoryLoading());
+    emit(SearchCategoryLoading());
     final result = await CategoryUseCase(event.categoryName);
     result.fold(
-      (failure) => emit(CategoryError(message: failure.toString())),
-      (category) => emit(CategoryLoaded(category: category)),
+      (failure) => emit(SearchCategoryError(message: failure.toString())),
+      (category) => emit(SearchCategoryLoaded(category: category)),
     );
   }
 }

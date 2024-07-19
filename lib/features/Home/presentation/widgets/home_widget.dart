@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:supermarket/core/constants/app_colors.dart';
 import 'package:supermarket/core/network/network_info.dart';
-import 'package:supermarket/core/utils/app_styles.dart';
+import 'package:supermarket/core/widgets/custom_loading_indicator.dart';
 import 'package:supermarket/features/Home/presentation/bloc/BestSellingProducts/best_selling_products_bloc.dart';
 import 'package:supermarket/features/Home/presentation/bloc/all_product_bloc/all_products_bloc_bloc.dart';
-import 'package:supermarket/features/Home/presentation/views/see_all_products.dart';
 import 'package:supermarket/features/Home/presentation/widgets/custom_app_bar.dart';
 import 'package:supermarket/features/Home/presentation/widgets/custom_carouser_slider.dart';
+import 'package:supermarket/features/Home/presentation/widgets/custom_header_best_selling.dart';
+import 'package:supermarket/features/Home/presentation/widgets/custom_header_exclusive_header.dart';
 import 'package:supermarket/features/Home/presentation/widgets/dot_indicator.dart';
 import 'package:supermarket/features/Home/presentation/widgets/exclusive_offer_widget_list_view.dart';
 import 'package:supermarket/injection_container.dart';
@@ -56,7 +56,6 @@ class _HomeWidgetState extends State<HomeWidget> {
               SliverToBoxAdapter(
                 child: Column(
                   children: [
-                  
                     const CustomAppBar(),
                     SizedBox(height: 12),
                     ImagePageView(
@@ -67,45 +66,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                       currentPageIndex: currentPageIndex,
                     ),
                     SizedBox(height: 24),
-                    Row(
-                      children: [
-                        FittedBox(
-                            fit: BoxFit.scaleDown,
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              "Exclusive Offer",
-                              style: AppStyles.styleSemiBold24(context)
-                                  .copyWith(color: darkColor),
-                            )),
-                        Expanded(child: SizedBox()),
-                        FittedBox(
-                            fit: BoxFit.scaleDown,
-                            alignment: Alignment.centerLeft,
-                            child: InkWell(
-                              onTap: () {
-                                // Dispatch the event to fetch all products
-                                final allProductsState =
-                                    context.read<AllProductsBlocBloc>().state;
-                                if (allProductsState is AllProductsBlocLoaded) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => SeeAllProducts(
-                                        products: allProductsState.products,
-                                        title: 'Exclusive Offer',
-                                      ),
-                                    ),
-                                  );
-                                }
-                              },
-                              child: Text(
-                                "see all",
-                                style: AppStyles.styleSemiBold16(context)
-                                    .copyWith(color: primaryColor),
-                              ),
-                            )),
-                      ],
-                    ),
+                    CustomHeaderExclusiveHeader(),
                     SizedBox(height: 16),
                     BlocListener<AllProductsBlocBloc,
                         AllProductsBlocState>(listener: (context, state) {
@@ -118,15 +79,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                         BlocBuilder<AllProductsBlocBloc, AllProductsBlocState>(
                       builder: (context, state) {
                         if (state is AllProductsBlocLoading) {
-                          return Container(
-                            width: MediaQuery.sizeOf(context).width * 0.2,
-                            height: MediaQuery.sizeOf(context).height * 0.25,
-                            child: Center(
-                              child: CircularProgressIndicator(
-                                color: primaryColor,
-                              ),
-                            ),
-                          );
+                          return CustomLoadingIndicator();
                         } else if (state is AllProductsBlocLoaded) {
                           return ExclusiveOfferWidgetListView(
                             products: state.products,
@@ -136,47 +89,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                       },
                     )),
                     SizedBox(height: 16),
-                    Row(
-                      children: [
-                        FittedBox(
-                            fit: BoxFit.scaleDown,
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              "Best Selling",
-                              style: AppStyles.styleSemiBold24(context)
-                                  .copyWith(color: darkColor),
-                            )),
-                        Expanded(child: SizedBox()),
-                        FittedBox(
-                            fit: BoxFit.scaleDown,
-                            alignment: Alignment.centerLeft,
-                            child: InkWell(
-                              onTap: () {
-                                // Dispatch the event to fetch best selling products
-                                final allProductsState = context
-                                    .read<BestSellingProductsBloc>()
-                                    .state;
-                                if (allProductsState
-                                    is BestSellingProductsLoaded) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => SeeAllProducts(
-                                        products: allProductsState.products,
-                                        title: 'Best Selling',
-                                      ),
-                                    ),
-                                  );
-                                }
-                              },
-                              child: Text(
-                                "see all",
-                                style: AppStyles.styleSemiBold16(context)
-                                    .copyWith(color: primaryColor),
-                              ),
-                            )),
-                      ],
-                    ),
+                    CustomHeaderBestSelling(),
                     SizedBox(height: 16),
                     BlocListener<BestSellingProductsBloc,
                         BestSellingProductsState>(listener: (context, state) {
@@ -189,15 +102,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                         BestSellingProductsState>(
                       builder: (context, state) {
                         if (state is BestSellingProductsLoading) {
-                          return Container(
-                            width: MediaQuery.sizeOf(context).width * 0.2,
-                            height: MediaQuery.sizeOf(context).height * 0.25,
-                            child: Center(
-                              child: CircularProgressIndicator(
-                                color: primaryColor,
-                              ),
-                            ),
-                          );
+                          return CustomLoadingIndicator();
                         } else if (state is BestSellingProductsLoaded) {
                           return ExclusiveOfferWidgetListView(
                             products: state.products,
