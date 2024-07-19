@@ -1,5 +1,6 @@
+import 'package:dartz/dartz.dart';
 import 'package:supermarket/features/filter/domain/entities/filtered_products.dart';
 
 abstract class FilteredProductsRepository {
-  Future<List<FilteredProducts>> getProductsByCategory(String categoryName);
+  Future<Either<String, List<FilteredProducts>>> getProductsByCategory(String categoryName);
 }
