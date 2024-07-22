@@ -45,7 +45,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 CustomProductDetailsImage(
-                  image: "${widget.products.photo ?? ""} ",
+                  image: "${widget.products.photo}",
                 ),
                 CustomListTileProductDetails(
                   productName: widget.products.productName,

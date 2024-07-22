@@ -10,7 +10,7 @@ class ExclusiveOfferWidgetListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // grid view
-    return      SizedBox(
+    return SizedBox(
       height: 275,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
@@ -19,8 +19,9 @@ class ExclusiveOfferWidgetListView extends StatelessWidget {
           return Padding(
             padding: const EdgeInsets.only(right: 15),
             child: GestureDetector(
-              onTap: (){
-                Navigator.pushNamed(context, AppRoutes.productDeatailsRoute,arguments: products[index]);
+              onTap: () {
+                Navigator.pushNamed(context, AppRoutes.productDeatailsRoute,
+                    arguments: products[index]);
               },
               child: ExclusiveOfferWidget(
                 product: products[index],
@@ -51,7 +52,5 @@ class ExclusiveOfferWidgetListView extends StatelessWidget {
     //               );
     //             },
     //           );
-    
-
   }
 }

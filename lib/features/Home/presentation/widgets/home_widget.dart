@@ -6,6 +6,8 @@ import 'package:supermarket/core/widgets/custom_loading_indicator.dart';
 import 'package:supermarket/features/Home/presentation/bloc/BestSellingProducts/best_selling_products_bloc.dart';
 import 'package:supermarket/features/Home/presentation/bloc/all_product_bloc/all_products_bloc_bloc.dart';
 import 'package:supermarket/features/Home/presentation/widgets/custom_app_bar.dart';
+import 'package:supermarket/features/Home/presentation/widgets/custom_best_seller_widget.dart';
+import 'package:supermarket/features/Home/presentation/widgets/custom_best_selling_list_view.dart';
 import 'package:supermarket/features/Home/presentation/widgets/custom_carouser_slider.dart';
 import 'package:supermarket/features/Home/presentation/widgets/custom_header_best_selling.dart';
 import 'package:supermarket/features/Home/presentation/widgets/custom_header_exclusive_header.dart';
@@ -100,8 +102,8 @@ class _HomeWidgetState extends State<HomeWidget> {
                         if (state is BestSellingProductsLoading) {
                           return CustomLoadingIndicator();
                         } else if (state is BestSellingProductsLoaded) {
-                          return ExclusiveOfferWidgetListView(
-                            products: state.products,
+                          return CustomBestSellingListView(
+                            product: state.products,
                           );
                         }
                         return SizedBox();

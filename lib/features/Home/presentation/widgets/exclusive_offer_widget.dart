@@ -2,14 +2,15 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:supermarket/core/constants/app_colors.dart';
 import 'package:supermarket/core/utils/app_styles.dart';
+import 'package:supermarket/features/Home/presentation/widgets/custom_image.dart';
+import 'package:supermarket/features/Home/presentation/widgets/custom_product_name_and_desc.dart';
 
 class ExclusiveOfferWidget extends StatelessWidget {
   const ExclusiveOfferWidget({super.key, required this.product});
-  final  product;
+  final product;
 
   @override
   Widget build(BuildContext context) {
-
     return Container(
       width: MediaQuery.sizeOf(context).width * 0.4,
       decoration: BoxDecoration(
@@ -19,7 +20,7 @@ class ExclusiveOfferWidget extends StatelessWidget {
       ),
       child: Padding(
         padding:
-            const EdgeInsets.only(top: 25, left: 16, right: 16, bottom: 16),
+            const EdgeInsets.only(top: 20, left: 16, right: 16, bottom: 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -32,40 +33,14 @@ class ExclusiveOfferWidget extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
-                  child: CachedNetworkImage(
-                    imageUrl: "${product.photo}",
-                    fit: BoxFit.cover,
-                    placeholder: (context, url) =>
-                        Center(child: CircularProgressIndicator()), 
-                    errorWidget: (context, url, error) => Icon(
-                      Icons.error,
-                      color: Colors.red,
-                    ), // Error handling
-                  ),
-                ),
+                    borderRadius: BorderRadius.circular(12),
+                    child: CustomImage(image: product.photo)),
               ),
             ),
             SizedBox(height: 8),
-            FittedBox(
-              fit: BoxFit.scaleDown,
-              alignment: Alignment.centerLeft,
-              child: Text(
-                '${product.productName}',
-                style:
-                    AppStyles.styleBold16(context).copyWith(color: darkColor),
-              ),
+            CustomProductNameAndDesc(
+              product: product,
             ),
-            FittedBox(
-              fit: BoxFit.scaleDown,
-              alignment: Alignment.centerLeft,
-              child: Text(
-                '${product.productDetail}',
-                style: AppStyles.styleMedium14(context)
-                    .copyWith(color: secondaryColor),
-              ),
-            ),
-            SizedBox(height: 8),
             Row(
               children: [
                 FittedBox(
