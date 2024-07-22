@@ -6,10 +6,12 @@ import 'package:supermarket/core/utils/app_routes.dart';
 import 'package:supermarket/core/utils/app_styles.dart';
 import 'package:supermarket/core/utils/assets.dart';
 import 'package:supermarket/core/utils/validator.dart';
+import 'package:supermarket/core/widgets/custom_awesom_dialog.dart';
 import 'package:supermarket/core/widgets/custom_button.dart';
 import 'package:supermarket/features/auth/presentation/bloc/authBloc/auth_bloc.dart';
 import 'package:supermarket/features/auth/presentation/bloc/authBloc/auth_event.dart';
 import 'package:supermarket/features/auth/presentation/widgets/custom_auth_text_section.dart';
+import 'package:supermarket/features/auth/presentation/widgets/custom_text_auth.dart';
 import 'package:supermarket/features/auth/presentation/widgets/custom_text_field.dart';
 
 class Login extends StatefulWidget {
@@ -112,7 +114,7 @@ class _LoginState extends State<Login> {
                   controller: passwordController,
                   textFieldModel: CustomTextFieldModel(
                     text: 'Password',
-                    hintText: '****',
+                    hintText: '*****',
                     suffixIcon: IconButton(
                       onPressed: () {
                         setState(() {
@@ -128,9 +130,10 @@ class _LoginState extends State<Login> {
                 Align(
                     alignment: Alignment.centerRight,
                     child: GestureDetector(
-                      onTap: (){
-                        Navigator.pushNamed(context, AppRoutes.forgetPasswordRoute);
-                      },
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, AppRoutes.forgetPasswordRoute);
+                        },
                         child: Text("Forget Password?",
                             style: AppStyles.styleMedium16(context)))),
                 const SizedBox(
@@ -152,10 +155,7 @@ class _LoginState extends State<Login> {
                   (route) => false,
                 );
               } else if (state is AuthFailure) {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text(state.error),
-                  backgroundColor: Colors.red,
-                ));
+              CustomAwesomDialog.showErrorDialog(context, state.error);
               }
             },
             builder: (context, state) {
@@ -170,7 +170,10 @@ class _LoginState extends State<Login> {
                     final email = emailController.text;
                     final password = passwordController.text;
 
-                    context.read<AuthBloc>().add(LoginEvent(email: email, password: password, ));
+                    context.read<AuthBloc>().add(LoginEvent(
+                          email: email,
+                          password: password,
+                        ));
                   }
                 },
                 child: CustomButton(
@@ -182,26 +185,10 @@ class _LoginState extends State<Login> {
           const SizedBox(
             height: 25,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Don\'t have an account?',
-                style: AppStyles.styleSemiBold14(context)
-                    .copyWith(color: darkColor),
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.pushReplacementNamed(
-                      context, AppRoutes.registerRoute);
-                },
-                child: Text(
-                  'Sign Up',
-                  style: AppStyles.styleSemiBold14(context)
-                      .copyWith(color: primaryColor),
-                ),
-              ),
-            ],
+          CustomTextAuth(
+            text: 'Don\'t have an account?',
+            textAuth: ' Sign Up',
+            route: AppRoutes.registerRoute,
           ),
         ],
       ),

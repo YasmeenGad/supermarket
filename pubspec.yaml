@@ -51,6 +51,7 @@ dependencies:
   badges: ^3.1.2
   device_preview: ^1.2.0
   flutter_pannable_rating_bar: ^2.7.2+1
+  awesome_dialog: ^3.2.1
 flutter_assets:
   assets_path: assets/images/
   output_path: lib/core/utils/

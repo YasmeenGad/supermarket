@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supermarket/core/network/network_info.dart';
+import 'package:supermarket/core/widgets/custom_awesom_dialog.dart';
 import 'package:supermarket/core/widgets/custom_loading_indicator.dart';
 import 'package:supermarket/features/Home/presentation/bloc/BestSellingProducts/best_selling_products_bloc.dart';
 import 'package:supermarket/features/Home/presentation/bloc/all_product_bloc/all_products_bloc_bloc.dart';
@@ -32,7 +33,6 @@ class _HomeWidgetState extends State<HomeWidget> {
         setState(() {});
       },
     );
-    // BlocProvider.of<AllProductsBlocBloc>(context).add(FetchProducts());
     // Dispatch the event to fetch all products
     context.read<AllProductsBlocBloc>().add(FetchProducts());
 
@@ -71,9 +71,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                     BlocListener<AllProductsBlocBloc,
                         AllProductsBlocState>(listener: (context, state) {
                       if (state is AllProductsBlocError) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text(state.message)),
-                        );
+                       CustomAwesomDialog.showErrorDialog(context, state.message);
                       }
                     }, child:
                         BlocBuilder<AllProductsBlocBloc, AllProductsBlocState>(
@@ -94,9 +92,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                     BlocListener<BestSellingProductsBloc,
                         BestSellingProductsState>(listener: (context, state) {
                       if (state is BestSellingProductsError) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text(state.message)),
-                        );
+                        CustomAwesomDialog.showErrorDialog(context, state.message);
                       }
                     }, child: BlocBuilder<BestSellingProductsBloc,
                         BestSellingProductsState>(

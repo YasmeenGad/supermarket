@@ -41,6 +41,22 @@ class Assets {
   /// assets/images/meat.png
   static const String imagesMeat = "assets/images/meat.png";
 
+  /// Assets for imagesPageView1
+  /// assets/images/pageView1.jpg
+  static const String imagesPageView1 = "assets/images/pageView1.jpg";
+
+  /// Assets for imagesPageView2
+  /// assets/images/pageView2.jpeg
+  static const String imagesPageView2 = "assets/images/pageView2.jpeg";
+
+  /// Assets for imagesPageView3
+  /// assets/images/pageView3.jpg
+  static const String imagesPageView3 = "assets/images/pageView3.jpg";
+
+  /// Assets for imagesPageView4
+  /// assets/images/pageView4.avif
+  static const String imagesPageView4 = "assets/images/pageView4.avif";
+
   /// Assets for imagesSearch
   /// assets/images/search.jpg
   static const String imagesSearch = "assets/images/search.jpg";

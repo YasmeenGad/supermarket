@@ -3,13 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supermarket/core/constants/app_colors.dart';
 import 'package:supermarket/core/models/custom_text_field_model.dart';
 import 'package:supermarket/core/utils/app_routes.dart';
-import 'package:supermarket/core/utils/app_styles.dart';
 import 'package:supermarket/core/utils/assets.dart';
 import 'package:supermarket/core/utils/validator.dart';
+import 'package:supermarket/core/widgets/custom_awesom_dialog.dart';
 import 'package:supermarket/core/widgets/custom_button.dart';
 import 'package:supermarket/features/auth/presentation/bloc/authBloc/auth_bloc.dart';
 import 'package:supermarket/features/auth/presentation/bloc/authBloc/auth_event.dart';
 import 'package:supermarket/features/auth/presentation/widgets/custom_auth_text_section.dart';
+import 'package:supermarket/features/auth/presentation/widgets/custom_text_auth.dart';
 import 'package:supermarket/features/auth/presentation/widgets/custom_text_field.dart';
 
 class Register extends StatefulWidget {
@@ -144,10 +145,7 @@ class _RegisterState extends State<Register> {
                 ));
                  Navigator.pushReplacementNamed(context, AppRoutes.loginRoute);
               } else if (state is AuthFailure) {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text(state.error),
-                  backgroundColor: Colors.red,
-                ));
+                CustomAwesomDialog.showErrorDialog(context, state.error);
               }
             },
             builder: (context, state) {
@@ -175,28 +173,9 @@ class _RegisterState extends State<Register> {
           const SizedBox(
             height: 25,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Already have an account? ',
-                style: AppStyles.styleSemiBold14(context)
-                    .copyWith(color: darkColor),
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.pushReplacementNamed(context, AppRoutes.loginRoute);
-                },
-                child: Text(
-                  'Login',
-                  style: AppStyles.styleSemiBold14(context)
-                      .copyWith(color: primaryColor),
-                ),
-              ),
-              
-            ],
-          ),
-          SizedBox(height: 16,),
+
+          CustomTextAuth(text: 'Already have an account?', textAuth: 'Login', route: AppRoutes.loginRoute),
+          // SizedBox(height: 16,),
         ],
       ),
     );
