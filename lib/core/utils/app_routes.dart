@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:supermarket/features/Home/presentation/views/home_layout.dart';
-import 'package:supermarket/features/Product_details/presentation/views/product_details_view.dart';
+import 'package:supermarket/features/Home/presentation/views/product_details_view.dart';
 import 'package:supermarket/features/auth/presentation/views/forget_password.dart';
 import 'package:supermarket/features/auth/presentation/views/login.dart';
 import 'package:supermarket/features/auth/presentation/views/register.dart';

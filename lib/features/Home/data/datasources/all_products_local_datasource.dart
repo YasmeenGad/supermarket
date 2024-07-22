@@ -8,22 +8,23 @@ import 'package:supermarket/features/Home/data/models/product_model.dart';
 abstract class AllProductsLocalDataSource {
   Future<void> cacheProducts(List<ProductModel> products);
   Future<List<ProductModel>> getCachedProducts();
-  Future<void> cacheBestSellingProducts(List<BestSellingProductsModel> products);
+  Future<void> cacheBestSellingProducts(
+      List<BestSellingProductsModel> products);
   Future<List<BestSellingProductsModel>> getCachedBestSellingProducts();
 }
 
 class AllProductsLocalDataSourceImpl implements AllProductsLocalDataSource {
   static const CASHED_PRODUCTS = 'CACHED_PRODUCTS';
-  static const CASHED_BEST_SELLING_PRODUCTS= 'CASHED_BEST_SELLING_PRODUCTS';
+  static const CASHED_BEST_SELLING_PRODUCTS = 'CASHED_BEST_SELLING_PRODUCTS';
   final SharedPreferences sharedPreferences;
 
   AllProductsLocalDataSourceImpl({required this.sharedPreferences});
 
-
   @override
   Future<void> cacheProducts(List<ProductModel> products) async {
     final productsJson = products.map((product) => product.toJson()).toList();
-    await sharedPreferences.setString(CASHED_PRODUCTS, json.encode(productsJson));
+    await sharedPreferences.setString(
+        CASHED_PRODUCTS, json.encode(productsJson));
   }
 
   @override
@@ -36,19 +37,24 @@ class AllProductsLocalDataSourceImpl implements AllProductsLocalDataSource {
       return [];
     }
   }
-  
+
   @override
-  Future<void> cacheBestSellingProducts(List<BestSellingProductsModel> products) async{
+  Future<void> cacheBestSellingProducts(
+      List<BestSellingProductsModel> products) async {
     final productsJson = products.map((product) => product.toJson()).toList();
-    await sharedPreferences.setString(CASHED_PRODUCTS, json.encode(productsJson));
+    await sharedPreferences.setString(
+        CASHED_BEST_SELLING_PRODUCTS, json.encode(productsJson));
   }
-  
+
   @override
-  Future<List<BestSellingProductsModel>> getCachedBestSellingProducts() async{
-    final jsonString = await sharedPreferences.getString(CASHED_PRODUCTS);
+  Future<List<BestSellingProductsModel>> getCachedBestSellingProducts() async {
+    final jsonString =
+        await sharedPreferences.getString(CASHED_BEST_SELLING_PRODUCTS);
     if (jsonString != null) {
       final List<dynamic> jsonList = jsonDecode(jsonString);
-      return jsonList.map((json) => BestSellingProductsModel.fromJson(json)).toList();
+      return jsonList
+          .map((json) => BestSellingProductsModel.fromJson(json))
+          .toList();
     } else {
       return [];
     }

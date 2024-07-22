@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:supermarket/core/constants/app_colors.dart';
 import 'package:supermarket/core/utils/app_styles.dart';
 import 'package:supermarket/core/widgets/custom_button.dart';
-import 'package:supermarket/features/Product_details/presentation/widgets/custom_list_tile_product_details.dart';
-import 'package:supermarket/features/Product_details/presentation/widgets/custom_product_details_image.dart';
-import 'package:supermarket/features/Product_details/presentation/widgets/custom_quantity.dart';
-import 'package:supermarket/features/Product_details/presentation/widgets/custom_review.dart';
+import 'package:supermarket/features/Home/presentation/widgets/custom_list_tile_product_details.dart';
+import 'package:supermarket/features/Home/presentation/widgets/custom_product_details_image.dart';
+import 'package:supermarket/features/Home/presentation/widgets/custom_quantity.dart';
+import 'package:supermarket/features/Home/presentation/widgets/custom_review.dart';
 
 class ProductDetailsView extends StatefulWidget {
   ProductDetailsView({super.key, this.products});

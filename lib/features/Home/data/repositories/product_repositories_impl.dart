@@ -9,7 +9,7 @@ import '../../domain/repositories/product_repository.dart';
 
 class ProductRepositoryImpl implements ProductRepository {
   final ProductRemoteDataSource remoteDataSource;
-  final AllProductsLocalDataSource  localDataSource;
+  final AllProductsLocalDataSource localDataSource;
   final NetworkInfo networkInfo;
 
   ProductRepositoryImpl({
@@ -21,7 +21,7 @@ class ProductRepositoryImpl implements ProductRepository {
   @override
   Future<Either<String, List<ProductModel>>> getAllProducts() async {
     if (await networkInfo.isConnected) {
-         try {
+      try {
         final products = await remoteDataSource.getAllProducts();
         localDataSource.cacheProducts(products);
         return Right(products);
@@ -29,7 +29,7 @@ class ProductRepositoryImpl implements ProductRepository {
         return Left('Failed to get products: $e');
       }
     } else {
-       try {
+      try {
         final cachedProducts = await localDataSource.getCachedProducts();
         if (cachedProducts.isNotEmpty) {
           return Right(cachedProducts);
@@ -40,22 +40,25 @@ class ProductRepositoryImpl implements ProductRepository {
         return Left('Failed to get products from local cache: $e');
       }
     }
-    }
+  }
 
   @override
-  Future<Either<String, List<BestSellingProductsModel>>> getBestSellingProducts() async{
+  Future<Either<String, List<BestSellingProductsModel>>>
+      getBestSellingProducts() async {
     if (await networkInfo.isConnected) {
-       try {
-        final bestSellingProducts = await remoteDataSource.getBestSellingProducts();
+      try {
+        final bestSellingProducts =
+            await remoteDataSource.getBestSellingProducts();
         localDataSource.cacheBestSellingProducts(bestSellingProducts);
-        
+
         return Right(bestSellingProducts);
       } catch (e) {
         return Left('Failed to get products: $e');
       }
     } else {
-       try {
-        final cachedProducts = await localDataSource.getCachedBestSellingProducts();
+      try {
+        final cachedProducts =
+            await localDataSource.getCachedBestSellingProducts();
         if (cachedProducts.isNotEmpty) {
           return Right(cachedProducts);
         } else {
@@ -66,4 +69,4 @@ class ProductRepositoryImpl implements ProductRepository {
       }
     }
   }
-  }
+}

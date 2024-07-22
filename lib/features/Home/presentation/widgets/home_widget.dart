@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supermarket/core/network/network_info.dart';
-import 'package:supermarket/core/widgets/custom_awesom_dialog.dart';
+import 'package:supermarket/core/widgets/custom_awesome_dialog.dart';
 import 'package:supermarket/core/widgets/custom_loading_indicator.dart';
 import 'package:supermarket/features/Home/presentation/bloc/BestSellingProducts/best_selling_products_bloc.dart';
 import 'package:supermarket/features/Home/presentation/bloc/all_product_bloc/all_products_bloc_bloc.dart';
 import 'package:supermarket/features/Home/presentation/widgets/custom_app_bar.dart';
-import 'package:supermarket/features/Home/presentation/widgets/custom_best_seller_widget.dart';
 import 'package:supermarket/features/Home/presentation/widgets/custom_best_selling_list_view.dart';
 import 'package:supermarket/features/Home/presentation/widgets/custom_carouser_slider.dart';
 import 'package:supermarket/features/Home/presentation/widgets/custom_header_best_selling.dart';

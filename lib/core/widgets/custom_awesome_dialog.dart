@@ -9,9 +9,7 @@ class CustomAwesomDialog {
       animType: AnimType.bottomSlide,
       title: 'Error',
       desc: state,
-      btnOkOnPress: () {
-        Navigator.of(context).pop();
-      },
+      btnOkOnPress: () {},
       btnOkColor: Colors.red,
       btnOkText: 'Ok',
     ).show();
