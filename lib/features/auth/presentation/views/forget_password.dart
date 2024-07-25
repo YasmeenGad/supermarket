@@ -5,7 +5,9 @@ import 'package:supermarket/core/models/custom_text_field_model.dart';
 import 'package:supermarket/core/utils/app_routes.dart';
 import 'package:supermarket/core/utils/app_styles.dart';
 import 'package:supermarket/core/utils/validator.dart';
+import 'package:supermarket/core/widgets/custom_awesome_dialog.dart';
 import 'package:supermarket/core/widgets/custom_button.dart';
+import 'package:supermarket/core/widgets/custom_loading_indicator.dart';
 import 'package:supermarket/features/auth/presentation/bloc/authBloc/auth_bloc.dart';
 import 'package:supermarket/features/auth/presentation/bloc/authBloc/auth_event.dart';
 import 'package:supermarket/features/auth/presentation/widgets/custom_text_field.dart';
@@ -84,17 +86,13 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                     if (state is AuthSuccessResetPassword) {
                       Navigator.pushNamed(context, AppRoutes.otpRoute);
                     } else if (state is AuthFailureResetPassword) {
-                      ScaffoldMessenger.of(context)
-                          .showSnackBar(SnackBar(content: Text(state.error)));
-                    }
-                  },
+                     CustomAwesomDialog.showErrorDialog(context, state.error);
+                  }
+                },
                   child: BlocBuilder<AuthBloc, AuthState>(
                     builder: (context, state) {
                       if (state is AuthLoadingResetPassword) {
-                        return Center(
-                            child: CircularProgressIndicator(
-                          color: primaryColor,
-                        ));
+                        return CustomLoadingIndicator();
                       }
 
                       return GestureDetector(

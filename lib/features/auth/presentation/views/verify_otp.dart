@@ -4,7 +4,9 @@ import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:supermarket/core/constants/app_colors.dart';
 import 'package:supermarket/core/utils/app_routes.dart';
 import 'package:supermarket/core/utils/app_styles.dart';
+import 'package:supermarket/core/widgets/custom_awesome_dialog.dart';
 import 'package:supermarket/core/widgets/custom_button.dart';
+import 'package:supermarket/core/widgets/custom_loading_indicator.dart';
 import 'package:supermarket/features/auth/presentation/bloc/authBloc/auth_bloc.dart';
 import 'package:supermarket/features/auth/presentation/bloc/authBloc/auth_event.dart';
 
@@ -82,13 +84,12 @@ class _VerifyOtpState extends State<VerifyOtp> {
                           context, AppRoutes.resetPasswordRoute, arguments: state.token);
                           print(state.token);
                     } else if (state is AuthFailureResetPassword) {
-                      ScaffoldMessenger.of(context)
-                          .showSnackBar(SnackBar(content: Text(state.error)));
-                    }
+                    CustomAwesomDialog.showErrorDialog(context, state.error);
+                  }
                   },
                   builder: (context, state) {
                     if (state is AuthLoadingResetPassword) {
-                      return Center(child: CircularProgressIndicator());
+                      return CustomLoadingIndicator();
                     }
                     return GestureDetector(
                       onTap: () {

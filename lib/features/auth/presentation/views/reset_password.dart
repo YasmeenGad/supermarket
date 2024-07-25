@@ -112,6 +112,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                     if (state is AuthSuccessResetPassword) {
 
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        backgroundColor: primaryColor,
                           content: Text('Password reset successfully')));
                           authLocalDataSource.removeCachedToken();
                       Navigator.pushNamed(context, AppRoutes.loginRoute);
