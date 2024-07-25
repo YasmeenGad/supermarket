@@ -5,7 +5,8 @@ import 'package:supermarket/features/Home/presentation/widgets/home_widget.dart'
 import 'package:supermarket/features/explore/presentation/views/all_categories_view.dart';
 
 class HomeLayout extends StatefulWidget {
-  const HomeLayout({super.key});
+  const HomeLayout({super.key, required this.userName});
+  final String userName;
 
   @override
   State<HomeLayout> createState() => _HomeLayoutState();
@@ -13,13 +14,20 @@ class HomeLayout extends StatefulWidget {
 
 class _HomeLayoutState extends State<HomeLayout> {
   int selectedIndex = 0;
-  final List<Widget> widgetOptions = <Widget>[
-    HomeWidget(),
-    AllCategoriesView(),
-    Container(),
-    Container(),
-    Container(),
-  ];
+late List<Widget> widgetOptions;
+
+  @override
+  void initState() {
+    super.initState();
+    widgetOptions = <Widget>[
+      HomeWidget(userName: widget.userName),
+      AllCategoriesView(),
+      Container(),
+      Container(),
+      Container(),
+    ];
+  }
+
 
   void onItemTapped(int index) {
     setState(() {

@@ -20,6 +20,7 @@ class FilteredProductsRepositoryImpl implements FilteredProductsRepository {
       final localProducts = await localDataSource.getLastProductsByCategory();
       return Right(localProducts
           .map((model) => FilteredProducts(
+                quantity: model.quantity,
                 productName: model.productName,
                 price: model.price,
                 productDetail: model.productDetail,
@@ -35,6 +36,7 @@ class FilteredProductsRepositoryImpl implements FilteredProductsRepository {
         localDataSource.cacheProductsByCategory(remoteProducts);
         return Right(remoteProducts
             .map((model) => FilteredProducts(
+                  quantity: model.quantity,
                   productName: model.productName,
                   price: model.price,
                   productDetail: model.productDetail,

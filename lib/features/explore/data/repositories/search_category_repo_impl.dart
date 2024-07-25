@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:supermarket/core/network/network_info.dart';
-import 'package:supermarket/features/search/data/datasources/search_category_remote_datasource.dart';
-import 'package:supermarket/features/search/domain/entities/searched_category.dart';
-import 'package:supermarket/features/search/domain/repositories/search_category_repo.dart';
+import 'package:supermarket/features/explore/data/datasources/search_category_remote_datasource.dart';
+import 'package:supermarket/features/explore/domain/entities/searched_category.dart';
+import 'package:supermarket/features/explore/domain/repositories/search_category_repo.dart';
 
 class SearchCategoryRepoImpl implements SearchCategoryRepository {
   final SearchCategoryRemoteDatasource searchCategoryRemoteDatasource;

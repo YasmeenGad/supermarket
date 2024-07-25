@@ -5,21 +5,26 @@ import 'package:supermarket/features/auth/data/datasources/auth_local_datasource
 import 'package:supermarket/features/search/data/models/searched_products_model.dart';
 
 abstract class SearchRemoteDataSource {
-  Future<SearchedProductsModel> searchProduct(String productName);
+  Future<List<SearchedProductsModel>> searchProduct(String productName);
 }
+
 class SearchRemoteDatasourceImpl implements SearchRemoteDataSource {
   final http.Client client;
   final AuthLocalDataSource authLocalDataSource;
-  SearchRemoteDatasourceImpl({required this.authLocalDataSource, required this.client});
-  
+
+  SearchRemoteDatasourceImpl({
+    required this.authLocalDataSource,
+    required this.client,
+  });
+
   @override
-  Future<SearchedProductsModel> searchProduct(String productName) async {
-    final token = await authLocalDataSource.getCachedToken();
+  Future<List<SearchedProductsModel>> searchProduct(String productName) async {
+    final token = await authLocalDataSource.getCachedLoginResponse();
     final response = await client.post(
       Uri.parse('http://$ip:4000/product/one'),
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer $token',
+        'Authorization': 'Bearer ${token?.token?? ''}',
       },
       body: jsonEncode({'name': productName}),
     );
@@ -28,7 +33,10 @@ class SearchRemoteDatasourceImpl implements SearchRemoteDataSource {
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
       if (data['status'] == 'success') {
-        return SearchedProductsModel.fromJson(data['product']);
+        final products = (data['product'] as List)
+            .map((product) => SearchedProductsModel.fromJson(product))
+            .toList();
+        return products;
       } else {
         throw Exception('Failed to load product');
       }

@@ -11,27 +11,26 @@ class CustomReview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-                  children: [
-                    Text(
-                      "Review",
-                      style: AppStyles.styleSemiBold16(context)
-                          .copyWith(color: darkColor),
+      children: [
+        Text(
+          "Review",
+          style: AppStyles.styleSemiBold16(context).copyWith(color: darkColor),
+        ),
+        Expanded(child: SizedBox()),
+        PannableRatingBar(
+          rate: rate.toDouble(),
+          items: List.generate(
+              5,
+              (index) => const RatingWidget(
+                    selectedColor: Color(0xffF3603F),
+                    unSelectedColor: Colors.grey,
+                    child: Icon(
+                      Icons.star,
+                      size: 20,
                     ),
-                    Expanded(child: SizedBox()),
-                    PannableRatingBar(
-                      rate: rate,
-                      items: List.generate(
-                          5,
-                          (index) => const RatingWidget(
-                                selectedColor: Color(0xffF3603F),
-                                unSelectedColor: Colors.grey,
-                                child: Icon(
-                                  Icons.star,
-                                  size: 20,
-                                ),
-                              )),
-                    ),
-                  ],
-                );
+                  )),
+        ),
+      ],
+    );
   }
 }

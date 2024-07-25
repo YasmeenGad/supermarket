@@ -6,12 +6,9 @@ import 'package:supermarket/core/constants/app_colors.dart';
 import 'package:supermarket/core/utils/app_styles.dart';
 import 'package:supermarket/core/utils/assets.dart';
 import 'package:supermarket/core/widgets/custom_loading_indicator.dart';
-import 'package:supermarket/features/Home/presentation/views/see_all_products.dart';
 import 'package:supermarket/features/explore/presentation/bloc/categoruBloc/category_bloc.dart';
 import 'package:supermarket/features/explore/presentation/widgets/custom_category_widget.dart';
-import 'package:supermarket/features/filter/domain/entities/filtered_products.dart';
-import 'package:supermarket/features/filter/presentation/bloc/filtered_products_bloc/filtered_products_bloc.dart';
-import 'package:supermarket/features/search/presentation/bloc/search_category_bloc/search_category_bloc.dart';
+import 'package:supermarket/features/explore/presentation/bloc/search_category_bloc/search_category_bloc.dart';
 
 class AllCategoriesView extends StatefulWidget {
   const AllCategoriesView({super.key});
@@ -21,22 +18,22 @@ class AllCategoriesView extends StatefulWidget {
 }
 
 class _AllCategoriesViewState extends State<AllCategoriesView> {
-  final List<Color> colors = [
-    Color(0xffF7A593).withOpacity(0.5),
-    Color(0xffD3B0E0).withOpacity(0.5),
-    Color(0xff53B175).withOpacity(0.5),
-    Color(0xffF8A44C).withOpacity(0.5),
-    Color(0xffFDE598).withOpacity(0.5),
-    Color(0xffB7DFF5).withOpacity(0.5),
-  ];
-  final List<Widget> categoryImages = [
-    Image.asset(Assets.imagesFruits),
-    Image.asset(Assets.imagesMeat),
-    Image.asset(Assets.imagesEggs),
-    Image.asset(Assets.imagesBeverages),
-    Image.asset(Assets.imagesVegetables),
-    Image.asset(Assets.imagesBakery),
-  ];
+  // final List<Color> colors = [
+  //   Color(0xffF7A593).withOpacity(0.5),
+  //   Color(0xffD3B0E0).withOpacity(0.5),
+  //   Color(0xff53B175).withOpacity(0.5),
+  //   Color(0xffF8A44C).withOpacity(0.5),
+  //   Color(0xffFDE598).withOpacity(0.5),
+  //   Color(0xffB7DFF5).withOpacity(0.5),
+  // ];
+  // final List<Widget> categoryImages = [
+  //   Image.asset(Assets.imagesFruits),
+  //   Image.asset(Assets.imagesMeat),
+  //   Image.asset(Assets.imagesEggs),
+  //   Image.asset(Assets.imagesBeverages),
+  //   Image.asset(Assets.imagesVegetables),
+  //   Image.asset(Assets.imagesBakery),
+  // ];
 
   final TextEditingController textController = TextEditingController();
   Timer? _debounceTimer;
@@ -155,9 +152,8 @@ class _AllCategoriesViewState extends State<AllCategoriesView> {
                     delegate: SliverChildBuilderDelegate(
                       (BuildContext context, int index) {
                         return CustomCategoryWidget(
-                          color: colors[index],
                           categoryName: state.category.categoryName,
-                          categoryImage: categoryImages[index],
+                          categoryImage: state.category.imageUrl,
                         );
                       },
                       childCount: 1,
@@ -182,13 +178,12 @@ class _AllCategoriesViewState extends State<AllCategoriesView> {
                           delegate: SliverChildBuilderDelegate(
                             (BuildContext context, int index) {
                               return CustomCategoryWidget(
-                                color: colors[index],
                                 categoryName:
                                     state.categories[index].categoryName,
-                                categoryImage: categoryImages[index],
+                                categoryImage: state.categories[index].imageUrl,
                               );
                             },
-                            childCount: categoryImages.length,
+                            childCount: state.categories.length,
                           ),
                         );
                       } else if (state is CategoryError) {
@@ -219,13 +214,12 @@ class _AllCategoriesViewState extends State<AllCategoriesView> {
                           delegate: SliverChildBuilderDelegate(
                             (BuildContext context, int index) {
                               return CustomCategoryWidget(
-                                color: colors[index],
                                 categoryName:
                                     state.categories[index].categoryName,
-                                categoryImage: categoryImages[index],
+                                categoryImage: state.categories[index].imageUrl ,
                               );
                             },
-                            childCount: categoryImages.length,
+                            childCount: state.categories.length,
                           ),
                         );
                       } else if (state is CategoryError) {

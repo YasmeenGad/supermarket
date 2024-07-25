@@ -12,7 +12,7 @@ final class SearchProductInitial extends SearchProductState {}
 final class SearchProductLoading extends SearchProductState {}
 
 final class SearchProductLoaded extends SearchProductState {
-  final SearchedProductsModel products;
+  final List<SearchedProducts> products;
   const SearchProductLoaded({required this.products});
   @override
   List<Object> get props => [products];

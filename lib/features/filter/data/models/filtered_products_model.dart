@@ -10,7 +10,9 @@ class FilteredProductsModel extends FilteredProducts {
     required final int rate,
     required final String photo,
     required final bool bestSelling,
+    required final int quantity,
   }): super(
+    quantity: quantity,
     productName: productName,
     price: price,
     productDetail: productDetail,
@@ -21,6 +23,7 @@ class FilteredProductsModel extends FilteredProducts {
 
   factory FilteredProductsModel.fromJson(Map<String, dynamic> json) {
     return FilteredProductsModel(
+      quantity: json['quantity'] ?? 0,
       productName: json['productName'] ?? '',
       price: json['price']?? 0.0,
       productDetail: json['productDetail']?? '',
@@ -32,6 +35,7 @@ class FilteredProductsModel extends FilteredProducts {
 
   Map<String, dynamic> toJson() {
     return {
+      'quantity': quantity,
       'productName': productName,
       'price': price,
       'productDetail': productDetail,

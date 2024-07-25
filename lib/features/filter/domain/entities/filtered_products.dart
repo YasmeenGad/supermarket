@@ -1,5 +1,6 @@
 // product.dart
 class FilteredProducts {
+  final int quantity;
   final String productName;
   final int price;
   final String productDetail;
@@ -8,6 +9,7 @@ class FilteredProducts {
   final bool bestSelling;
 
   FilteredProducts({
+    required this.quantity,
     required this.productName,
     required this.price,
     required this.productDetail,

@@ -15,7 +15,8 @@ import 'package:supermarket/features/Home/presentation/widgets/exclusive_offer_w
 import 'package:supermarket/injection_container.dart';
 
 class HomeWidget extends StatefulWidget {
-  const HomeWidget({super.key});
+  const HomeWidget({super.key, required this.userName});
+  final String userName;
 
   @override
   State<HomeWidget> createState() => _HomeWidgetState();
@@ -28,6 +29,7 @@ class _HomeWidgetState extends State<HomeWidget> {
 
   @override
   void initState() {
+
     pageController.addListener(
       () {
         currentPageIndex = pageController.page!.round();
@@ -57,7 +59,7 @@ class _HomeWidgetState extends State<HomeWidget> {
               SliverToBoxAdapter(
                 child: Column(
                   children: [
-                    const CustomAppBar(),
+                     CustomAppBar(userName: widget.userName,),
                     SizedBox(height: 12),
                     ImagePageView(
                       pageController: pageController,
@@ -72,7 +74,8 @@ class _HomeWidgetState extends State<HomeWidget> {
                     BlocListener<AllProductsBlocBloc,
                         AllProductsBlocState>(listener: (context, state) {
                       if (state is AllProductsBlocError) {
-                       CustomAwesomDialog.showErrorDialog(context, state.message);
+                        CustomAwesomDialog.showErrorDialog(
+                            context, state.message);
                       }
                     }, child:
                         BlocBuilder<AllProductsBlocBloc, AllProductsBlocState>(
@@ -93,7 +96,8 @@ class _HomeWidgetState extends State<HomeWidget> {
                     BlocListener<BestSellingProductsBloc,
                         BestSellingProductsState>(listener: (context, state) {
                       if (state is BestSellingProductsError) {
-                        CustomAwesomDialog.showErrorDialog(context, state.message);
+                        CustomAwesomDialog.showErrorDialog(
+                            context, state.message);
                       }
                     }, child: BlocBuilder<BestSellingProductsBloc,
                         BestSellingProductsState>(

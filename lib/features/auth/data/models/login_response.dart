@@ -24,4 +24,9 @@ class LoginResponse {
       'token': token,
     };
   }
+
+  @override
+  String toString() {
+    return 'LoginResponse(status: $status, message: $message, token: $token)';
+  }
 }

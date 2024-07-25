@@ -2,11 +2,10 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:supermarket/core/constants/ip.dart';
 import 'package:supermarket/features/auth/data/models/login_response.dart';
-import 'package:supermarket/features/auth/data/models/user_model.dart';
 
 abstract class AuthRemoteDatasource {
   Future<LoginResponse> login(String email, String password);
-  Future<UserModel> register(String username, String email, String password);
+  Future<String> register(String username, String email, String password);
   Future<String> sendOtp(String email);
   Future<String> verifyOtp(String otp);
   Future<String> resetPassword(String token, String newPassword);
@@ -22,10 +21,8 @@ class AuthRemoteDatasourceImp implements AuthRemoteDatasource {
     final loginUrl = Uri.parse('http://$ip:4000/user/login');
     final requestBody = {'email': email, 'password': password};
     final requestHeaders = {'Content-Type': 'application/json'};
-
     final response = await client.post(loginUrl,
         body: jsonEncode(requestBody), headers: requestHeaders);
-
     if (response.statusCode == 200) {
       return LoginResponse.fromJson(jsonDecode(response.body));
     } else {
@@ -35,19 +32,22 @@ class AuthRemoteDatasourceImp implements AuthRemoteDatasource {
   }
 
   @override
-  Future<UserModel> register(
+  Future<String> register(
       String userName, String email, String password) async {
     final registerUrl = Uri.parse('http://$ip:4000/user/register');
     final data = {'userName': userName, 'email': email, 'password': password};
-
     final response = await client.post(registerUrl,
         body: jsonEncode(data), headers: {'Content-Type': 'application/json'});
+    final responseBody = jsonDecode(response.body);
+
     if (response.statusCode == 200 || response.statusCode == 201) {
-      final responseBody = jsonDecode(response.body);
-      return UserModel.fromJson(responseBody['newUser']);
+      if (responseBody['status'] == true) {
+        return '${responseBody['message']}';
+      } else {
+        throw ('Unexpected response structure: $responseBody');
+      }
     } else {
-      final errorResponse = jsonDecode(response.body);
-      throw ('${errorResponse['message']}');
+      throw ('${responseBody['message']}');
     }
   }
 
@@ -59,7 +59,7 @@ class AuthRemoteDatasourceImp implements AuthRemoteDatasource {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $token'
     };
-      print('Token: $token');
+    print('Token: $token');
     final response = await client.patch(url,
         body: jsonEncode(requestBody), headers: requestHeaders);
 

@@ -17,11 +17,11 @@ class CategoryRemoteDataSourceImpl implements CategoryRemoteDataSource {
 
   @override
   Future<List<CategoryModel>> getAllCategories() async {
-    final token = await authLocalDataSource.getCachedToken();
+    final token = await authLocalDataSource.getCachedLoginResponse();
     final response = await client.get(
       Uri.parse('http://$ip:4000/category/all'),
       headers: {
-        'Authorization': 'Bearer $token',
+        'Authorization': 'Bearer ${token?.token?? ''}',
       },
     );
 

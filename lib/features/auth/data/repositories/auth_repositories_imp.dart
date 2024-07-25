@@ -21,9 +21,8 @@ class AuthRepositoriesImp implements AuthRepositories {
     } else {
       try {
         final remoteUser = await authRemoteDatasource.login(email, password);
-        await authLocalDataSource.cacheToken(remoteUser.token);
-
-        print(remoteUser.token);
+        await authLocalDataSource.cacheLoginResponse(remoteUser);
+        // print(remoteUser.token);
         return Right('Login successful');
       } catch (e) {
         return Left('$e');
@@ -38,9 +37,10 @@ class AuthRepositoriesImp implements AuthRepositories {
       return Left('No internet connection');
     } else {
       try {
+        print("response1");
+        // ignore: unused_local_variable
         final newUser =
             await authRemoteDatasource.register(userName, email, password);
-        await authLocalDataSource.cacheUser(newUser);
         return Right('Register successful');
       } catch (e) {
         return Left(e.toString());

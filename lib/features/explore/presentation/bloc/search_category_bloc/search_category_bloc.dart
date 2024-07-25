@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:supermarket/features/search/domain/entities/searched_category.dart';
-import 'package:supermarket/features/search/domain/usecases/search_category_usecase.dart';
+import 'package:supermarket/features/explore/domain/entities/searched_category.dart';
+import 'package:supermarket/features/explore/domain/usecases/search_category_usecase.dart';
 
 part 'search_category_event.dart';
 part 'search_category_state.dart';

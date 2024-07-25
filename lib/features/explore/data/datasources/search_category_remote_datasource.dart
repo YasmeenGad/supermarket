@@ -3,25 +3,27 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:supermarket/core/constants/ip.dart';
 import 'package:supermarket/features/auth/data/datasources/auth_local_datasource.dart';
-import 'package:supermarket/features/search/data/models/searched_category_model.dart';
+import 'package:supermarket/features/explore/data/models/searched_category_model.dart';
 
 abstract class SearchCategoryRemoteDatasource {
   Future<SearchedCategoryModel> getCategory(String categoryName);
 }
 
-class SearchCategoryRemoteDatasourceImpl implements SearchCategoryRemoteDatasource {
+class SearchCategoryRemoteDatasourceImpl
+    implements SearchCategoryRemoteDatasource {
   final http.Client client;
   final AuthLocalDataSource authLocalDataSource;
-  SearchCategoryRemoteDatasourceImpl({required this.authLocalDataSource, required this.client});
+  SearchCategoryRemoteDatasourceImpl(
+      {required this.authLocalDataSource, required this.client});
 
   @override
   Future<SearchedCategoryModel> getCategory(String categoryName) async {
-    final token = await authLocalDataSource.getCachedToken();
+    final token = await authLocalDataSource.getCachedLoginResponse();
     final response = await client.get(
       Uri.parse('http://$ip:4000/category/$categoryName'),
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer $token',
+        'Authorization': 'Bearer ${token?.token ?? ''}',
       },
     );
 

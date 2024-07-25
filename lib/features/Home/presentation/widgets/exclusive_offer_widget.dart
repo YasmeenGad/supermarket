@@ -19,7 +19,7 @@ class ExclusiveOfferWidget extends StatelessWidget {
       ),
       child: Padding(
         padding:
-            const EdgeInsets.only(top: 20, left: 16, right: 16, bottom: 16),
+             EdgeInsets.all(12),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -40,6 +40,7 @@ class ExclusiveOfferWidget extends StatelessWidget {
             CustomProductNameAndDesc(
               product: product,
             ),
+            Spacer(),
             Row(
               children: [
                 FittedBox(

@@ -20,12 +20,12 @@ class FilteredProductsRemoteDatasourceImpl implements FilteredProductsRemoteData
   @override
   Future<List<FilteredProductsModel>> getProductsByCategory(
       String categoryName) async {
-    final token = await authLocalDataSource.getCachedToken();
+    final token = await authLocalDataSource.getCachedLoginResponse();
     final response = await client.post(
       Uri.parse('http://$ip:4000/category/filter'),
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer $token',
+        'Authorization': 'Bearer ${token?.token?? ''}',
       },
       body: json.encode({'categoryName': categoryName}),
     );

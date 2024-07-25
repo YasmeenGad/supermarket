@@ -10,18 +10,17 @@ class CustomProductNameAndDesc extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-       children: [
+      children: [
         Text(
-                  "${product.productName}",
-                  style:
-                      AppStyles.styleBold16(context).copyWith(color: darkColor),
-                ),
-                Text(
-                  "\$${product.productDetail}",
-                  style: AppStyles.styleMedium14(context)
-                      .copyWith(color: secondaryColor),
-                ),
-       ],
+          "${product.productName}",
+          style: AppStyles.styleBold16(context).copyWith(color: darkColor),
+        ),
+        Text(
+          "${product.productDetail}",
+          style:
+              AppStyles.styleMedium14(context).copyWith(color: secondaryColor),
+        ),
+      ],
     );
   }
 }

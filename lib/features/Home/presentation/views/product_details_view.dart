@@ -8,6 +8,7 @@ import 'package:supermarket/features/Home/presentation/widgets/custom_product_de
 import 'package:supermarket/features/Home/presentation/widgets/custom_quantity.dart';
 import 'package:supermarket/features/Home/presentation/widgets/custom_review.dart';
 
+
 class ProductDetailsView extends StatefulWidget {
   ProductDetailsView({super.key, this.products});
   final dynamic products;
@@ -33,7 +34,16 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
               size: 25,
             )),
         actions: [
-          IconButton(onPressed: () {}, icon: Icon(CupertinoIcons.cart))
+          IconButton(
+              onPressed: () {},
+              icon: Icon(
+                CupertinoIcons.cart,
+                color: darkColor,
+                size: 30,
+              )),
+          SizedBox(
+            width: 8,
+          ),
         ],
       ),
       body: CustomScrollView(

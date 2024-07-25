@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:supermarket/features/Home/presentation/views/home_layout.dart';
 import 'package:supermarket/features/Home/presentation/views/product_details_view.dart';
+import 'package:supermarket/features/Home/presentation/views/see_all_products.dart';
 import 'package:supermarket/features/auth/presentation/views/forget_password.dart';
 import 'package:supermarket/features/auth/presentation/views/login.dart';
 import 'package:supermarket/features/auth/presentation/views/register.dart';
@@ -25,13 +26,14 @@ class AppRoutes {
   static const String searchViewRoute='searchViewRoute';
   static const String productDeatailsRoute='productDetailsRoute';
   static const String filteredProductsViewRoute='filteredProductsViewRoute';
+  static const String seeAllProductsRoute='seeAllProductsRoute';
   static Map<String, WidgetBuilder> getRoutes() {
     return {
       splashView: (context) => const SplashView(),
       onBoarding: (context) => const OnBoardingView(),
       registerRoute: (context) => const Register(),
       loginRoute: (context) => const Login(),
-      homeLayoutRoute: (context) => const HomeLayout(),
+      homeLayoutRoute: (context) =>  HomeLayout(userName: ModalRoute.of(context)!.settings.arguments as String? ?? ''),
       forgetPasswordRoute: (context) => ForgetPassword(),
       otpRoute: (context) => VerifyOtp(),
       resetPasswordRoute: (context) => ResetPassword(
@@ -40,6 +42,8 @@ class AppRoutes {
       searchViewRoute: (context) => const SearchView(),
       productDeatailsRoute: (context) =>  ProductDetailsView(products: ModalRoute.of(context)!.settings.arguments ),
       filteredProductsViewRoute: (context) =>  FilteredProductsView(categoryName: ModalRoute.of(context)!.settings.arguments as String ),
+      seeAllProductsRoute: (context) =>  SeeAllProducts(title: ModalRoute.of(context)!.settings.arguments as String, products: ModalRoute.of(context)!.settings.arguments as List, )
+
     };
   }
 }
