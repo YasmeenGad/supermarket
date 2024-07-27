@@ -20,6 +20,12 @@ import 'package:supermarket/features/auth/domain/usecases/login_usecase.dart';
 import 'package:supermarket/features/auth/domain/usecases/register_usecase.dart';
 import 'package:supermarket/features/auth/domain/usecases/sendCode_and_verify_otp_usecase.dart';
 import 'package:supermarket/features/auth/presentation/bloc/authBloc/auth_bloc.dart';
+import 'package:supermarket/features/cart/data/datasources/create_order_local_datasource.dart';
+import 'package:supermarket/features/cart/data/datasources/create_order_remote_datasource.dart';
+import 'package:supermarket/features/cart/data/repositories/create_order_repository_impl.dart';
+import 'package:supermarket/features/cart/domain/repositories/create_order_repository.dart';
+import 'package:supermarket/features/cart/domain/usecases/create_order_usecase.dart';
+import 'package:supermarket/features/cart/presentation/bloc/create_order_bloc/create_order_bloc.dart';
 import 'package:supermarket/features/explore/data/datasources/category_local_datasource.dart';
 import 'package:supermarket/features/explore/data/datasources/category_remote_datasource.dart';
 import 'package:supermarket/features/explore/data/repositories/category_repo_impl.dart';
@@ -113,6 +119,18 @@ Future<void> init() async {
         sharedPreferences: sharedPreferences),
   );
 
+  // create order remote data source
+  sl.registerLazySingleton<OrderRemoteDataSource>(
+    () => OrderRemoteDataSourceImpl(
+      client: httpClient,
+      authLocalDataSource: sl(),
+    ),
+  );
+
+  // create order local data source
+  sl.registerLazySingleton<OrderLocalDataSource>(
+    () => OrderLocalDataSourceImpl(sharedPreferences: sharedPreferences),
+  );
   // Auth Repositories
   sl.registerLazySingleton<AuthRepositories>(() => AuthRepositoriesImp(
         authLocalDataSource: sl(),
@@ -156,6 +174,14 @@ Future<void> init() async {
             sl(),
           ));
 
+  // create order Repositories
+  sl.registerLazySingleton<OrderRepository>(
+    () => OrderRepositoryImpl(
+      localDataSource: sl(),
+      networkInfo: sl(),
+      remoteDataSource: sl(),
+    ),
+  );
   // Auth Use cases
   sl.registerLazySingleton(() => LoginUsecase(authRepositories: sl()));
   sl.registerLazySingleton(() => RegisterUsecase(repository: sl()));
@@ -187,6 +213,11 @@ Future<void> init() async {
   // Filter Products use case
   sl.registerLazySingleton(() => FilteredProductsUsecase(
         sl(),
+      ));
+
+  // create order use case
+  sl.registerLazySingleton(() => CreateOrderUsecase(
+        repository: sl(),
       ));
 
   // Auth Blocs
@@ -225,5 +256,10 @@ Future<void> init() async {
   // Filter Products Blocs
   sl.registerFactory(() => FilteredProductsBloc(
         filteredProductsUsecase: sl(),
+      ));
+
+  // create order Blocs
+  sl.registerFactory(() => CreateOrderBloc(
+        createOrderUsecase: sl(),
       ));
 }
