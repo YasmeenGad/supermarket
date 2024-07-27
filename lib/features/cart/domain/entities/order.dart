@@ -1,4 +1,6 @@
-class Order {
+import 'package:equatable/equatable.dart';
+
+class Order extends Equatable {
   final String userId;
   final List<String> products;
   final String id;
@@ -12,4 +14,13 @@ class Order {
     required this.createdAt,
     required this.updatedAt,
   });
+
+  @override
+  List<Object?> get props => [
+        userId,
+        products,
+        id,
+        createdAt,
+        updatedAt,
+      ];
 }
