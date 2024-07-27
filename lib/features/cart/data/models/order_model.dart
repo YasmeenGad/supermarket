@@ -1,6 +1,6 @@
 import 'package:supermarket/features/cart/domain/entities/order.dart';
 
-class OrderModel extends Order {
+class OrderModel extends MyOrder {
   OrderModel({
     required String userId,
     required List<String> products,
