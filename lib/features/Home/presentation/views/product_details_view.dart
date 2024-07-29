@@ -8,7 +8,6 @@ import 'package:supermarket/features/Home/presentation/widgets/custom_product_de
 import 'package:supermarket/features/Home/presentation/widgets/custom_quantity.dart';
 import 'package:supermarket/features/Home/presentation/widgets/custom_review.dart';
 
-
 class ProductDetailsView extends StatefulWidget {
   ProductDetailsView({super.key, this.products});
   final dynamic products;

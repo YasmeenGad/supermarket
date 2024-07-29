@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:supermarket/core/constants/app_colors.dart';
 import 'package:supermarket/features/Home/presentation/widgets/home_widget.dart';
+import 'package:supermarket/features/cart/presentation/views/cart_view.dart';
 import 'package:supermarket/features/explore/presentation/views/all_categories_view.dart';
 
 class HomeLayout extends StatefulWidget {
@@ -22,7 +23,7 @@ late List<Widget> widgetOptions;
     widgetOptions = <Widget>[
       HomeWidget(userName: widget.userName),
       AllCategoriesView(),
-      Container(),
+      CartView(),
       Container(),
       Container(),
     ];

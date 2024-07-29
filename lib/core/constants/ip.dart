@@ -1,1 +1,1 @@
-const String ip="192.168.246.14";
+const String ip="192.168.236.50";

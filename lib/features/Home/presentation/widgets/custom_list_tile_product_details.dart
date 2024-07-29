@@ -22,14 +22,12 @@ class CustomListTileProductDetails extends StatelessWidget {
                   style: AppStyles.styleBold24(context)
                       .copyWith(color: blackColor),
                 )),
-            subtitle: FittedBox(
-                fit: BoxFit.scaleDown,
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  "${productDetails}, Price",
-                  style: AppStyles.styleMedium16(context)
-                      .copyWith(color: secondaryColor),
-                )),
+            subtitle: Text(
+              "${productDetails}, Price",
+              maxLines: 2,
+              style: AppStyles.styleMedium16(context)
+                  .copyWith(color: secondaryColor),
+            ),
             trailing: Icon(
               Icons.favorite_outline,
               color: darkColor,

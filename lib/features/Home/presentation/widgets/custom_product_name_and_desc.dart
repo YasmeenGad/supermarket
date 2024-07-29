@@ -17,8 +17,9 @@ class CustomProductNameAndDesc extends StatelessWidget {
         ),
         Text(
           "${product.productDetail}",
+          maxLines: 2,
           style:
-              AppStyles.styleMedium14(context).copyWith(color: secondaryColor),
+              AppStyles.styleMedium13(context).copyWith(color: secondaryColor),
         ),
       ],
     );
