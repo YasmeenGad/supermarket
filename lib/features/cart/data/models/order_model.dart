@@ -1,4 +1,4 @@
-import 'package:supermarket/features/cart/domain/entities/order.dart';
+import 'package:supermarket/features/cart/domain/entities/create_order_entity.dart';
 
 class OrderModel extends MyOrder {
   OrderModel({

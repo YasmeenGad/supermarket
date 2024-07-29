@@ -1,9 +1,10 @@
 import 'package:dartz/dartz.dart';
 import 'package:supermarket/core/network/network_info.dart';
 import 'package:supermarket/features/cart/data/datasources/create_order_local_datasource.dart';
-import 'package:supermarket/features/cart/data/datasources/create_order_remote_datasource.dart';
-import 'package:supermarket/features/cart/domain/entities/order.dart';
-import 'package:supermarket/features/cart/domain/repositories/create_order_repository.dart';
+import 'package:supermarket/features/cart/data/datasources/order_remote_datasource.dart';
+import 'package:supermarket/features/cart/domain/entities/create_order_entity.dart';
+import 'package:supermarket/features/cart/domain/entities/fetch_order_entities.dart';
+import 'package:supermarket/features/cart/domain/repositories/order_repo.dart';
 
 class OrderRepositoryImpl implements OrderRepository {
   final OrderRemoteDataSource remoteDataSource;
@@ -36,5 +37,31 @@ class OrderRepositoryImpl implements OrderRepository {
     } catch (e) {
       return Left('Failed to create order: $e');
     }
+  }
+
+  @override
+  Future<Either<String, List<FetchedOrder>>> getOrder() async {
+    if (!await networkInfo.isConnected) {
+      try {
+        final cachedFetchedOrder = await localDataSource.getLastFetchedOrder();
+        // ignore: unnecessary_null_comparison
+        if (cachedFetchedOrder.isNotEmpty) {
+          return Right(cachedFetchedOrder);
+        } else {
+          return Left('No internet connection and no cached data available');
+        }
+      } catch (e) {
+        return Left('Failed to get order from local cache: $e');
+      }
+    }else{
+      try {
+      final fetchedOrder = await remoteDataSource.getOrder();
+      localDataSource.cacheFetchedOrder(fetchedOrder);
+      return Right(fetchedOrder);
+    } catch (e) {
+      return Left("$e");
+    }
+    }
+    
   }
 }

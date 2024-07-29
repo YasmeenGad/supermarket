@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:supermarket/features/cart/domain/entities/order.dart';
-import 'package:supermarket/features/cart/domain/usecases/create_order_usecase.dart';
+import 'package:supermarket/features/cart/domain/entities/create_order_entity.dart';
+import 'package:supermarket/features/cart/domain/usecases/order_usecase.dart';
 
 part 'create_order_event.dart';
 part 'create_order_state.dart';

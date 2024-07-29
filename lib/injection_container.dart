@@ -21,10 +21,10 @@ import 'package:supermarket/features/auth/domain/usecases/register_usecase.dart'
 import 'package:supermarket/features/auth/domain/usecases/sendCode_and_verify_otp_usecase.dart';
 import 'package:supermarket/features/auth/presentation/bloc/authBloc/auth_bloc.dart';
 import 'package:supermarket/features/cart/data/datasources/create_order_local_datasource.dart';
-import 'package:supermarket/features/cart/data/datasources/create_order_remote_datasource.dart';
+import 'package:supermarket/features/cart/data/datasources/order_remote_datasource.dart';
 import 'package:supermarket/features/cart/data/repositories/create_order_repository_impl.dart';
-import 'package:supermarket/features/cart/domain/repositories/create_order_repository.dart';
-import 'package:supermarket/features/cart/domain/usecases/create_order_usecase.dart';
+import 'package:supermarket/features/cart/domain/repositories/order_repo.dart';
+import 'package:supermarket/features/cart/domain/usecases/order_usecase.dart';
 import 'package:supermarket/features/cart/presentation/bloc/create_order_bloc/create_order_bloc.dart';
 import 'package:supermarket/features/explore/data/datasources/category_local_datasource.dart';
 import 'package:supermarket/features/explore/data/datasources/category_remote_datasource.dart';
@@ -131,6 +131,7 @@ Future<void> init() async {
   sl.registerLazySingleton<OrderLocalDataSource>(
     () => OrderLocalDataSourceImpl(sharedPreferences: sharedPreferences),
   );
+
   // Auth Repositories
   sl.registerLazySingleton<AuthRepositories>(() => AuthRepositoriesImp(
         authLocalDataSource: sl(),
@@ -217,6 +218,11 @@ Future<void> init() async {
 
   // create order use case
   sl.registerLazySingleton(() => CreateOrderUsecase(
+        repository: sl(),
+      ));
+
+  // fetch order use case
+  sl.registerLazySingleton(() => GetOrderUseCase(
         repository: sl(),
       ));
 

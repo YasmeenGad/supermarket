@@ -2,6 +2,7 @@ import '../../domain/entities/product.dart';
 
 class ProductModel extends Product {
   ProductModel({
+    required   String id,
     required String productName,
     required double price,
     required int stock,
@@ -14,6 +15,7 @@ class ProductModel extends Product {
     required String categoryName,
     required bool bestSelling,
   }) : super(
+          id: id,
           productName: productName,
           price: price,
           stock: stock,
@@ -29,6 +31,7 @@ class ProductModel extends Product {
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
     return ProductModel(
+      id: json['_id']?? '',
       productName: json['productName']?? '',
       price: json['price'].toDouble()?? '',
       stock: json['stock']?? '',
@@ -45,6 +48,7 @@ class ProductModel extends Product {
 
   Map<String, dynamic> toJson() {
     return {
+      '_id': id,
       'productName': productName,
       'price': price,
       'stock': stock,

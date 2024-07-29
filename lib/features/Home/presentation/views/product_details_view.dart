@@ -1,12 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supermarket/core/constants/app_colors.dart';
+import 'package:supermarket/core/utils/app_routes.dart';
 import 'package:supermarket/core/utils/app_styles.dart';
 import 'package:supermarket/core/widgets/custom_button.dart';
 import 'package:supermarket/features/Home/presentation/widgets/custom_list_tile_product_details.dart';
 import 'package:supermarket/features/Home/presentation/widgets/custom_product_details_image.dart';
 import 'package:supermarket/features/Home/presentation/widgets/custom_quantity.dart';
 import 'package:supermarket/features/Home/presentation/widgets/custom_review.dart';
+import 'package:supermarket/features/cart/presentation/bloc/create_order_bloc/create_order_bloc.dart';
 
 class ProductDetailsView extends StatefulWidget {
   ProductDetailsView({super.key, this.products});
@@ -101,7 +104,14 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                 const SizedBox(
                   height: 24,
                 ),
-                CustomButton(text: "Add To Basket"),
+                GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, AppRoutes.cartRoute);
+                      context
+                          .read<CreateOrderBloc>()
+                          .add(CreateOrder([widget.products.id]));
+                    },
+                    child: CustomButton(text: "Add To Basket")),
                 const SizedBox(
                   height: 8,
                 ),

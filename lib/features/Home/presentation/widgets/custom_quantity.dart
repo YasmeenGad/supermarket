@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:supermarket/core/constants/app_colors.dart';
 import 'package:supermarket/core/utils/app_styles.dart';
+import 'package:supermarket/features/Home/presentation/widgets/custom_quantity_item.dart';
 
 class CustomQuantity extends StatelessWidget {
   const CustomQuantity({super.key, this.price, required this.quantity});
@@ -11,32 +12,7 @@ class CustomQuantity extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Row(
-          children: [
-            IconButton(
-                onPressed: () {},
-                icon: Icon(
-                  Icons.remove,
-                  color: Color(0xffB3B3B3),
-                )),
-            Container(
-              height: 45,
-              width: 45,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(17),
-                  border: Border.all(color: borderColor)),
-              child: Center(
-                child: Text('${quantity}'),
-              ),
-            ),
-            IconButton(
-                onPressed: () {},
-                icon: Icon(
-                  Icons.add,
-                  color: primaryColor,
-                )),
-          ],
-        ),
+        CustomQuantityItem(quantity: quantity,),
         Expanded(child: SizedBox()),
         Text(
           "\$${price}",

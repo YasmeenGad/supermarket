@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 class Product extends Equatable{
+  final String id;
   final String productName;
   final double price;
   final int stock;
@@ -14,6 +15,7 @@ class Product extends Equatable{
   final bool bestSelling;
 
   Product({
+    required this.id,
     required this.productName,
     required this.price,
     required this.stock,
