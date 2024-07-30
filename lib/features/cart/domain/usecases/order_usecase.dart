@@ -17,7 +17,7 @@ class GetOrderUseCase{
   final OrderRepository repository;
   GetOrderUseCase({required this.repository});
 
-  Future<Either<String, List<FetchedOrder>>> call() async {
+  Future<Either<String, FetchedOrder>> call() async {
     return await repository.getOrder();
   }
 }

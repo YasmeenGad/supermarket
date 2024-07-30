@@ -8,7 +8,7 @@ import 'package:supermarket/features/cart/data/models/order_model.dart';
 
 abstract class OrderRemoteDataSource {
   Future<OrderModel> createOrder(List<String> productIds);
-  Future<List<FetchedOrderModel>> getOrder();
+  Future<FetchedOrderModel> getOrder();
 }
 
 class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
@@ -46,7 +46,7 @@ class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
   }
 
   @override
-  Future<List<FetchedOrderModel>> getOrder() async {
+  Future<FetchedOrderModel> getOrder() async {
     final token = await authLocalDataSource.getCachedLoginResponse();
     final cachedToken = token?.token;
     final response = await client.get(
@@ -58,11 +58,8 @@ class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       final data = json.decode(response.body);
-      if (data['status']) {
-        final products = (data['message'] as List)
-            .map((product) => FetchedOrderModel.fromJson(product))
-            .toList();
-        return products;
+      if (data['status']) {   
+        return FetchedOrderModel.fromJson(data['message']);
       } else {
         throw Exception(data['message']);
       }

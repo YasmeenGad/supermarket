@@ -5,5 +5,5 @@ import 'package:supermarket/features/cart/domain/entities/fetch_order_entities.d
 abstract class OrderRepository {
   Future<Either<String, MyOrder>> createOrder(List<String> productIds);
 
-  Future<Either<String,List< FetchedOrder>>> getOrder();
+  Future<Either<String,FetchedOrder>> getOrder();
 }

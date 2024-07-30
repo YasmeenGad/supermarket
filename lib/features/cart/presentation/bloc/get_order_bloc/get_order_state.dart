@@ -12,7 +12,7 @@ final class GetOrderInitial extends GetOrderState {}
 final class GetOrderLoading extends GetOrderState {}
 
 final class GetOrderSuccess extends GetOrderState {
-  final List<FetchedOrder> orders;
+  final FetchedOrder orders;
   const GetOrderSuccess(this.orders);
 
    @override

@@ -40,12 +40,12 @@ class OrderRepositoryImpl implements OrderRepository {
   }
 
   @override
-  Future<Either<String, List<FetchedOrder>>> getOrder() async {
+  Future<Either<String, FetchedOrder>> getOrder() async {
     if (!await networkInfo.isConnected) {
       try {
         final cachedFetchedOrder = await localDataSource.getLastFetchedOrder();
         // ignore: unnecessary_null_comparison
-        if (cachedFetchedOrder.isNotEmpty) {
+        if (cachedFetchedOrder != null) {
           return Right(cachedFetchedOrder);
         } else {
           return Left('No internet connection and no cached data available');

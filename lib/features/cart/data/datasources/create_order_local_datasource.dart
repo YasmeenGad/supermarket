@@ -6,8 +6,8 @@ import '../models/order_model.dart';
 abstract class OrderLocalDataSource {
   Future<void> cacheOrder(OrderModel orderToCache);
   Future<OrderModel?> getLastOrder();
-  Future<void> cacheFetchedOrder(List<FetchedOrderModel> fetchedOrder);
-  Future<List<FetchedOrderModel>> getLastFetchedOrder();
+  Future<void> cacheFetchedOrder(FetchedOrderModel fetchedOrder);
+  Future<FetchedOrderModel?> getLastFetchedOrder();
 }
 
 class OrderLocalDataSourceImpl implements OrderLocalDataSource {
@@ -37,24 +37,18 @@ class OrderLocalDataSourceImpl implements OrderLocalDataSource {
   }
 
   @override
-  Future<void> cacheFetchedOrder(List<FetchedOrderModel> fetchedOrder) async {
-    final productsJson = fetchedOrder.map((product) => product.toJson()).toList();
+  Future<void> cacheFetchedOrder(FetchedOrderModel fetchedOrder) async {
     await sharedPreferences.setString(
-        CACHED_FETCHED_ORDER, json.encode(productsJson));
-  
+        CACHED_FETCHED_ORDER, json.encode(fetchedOrder.toJson()));
   }
 
   @override
-  Future<List<FetchedOrderModel>> getLastFetchedOrder() async {
-    final jsonString =
-        await sharedPreferences.getString(CACHED_FETCHED_ORDER);
+  Future<FetchedOrderModel?> getLastFetchedOrder() async {
+    final jsonString = await sharedPreferences.getString(CACHED_FETCHED_ORDER);
     if (jsonString != null) {
-      final List<dynamic> jsonList = jsonDecode(jsonString);
-      return jsonList
-          .map((json) => FetchedOrderModel.fromJson(json))
-          .toList();
+      return Future.value(FetchedOrderModel.fromJson(json.decode(jsonString)));
     } else {
-      return [];
+      return Future.value(null);
     }
   }
 }
