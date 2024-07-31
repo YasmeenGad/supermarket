@@ -25,7 +25,7 @@ class CustomButton extends StatelessWidget {
               style: AppStyles.styleSemiBold18(context)
                   .copyWith(color: Colors.white),
             ),
-            const SizedBox(width: 10), // Space between text and price
+            const SizedBox(width: 10), 
             Text(
               '',
               style: AppStyles.styleSemiBold18(context)
