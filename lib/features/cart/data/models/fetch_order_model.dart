@@ -1,5 +1,3 @@
-
-
 import 'package:supermarket/features/cart/domain/entities/fetch_order_entities.dart';
 
 class FetchedOrderModel extends FetchedOrder {
@@ -19,25 +17,25 @@ class FetchedOrderModel extends FetchedOrder {
 
   factory FetchedOrderModel.fromJson(Map<String, dynamic> json) {
     return FetchedOrderModel(
-      id: json['_id'],
+      id: json['_id'] ?? '',
       user: UserCart(
-        userName: json['userId']['userName'],
-        email: json['userId']['email'],
+        userName: json['userId']['userName'] ?? '',
+        email: json['userId']['email'] ?? '',
       ),
       products: (json['products'] as List)
           .map((product) => ProductCart(
-                productName: product['productName'],
+                productName: product['productName'] ?? '',
                 bestSelling: product['bestSelling'] == 'true',
-                price: product['price'].toDouble(),
-                quantity: product['quantity'],
-                productDetail: product['productDetail'],
-                rate: product['rate'],
-                categoryName: product['categoryName'],
-                photo: product['photo'],
+                price: (product['price'] as num?)?.toDouble() ?? 0.0,
+                quantity: (product['quantity'] as num?)?.toDouble() ?? 0.0,
+                productDetail: product['productDetail'] ?? '',
+                rate: (product['rate'] as num?)?.toDouble() ?? 0.0,
+                categoryName: product['categoryName'] ?? '',
+                photo: product['photo'] ?? '',
               ))
           .toList(),
-      createdAt: DateTime.parse(json['createdAt']),
-      updatedAt: DateTime.parse(json['updatedAt']),
+      createdAt: DateTime.parse(json['createdAt'] ?? DateTime.now().toIso8601String()),
+      updatedAt: DateTime.parse(json['updatedAt'] ?? DateTime.now().toIso8601String()),
     );
   }
 

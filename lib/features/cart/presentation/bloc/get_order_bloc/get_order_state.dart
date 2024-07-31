@@ -15,15 +15,13 @@ final class GetOrderSuccess extends GetOrderState {
   final FetchedOrder orders;
   const GetOrderSuccess(this.orders);
 
-   @override
+  @override
   List<Object> get props => [orders];
 }
-
 
 final class GetOrderError extends GetOrderState {
   final String message;
   const GetOrderError(this.message);
-   @override
+  @override
   List<Object> get props => [message];
 }
-

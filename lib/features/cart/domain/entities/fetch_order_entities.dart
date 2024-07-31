@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-class FetchedOrder extends Equatable{
+class FetchedOrder extends Equatable {
   final String id;
   final UserCart user;
   final List<ProductCart> products;
@@ -29,7 +29,6 @@ class UserCart extends Equatable {
   });
   
   @override
-  
   List<Object?> get props => [userName, email];
 }
 
@@ -37,7 +36,7 @@ class ProductCart extends Equatable {
   final String productName;
   final bool bestSelling;
   final double price;
-  final int quantity;
+  final double quantity;
   final String productDetail;
   final double rate;
   final String categoryName;

@@ -26,6 +26,7 @@ import 'package:supermarket/features/cart/data/repositories/create_order_reposit
 import 'package:supermarket/features/cart/domain/repositories/order_repo.dart';
 import 'package:supermarket/features/cart/domain/usecases/order_usecase.dart';
 import 'package:supermarket/features/cart/presentation/bloc/create_order_bloc/create_order_bloc.dart';
+import 'package:supermarket/features/cart/presentation/bloc/get_order_bloc/get_order_bloc.dart';
 import 'package:supermarket/features/explore/data/datasources/category_local_datasource.dart';
 import 'package:supermarket/features/explore/data/datasources/category_remote_datasource.dart';
 import 'package:supermarket/features/explore/data/repositories/category_repo_impl.dart';
@@ -267,5 +268,10 @@ Future<void> init() async {
   // create order Blocs
   sl.registerFactory(() => CreateOrderBloc(
         createOrderUsecase: sl(),
+      ));
+
+  // fetch order Blocs
+  sl.registerFactory(() => GetOrderBloc(
+          getOrderUseCase: sl(),
       ));
 }
