@@ -62,8 +62,8 @@ class Assets {
   static const String imagesPageView4 = "assets/images/pageView4.avif";
 
   /// Assets for imagesSearch
-  /// assets/images/search.jpg
-  static const String imagesSearch = "assets/images/search.jpg";
+  /// assets/images/search.gif
+  static const String imagesSearch = "assets/images/search.gif";
 
   /// Assets for imagesSingin
   /// assets/images/Singin.png

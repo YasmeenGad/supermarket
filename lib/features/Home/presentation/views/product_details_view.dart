@@ -110,6 +110,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                       context
                           .read<CreateOrderBloc>()
                           .add(CreateOrder([widget.products.id]));
+                          
                     },
                     child: CustomButton(text: "Add To Basket")),
                 const SizedBox(

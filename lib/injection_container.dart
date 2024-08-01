@@ -25,6 +25,7 @@ import 'package:supermarket/features/cart/data/datasources/order_remote_datasour
 import 'package:supermarket/features/cart/data/repositories/create_order_repository_impl.dart';
 import 'package:supermarket/features/cart/domain/repositories/order_repo.dart';
 import 'package:supermarket/features/cart/domain/usecases/order_usecase.dart';
+import 'package:supermarket/features/cart/presentation/bloc/bloc/get_total_order_bloc.dart';
 import 'package:supermarket/features/cart/presentation/bloc/create_order_bloc/create_order_bloc.dart';
 import 'package:supermarket/features/cart/presentation/bloc/get_order_bloc/get_order_bloc.dart';
 import 'package:supermarket/features/explore/data/datasources/category_local_datasource.dart';
@@ -227,6 +228,11 @@ Future<void> init() async {
         repository: sl(),
       ));
 
+      // get total orders use case
+  sl.registerLazySingleton(() => TotalOderUsecase(
+    repository: sl(),
+  ));
+
   // Auth Blocs
   sl.registerFactory(() => AuthBloc(
         login: sl(),
@@ -273,5 +279,10 @@ Future<void> init() async {
   // fetch order Blocs
   sl.registerFactory(() => GetOrderBloc(
           getOrderUseCase: sl(),
+      ));
+
+  // total order Blocs
+  sl.registerFactory(() => GetTotalOrderBloc(
+          totalOderUsecase: sl(),
       ));
 }

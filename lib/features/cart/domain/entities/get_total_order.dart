@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-class GetTotalOrder extends Equatable {
+class TotalOrder extends Equatable {
   final String id;
   final String userId;
   final int totalAmount;
@@ -8,7 +8,7 @@ class GetTotalOrder extends Equatable {
   final DateTime createdAt;
   final DateTime updatedAt;
 
-  const GetTotalOrder({
+  const TotalOrder({
     required this.id,
     required this.userId,
     required this.totalAmount,

@@ -4,6 +4,7 @@ import 'package:supermarket/features/cart/data/datasources/create_order_local_da
 import 'package:supermarket/features/cart/data/datasources/order_remote_datasource.dart';
 import 'package:supermarket/features/cart/domain/entities/create_order_entity.dart';
 import 'package:supermarket/features/cart/domain/entities/fetch_order_entities.dart';
+import 'package:supermarket/features/cart/domain/entities/get_total_order.dart';
 import 'package:supermarket/features/cart/domain/repositories/order_repo.dart';
 
 class OrderRepositoryImpl implements OrderRepository {
@@ -53,15 +54,39 @@ class OrderRepositoryImpl implements OrderRepository {
       } catch (e) {
         return Left('Failed to get order from local cache: $e');
       }
-    }else{
+    } else {
       try {
-      final fetchedOrder = await remoteDataSource.getOrder();
-      localDataSource.cacheFetchedOrder(fetchedOrder);
-      return Right(fetchedOrder);
-    } catch (e) {
-      return Left("$e");
+        final fetchedOrder = await remoteDataSource.getOrder();
+        localDataSource.cacheFetchedOrder(fetchedOrder);
+        return Right(fetchedOrder);
+      } catch (e) {
+        return Left("$e");
+      }
     }
+  }
+
+  @override
+  Future<Either<String, TotalOrder>> calculateOrderTotals(
+      String orderId) async {
+    if (!await networkInfo.isConnected) {
+      try {
+        final cachedTotalOrder = await localDataSource.getTotalOrder();
+        if (cachedTotalOrder != null) {
+          return Right(cachedTotalOrder);
+        } else {
+          return Left('No internet connection and no cached data available');
+        }
+      } catch (e) {
+        return Left('Failed to get total order from local cache: $e');
+      }
+    } else {
+      try {
+        final totalOrder = await remoteDataSource.getOrderTotals(orderId);
+        localDataSource.cacheTotalOrder(totalOrder);
+        return Right(totalOrder);
+      } catch (e) {
+        return Left('Failed to calculate total order: $e');
+      }
     }
-    
   }
 }

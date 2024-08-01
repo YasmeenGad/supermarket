@@ -1,7 +1,7 @@
 import 'package:supermarket/features/cart/domain/entities/get_total_order.dart';
 
-class GetTotalOrderModel extends GetTotalOrder {
-  const GetTotalOrderModel({
+class TotalOrderModel extends TotalOrder {
+  const TotalOrderModel({
     required String orderId,
     required String userId,
     required int totalAmount,
@@ -17,14 +17,14 @@ class GetTotalOrderModel extends GetTotalOrder {
           updatedAt: updatedAt,
         );
 
-  factory GetTotalOrderModel.fromJson(Map<String, dynamic> json) {
-    return GetTotalOrderModel(
-      orderId: json['orderId'],
-      userId: json['userId'],
-      totalAmount: json['totalAmount'],
-      totalPrice: json['totalPrice'],
-      createdAt: DateTime.parse(json['createdAt']),
-      updatedAt: DateTime.parse(json['updatedAt']),
+  factory TotalOrderModel.fromJson(Map<String, dynamic> json) {
+    return TotalOrderModel(
+      orderId: json['orderId'] as String,
+      userId: json['userId'] as String,
+      totalAmount: (json['totalAmount'] as num).toInt(),  // Convert to double
+      totalPrice: (json['totalPrice'] as num).toDouble(),    // Convert to double
+      createdAt: DateTime.parse(json['createdAt'] as String),
+      updatedAt: DateTime.parse(json['updatedAt'] as String),
     );
   }
 
