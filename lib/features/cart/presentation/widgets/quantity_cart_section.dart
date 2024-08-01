@@ -4,7 +4,7 @@ import 'package:supermarket/features/cart/presentation/widgets/custom_quantity_i
 
 class QuantityCartSection extends StatelessWidget {
   const QuantityCartSection({super.key, required this.quantity});
-  final double quantity;
+  final int quantity;
 
   @override
   Widget build(BuildContext context) {

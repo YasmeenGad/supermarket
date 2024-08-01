@@ -36,7 +36,7 @@ class ProductCart extends Equatable {
   final String productName;
   final bool bestSelling;
   final double price;
-  final double quantity;
+  final int quantity;
   final String productDetail;
   final double rate;
   final String categoryName;

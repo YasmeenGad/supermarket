@@ -27,15 +27,17 @@ class FetchedOrderModel extends FetchedOrder {
                 productName: product['productName'] ?? '',
                 bestSelling: product['bestSelling'] == 'true',
                 price: (product['price'] as num?)?.toDouble() ?? 0.0,
-                quantity: (product['quantity'] as num?)?.toDouble() ?? 0.0,
+                quantity: (product['quantity'] as num?)?.toInt() ?? 0,
                 productDetail: product['productDetail'] ?? '',
                 rate: (product['rate'] as num?)?.toDouble() ?? 0.0,
                 categoryName: product['categoryName'] ?? '',
                 photo: product['photo'] ?? '',
               ))
           .toList(),
-      createdAt: DateTime.parse(json['createdAt'] ?? DateTime.now().toIso8601String()),
-      updatedAt: DateTime.parse(json['updatedAt'] ?? DateTime.now().toIso8601String()),
+      createdAt:
+          DateTime.parse(json['createdAt'] ?? DateTime.now().toIso8601String()),
+      updatedAt:
+          DateTime.parse(json['updatedAt'] ?? DateTime.now().toIso8601String()),
     );
   }
 
