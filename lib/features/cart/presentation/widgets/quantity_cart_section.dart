@@ -14,9 +14,9 @@ class QuantityCartSection extends StatelessWidget {
           icon: Icons.remove,
           iconColor: Color(0xffB3B3B3),
         ),
-        const SizedBox(width: 12),
+        const SizedBox(width: 6),
         Text('${quantity}'),
-        const SizedBox(width: 12),
+        const SizedBox(width: 6),
         CustomQuantityIcon(
           icon: Icons.add,
           iconColor: primaryColor,
