@@ -29,7 +29,6 @@ class _HomeWidgetState extends State<HomeWidget> {
 
   @override
   void initState() {
-
     pageController.addListener(
       () {
         currentPageIndex = pageController.page!.round();
@@ -59,7 +58,9 @@ class _HomeWidgetState extends State<HomeWidget> {
               SliverToBoxAdapter(
                 child: Column(
                   children: [
-                     CustomAppBar(userName: widget.userName,),
+                    CustomAppBar(
+                      userName: widget.userName,
+                    ),
                     SizedBox(height: 12),
                     ImagePageView(
                       pageController: pageController,

@@ -11,43 +11,43 @@ class CustomHeaderExclusiveHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-                      children: [
-                        FittedBox(
-                            fit: BoxFit.scaleDown,
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              "Exclusive Offer",
-                              style: AppStyles.styleSemiBold24(context)
-                                  .copyWith(color: darkColor),
-                            )),
-                        Expanded(child: SizedBox()),
-                        FittedBox(
-                            fit: BoxFit.scaleDown,
-                            alignment: Alignment.centerLeft,
-                            child: InkWell(
-                              onTap: () {
-                                // Dispatch the event to fetch all products
-                                final allProductsState =
-                                    context.read<AllProductsBlocBloc>().state;
-                                if (allProductsState is AllProductsBlocLoaded) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => SeeAllProducts(
-                                        products: allProductsState.products,
-                                        title: 'Exclusive Offer',
-                                      ),
-                                    ),
-                                  );
-                                }
-                              },
-                              child: Text(
-                                "see all",
-                                style: AppStyles.styleSemiBold16(context)
-                                    .copyWith(color: primaryColor),
-                              ),
-                            )),
-                      ],
-                    );
+      children: [
+        FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.centerLeft,
+            child: Text(
+              "Exclusive Offer",
+              style:
+                  AppStyles.styleSemiBold24(context).copyWith(color: darkColor),
+            )),
+        Expanded(child: SizedBox()),
+        FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.centerLeft,
+            child: InkWell(
+              onTap: () {
+                // Dispatch the event to fetch all products
+                final allProductsState =
+                    context.read<AllProductsBlocBloc>().state;
+                if (allProductsState is AllProductsBlocLoaded) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SeeAllProducts(
+                        products: allProductsState.products,
+                        title: 'Exclusive Offer',
+                      ),
+                    ),
+                  );
+                }
+              },
+              child: Text(
+                "see all",
+                style: AppStyles.styleSemiBold16(context)
+                    .copyWith(color: primaryColor),
+              ),
+            )),
+      ],
+    );
   }
 }

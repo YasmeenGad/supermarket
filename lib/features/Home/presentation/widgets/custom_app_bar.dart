@@ -39,7 +39,9 @@ class _CustomAppBarState extends State<CustomAppBar> {
           position: badges.BadgePosition.topEnd(top: -5, end: 2),
           badgeContent: Text(''),
           child: IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(context, AppRoutes.cartRoute);
+              },
               icon: Icon(
                 CupertinoIcons.shopping_cart,
                 size: 30,

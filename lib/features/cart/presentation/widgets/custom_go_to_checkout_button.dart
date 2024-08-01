@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supermarket/core/constants/app_colors.dart';
 import 'package:supermarket/core/utils/app_styles.dart';
 import 'package:supermarket/core/widgets/custom_button.dart';
-import 'package:supermarket/features/cart/presentation/bloc/bloc/get_total_order_bloc.dart';
+import 'package:supermarket/features/cart/presentation/bloc/get_total_order.dart/get_total_order_bloc.dart';
 
 class CustomGoToCheckoutButton extends StatelessWidget {
   const CustomGoToCheckoutButton({super.key, this.state});
