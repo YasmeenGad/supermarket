@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supermarket/core/network/network_info.dart';
-import 'package:supermarket/core/widgets/custom_awesome_dialog.dart';
 import 'package:supermarket/core/widgets/custom_loading_indicator.dart';
 import 'package:supermarket/features/Home/presentation/bloc/BestSellingProducts/best_selling_products_bloc.dart';
 import 'package:supermarket/features/Home/presentation/bloc/all_product_bloc/all_products_bloc_bloc.dart';
@@ -12,6 +11,7 @@ import 'package:supermarket/features/Home/presentation/widgets/custom_header_bes
 import 'package:supermarket/features/Home/presentation/widgets/custom_header_exclusive_header.dart';
 import 'package:supermarket/features/Home/presentation/widgets/dot_indicator.dart';
 import 'package:supermarket/features/Home/presentation/widgets/exclusive_offer_widget_list_view.dart';
+import 'package:supermarket/features/cart/presentation/widgets/custom_container_internet_connection.dart';
 import 'package:supermarket/injection_container.dart';
 
 class HomeWidget extends StatefulWidget {
@@ -44,7 +44,6 @@ class _HomeWidgetState extends State<HomeWidget> {
     context.read<BestSellingProductsBloc>().add(GetBestSellingProducts());
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -52,7 +51,8 @@ class _HomeWidgetState extends State<HomeWidget> {
       height: MediaQuery.sizeOf(context).height,
       color: Colors.white,
       child: Padding(
-        padding: const EdgeInsets.only(top: 30, left: 16, right: 16, bottom: 16),
+        padding:
+            const EdgeInsets.only(top: 30, left: 16, right: 16, bottom: 16),
         child: CustomScrollView(
           slivers: [
             SliverToBoxAdapter(
@@ -69,15 +69,19 @@ class _HomeWidgetState extends State<HomeWidget> {
                   BlocListener<AllProductsBlocBloc, AllProductsBlocState>(
                     listener: (context, state) {
                       if (state is AllProductsBlocError) {
-                        CustomAwesomDialog.showErrorDialog(context, state.message);
+                        CustomContainerInternetConnection(
+                          state: "${state.message}",
+                        );
                       }
                     },
-                    child: BlocBuilder<AllProductsBlocBloc, AllProductsBlocState>(
+                    child:
+                        BlocBuilder<AllProductsBlocBloc, AllProductsBlocState>(
                       builder: (context, state) {
                         if (state is AllProductsBlocLoading) {
                           return CustomLoadingIndicator();
                         } else if (state is AllProductsBlocLoaded) {
-                          return ExclusiveOfferWidgetListView(products: state.products);
+                          return ExclusiveOfferWidgetListView(
+                              products: state.products);
                         }
                         return SizedBox();
                       },
@@ -86,18 +90,23 @@ class _HomeWidgetState extends State<HomeWidget> {
                   SizedBox(height: 16),
                   CustomHeaderBestSelling(),
                   SizedBox(height: 16),
-                  BlocListener<BestSellingProductsBloc, BestSellingProductsState>(
+                  BlocListener<BestSellingProductsBloc,
+                      BestSellingProductsState>(
                     listener: (context, state) {
                       if (state is BestSellingProductsError) {
-                        CustomAwesomDialog.showErrorDialog(context, state.message);
+                        CustomContainerInternetConnection(
+                          state: "${state.message}",
+                        );
                       }
                     },
-                    child: BlocBuilder<BestSellingProductsBloc, BestSellingProductsState>(
+                    child: BlocBuilder<BestSellingProductsBloc,
+                        BestSellingProductsState>(
                       builder: (context, state) {
                         if (state is BestSellingProductsLoading) {
                           return CustomLoadingIndicator();
                         } else if (state is BestSellingProductsLoaded) {
-                          return CustomBestSellingListView(product: state.products);
+                          return CustomBestSellingListView(
+                              product: state.products);
                         }
                         return SizedBox();
                       },

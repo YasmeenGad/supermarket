@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:supermarket/core/constants/app_colors.dart';
-import 'package:supermarket/core/utils/assets.dart';
 import 'package:supermarket/core/widgets/custom_awesome_dialog.dart';
 import 'package:supermarket/core/widgets/custom_loading_indicator.dart';
 import 'package:supermarket/features/cart/presentation/bloc/get_total_order.dart/get_total_order_bloc.dart';
 import 'package:supermarket/features/cart/presentation/bloc/get_order_bloc/get_order_bloc.dart';
 import 'package:supermarket/features/cart/presentation/widgets/custom_cart_container.dart';
 import 'package:supermarket/features/cart/presentation/widgets/custom_cart_list.dart';
+import 'package:supermarket/features/cart/presentation/widgets/custom_container_internet_connection.dart';
 import 'package:supermarket/features/cart/presentation/widgets/custom_empty_cart_content.dart';
 import 'package:supermarket/features/cart/presentation/widgets/custom_go_to_checkout_button.dart';
 
@@ -45,27 +44,14 @@ class CustomCartViewBody extends StatelessWidget {
               }
             } else if (state is GetOrderError) {
               if (state.message != "Exception: Order not found") {
-              return  Container(
-                width: MediaQuery.sizeOf(context).width,
-                height: MediaQuery.sizeOf(context).height,
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                    Image.asset(Assets.imagesNoConnection),
-                    Text("${state.message}",
-                    textAlign: TextAlign.center,
-                     style: TextStyle(color: darkColor, fontSize: 18),),
-                  ],),
-                ),
-              );
+              return  CustomContainerInternetConnection(state: "${state.message}",);
               } else {
                 return CustomEmptyCartContent();
               }
             } else {
               return CustomEmptyCartContent();
             }
-            return Container();
+          
           },
         ),
       ),
