@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supermarket/features/cart/data/models/fetch_order_model.dart';
 import 'package:supermarket/features/cart/data/models/get_total_order_model.dart';
-import '../models/order_model.dart';
 
 abstract class OrderLocalDataSource {
   Future<void> cacheFetchedOrder(FetchedOrderModel fetchedOrder);
