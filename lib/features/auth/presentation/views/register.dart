@@ -171,7 +171,7 @@ class _RegisterState extends State<Register> {
             },
           ),
           const SizedBox(
-            height: 25,
+            height: 16,
           ),
 
           CustomTextAuth(text: 'Already have an account?', textAuth: 'Login', route: AppRoutes.loginRoute),

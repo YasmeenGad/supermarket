@@ -19,6 +19,19 @@ class ProductDetailsView extends StatefulWidget {
 }
 
 class _ProductDetailsViewState extends State<ProductDetailsView> {
+  bool _showSuccessAnimation = false;
+
+  void _showAnimation() {
+    setState(() {
+      _showSuccessAnimation = true;
+    });
+    Future.delayed(Duration(seconds: 2), () {
+      setState(() {
+        _showSuccessAnimation = false;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     print(widget.products);
@@ -47,76 +60,108 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
           ),
         ],
       ),
-      body: CustomScrollView(
-        slivers: [
-          SliverToBoxAdapter(
-              child: Padding(
-            padding: const EdgeInsets.only(left: 25, right: 25, top: 8),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                CustomProductDetailsImage(
-                  image: "${widget.products.photo}",
-                ),
-                CustomListTileProductDetails(
-                  productName: widget.products.productName,
-                  productDetails: widget.products.productDetail,
-                ),
-                const SizedBox(
-                  height: 25,
-                ),
-                CustomQuantity(
-                  price: "${widget.products.price}",
-                  quantity: widget.products.quantity,
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                const Divider(
-                  thickness: 1,
-                  height: 12,
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                Text(
-                  "Product Details",
-                  style: AppStyles.styleSemiBold20(context)
-                      .copyWith(color: darkColor),
-                ),
-                Text(
-                  "Enjoy top quality and fresh taste with this product. Perfect for enhancing your meals and boosting your nutrition. Selected from the best suppliers for your satisfaction.",
-                  style: AppStyles.styleMedium13(context)
-                      .copyWith(color: secondaryColor),
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                const Divider(
-                  thickness: 1,
-                  height: 12,
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                CustomReview(rate: widget.products.rate),
-                const SizedBox(
-                  height: 24,
-                ),
-                GestureDetector(
-                    onTap: () {
-                      context
-                          .read<CreateOrderBloc>()
-                          .add(CreateOrder([widget.products.id]));
-                    },
-                    child: CustomButton(text: "Add To Basket")),
-                const SizedBox(
-                  height: 8,
-                ),
+      body: BlocListener<CreateOrderBloc, CreateOrderState>(
+        listener: (context, state) {
+          if (state is CreateOrderSuccess) {
+            _showAnimation();
+          }
+          // Handle other states if needed
+        },
+        child: Stack(
+          children: [
+            CustomScrollView(
+              slivers: [
+                SliverToBoxAdapter(
+                    child: Padding(
+                  padding: const EdgeInsets.only(left: 25, right: 25, top: 8),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      CustomProductDetailsImage(
+                        image: "${widget.products.photo}",
+                      ),
+                      CustomListTileProductDetails(
+                        productName: widget.products.productName,
+                        productDetails: widget.products.productDetail,
+                      ),
+                      const SizedBox(
+                        height: 25,
+                      ),
+                      CustomQuantity(
+                        price: "${widget.products.price}",
+                        quantity: widget.products.quantity,
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      const Divider(
+                        thickness: 1,
+                        height: 12,
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      Text(
+                        "Product Details",
+                        style: AppStyles.styleSemiBold20(context)
+                            .copyWith(color: darkColor),
+                      ),
+                      Text(
+                        "Enjoy top quality and fresh taste with this product. Perfect for enhancing your meals and boosting your nutrition. Selected from the best suppliers for your satisfaction.",
+                        style: AppStyles.styleMedium13(context)
+                            .copyWith(color: secondaryColor),
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      const Divider(
+                        thickness: 1,
+                        height: 12,
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      CustomReview(rate: widget.products.rate),
+                      const SizedBox(
+                        height: 24,
+                      ),
+                      GestureDetector(
+                          onTap: () {
+                            context
+                                .read<CreateOrderBloc>()
+                                .add(CreateOrder([widget.products.id]));
+                          },
+                          child: CustomButton(text: "Add To Basket")),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                    ],
+                  ),
+                ))
               ],
             ),
-          ))
-        ],
+            Center(
+              child: AnimatedOpacity(
+                opacity: _showSuccessAnimation ? 1.0 : 0.0,
+                duration: Duration(milliseconds: 500),
+                child: Column(
+                  children: [
+                    Icon(
+                      Icons.check_circle,
+                      color: Colors.green,
+                      size: 100,
+                    ),
+                    Text(
+                      "Added To Cart",
+                      style: AppStyles.styleSemiBold20(context)
+                          .copyWith(color: darkColor),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
