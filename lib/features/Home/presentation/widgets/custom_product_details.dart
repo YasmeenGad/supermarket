@@ -15,7 +15,6 @@ class CustomProductDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return CustomScrollView(
       slivers: [
         SliverToBoxAdapter(
@@ -39,11 +38,13 @@ class CustomProductDetails extends StatelessWidget {
                 SizedBox(height: 16),
                 Text(
                   "Product Details",
-                  style: AppStyles.styleSemiBold20(context).copyWith(color: darkColor),
+                  style: AppStyles.styleSemiBold20(context)
+                      .copyWith(color: darkColor),
                 ),
                 Text(
                   "Enjoy top quality and fresh taste with this product. Perfect for enhancing your meals and boosting your nutrition. Selected from the best suppliers for your satisfaction.",
-                  style: AppStyles.styleMedium13(context).copyWith(color: secondaryColor),
+                  style: AppStyles.styleMedium13(context)
+                      .copyWith(color: secondaryColor),
                 ),
                 SizedBox(height: 16),
                 Divider(thickness: 1, height: 12),
@@ -52,7 +53,9 @@ class CustomProductDetails extends StatelessWidget {
                 SizedBox(height: 24),
                 GestureDetector(
                   onTap: () {
-                    context.read<CreateOrderBloc>().add(CreateOrder([products.id]));
+                    context
+                        .read<CreateOrderBloc>()
+                        .add(CreateOrder([products.id]));
                   },
                   child: CustomButton(text: "Add To Basket"),
                 ),
@@ -64,4 +67,4 @@ class CustomProductDetails extends StatelessWidget {
       ],
     );
   }
-  }
+}

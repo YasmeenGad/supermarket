@@ -12,8 +12,6 @@ class CustomOverlay extends StatefulWidget {
 }
 
 class _CustomOverlayState extends State<CustomOverlay> {
-  
-
   @override
   Widget build(BuildContext context) {
     return Center(

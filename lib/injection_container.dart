@@ -40,13 +40,8 @@ import 'package:supermarket/features/filter/data/repositories/filtered_products_
 import 'package:supermarket/features/filter/domain/repositories/filtered_products_repo.dart';
 import 'package:supermarket/features/filter/domain/usecases/filtered_products_usecase.dart';
 import 'package:supermarket/features/filter/presentation/bloc/filtered_products_bloc/filtered_products_bloc.dart';
-import 'package:supermarket/features/explore/data/datasources/search_category_remote_datasource.dart';
 import 'package:supermarket/features/search/data/datasources/search_remote_datasource.dart';
-import 'package:supermarket/features/explore/data/repositories/search_category_repo_impl.dart';
-import 'package:supermarket/features/search/data/repositories/search_product_repo_impl.dart';
-import 'package:supermarket/features/explore/domain/repositories/search_category_repo.dart';
-import 'package:supermarket/features/search/domain/repositories/search_product_repo.dart';
-import 'package:supermarket/features/explore/domain/usecases/search_category_usecase.dart';
+
 import 'package:supermarket/features/search/domain/usecases/search_product_usecase.dart';
 import 'package:supermarket/features/explore/presentation/bloc/search_category_bloc/search_category_bloc.dart';
 import 'package:supermarket/features/search/presentation/bloc/search_product_bloc/search_product_bloc.dart';
@@ -103,12 +98,6 @@ Future<void> init() async {
   sl.registerLazySingleton<CategoryLocalDataSource>(
       () => CategoryLocalDataSourceImpl(sharedPreferences: sharedPreferences));
 
-  // search category data source
-  sl.registerLazySingleton<SearchCategoryRemoteDatasource>(
-      () => SearchCategoryRemoteDatasourceImpl(
-            client: httpClient,
-            authLocalDataSource: sl(),
-          ));
   // filter products remote data source
   sl.registerLazySingleton<FilteredProductsRemoteDatasource>(
       () => FilteredProductsRemoteDatasourceImpl(
@@ -148,12 +137,7 @@ Future<void> init() async {
         networkInfo: sl(),
       ));
 
-  // Search Repositories
-  sl.registerLazySingleton<SearchProductsRepository>(
-      () => SearchProductsRepositoryImpl(
-            networkInfo: sl(),
-            searchRemoteDatasource: sl(),
-          ));
+
 
   // explore Repositories
   sl.registerLazySingleton<CategoryRepository>(() => CategoryRepositoryImpl(
@@ -161,13 +145,6 @@ Future<void> init() async {
         remoteDataSource: sl(),
         localDataSource: sl(),
       ));
-
-  // search category Repositories
-  sl.registerLazySingleton<SearchCategoryRepository>(
-      () => SearchCategoryRepoImpl(
-            networkInfo: sl(),
-            searchCategoryRemoteDatasource: sl(),
-          ));
 
   // Filter Products Repositories
   sl.registerLazySingleton<FilteredProductsRepository>(
