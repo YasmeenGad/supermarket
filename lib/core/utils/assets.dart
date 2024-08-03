@@ -45,6 +45,10 @@ class Assets {
   /// assets/images/meat.png
   static const String imagesMeat = "assets/images/meat.png";
 
+  /// Assets for imagesNoConnection
+  /// assets/images/noConnection.gif
+  static const String imagesNoConnection = "assets/images/noConnection.gif";
+
   /// Assets for imagesPageView1
   /// assets/images/pageView1.jpg
   static const String imagesPageView1 = "assets/images/pageView1.jpg";
@@ -60,6 +64,7 @@ class Assets {
   /// Assets for imagesPageView4
   /// assets/images/pageView4.avif
   static const String imagesPageView4 = "assets/images/pageView4.avif";
+
 
   /// Assets for imagesSearch
   /// assets/images/search.gif

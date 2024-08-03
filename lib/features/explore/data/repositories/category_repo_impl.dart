@@ -18,9 +18,14 @@ class CategoryRepositoryImpl implements CategoryRepository {
   });
 
   @override
-  Future<Either<dynamic, List<Categories>>> getCategories() async {
+  Future<Either<String, List<Categories>>> getCategories() async {
     if (!await networkInfo.isConnected) {
-      return await left(localDataSource.getCachedCategories());
+      try {
+        final cachedCategories = await localDataSource.getCachedCategories();
+        return right(cachedCategories);
+      } catch (e) {
+        return left('Failed to load cached categories: $e');
+      }
     }
     try {
       final remoteCategories = await remoteDataSource.getAllCategories();
@@ -32,30 +37,15 @@ class CategoryRepositoryImpl implements CategoryRepository {
   }
 
   @override
-  Future<Either<String, SearchedCategory>> getSearchedCategory(
-      String categoryName) async {
+  Future<Either<String, SearchedCategory>> getSearchedCategory(String categoryName) async {
     if (!await networkInfo.isConnected) {
       return left('No internet connection');
     }
     try {
-      final remoteCategory =
-          await remoteDataSource.getSearchedCategory(categoryName);
-      return Right(remoteCategory);
+      final remoteCategory = await remoteDataSource.getSearchedCategory(categoryName);
+      return right(remoteCategory);
     } catch (e) {
-      return Left("Failed to get category: $e");
+      return left('Failed to get category: $e');
     }
   }
-
-  // @override
-  // Future<Either<String, SearchedCategory>> getSearchedCategory(String categoryName) async{
-  //   if (!await networkInfo.isConnected) {
-  //     return left('No internet connection');
-  //   }
-  //   try {
-  //     final remoteCategory = remoteDataSource.getCategory(categoryName);
-  //     return Right(remoteCategory as SearchedCategory);
-  //   } catch (e) {
-  //     return left('Failed to get category: $e');
-  //   }
-  // }
 }

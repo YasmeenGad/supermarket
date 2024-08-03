@@ -39,7 +39,7 @@ class OrderRepositoryImpl implements OrderRepository {
         if (cachedFetchedOrder != null) {
           return Right(cachedFetchedOrder);
         } else {
-          return Left('No internet connection and no cached data available');
+          return Left('No internet connection and\n no cached data available');
         }
       } catch (e) {
         return Left('Failed to get order from local cache: $e');
