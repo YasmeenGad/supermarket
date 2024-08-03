@@ -22,7 +22,7 @@ class CustomEmptyCartContent extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  "Looks like you haven't added anything to your cart yet",
+                  "Looks like you haven't added\n anything to your cart yet",
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 14, color: secondaryColor),
                 ),

@@ -1,11 +1,10 @@
-// product.dart
 class FilteredProducts {
   final String id;
   final int quantity;
   final String productName;
-  final int price;
+  final double price;
   final String productDetail;
-  final int rate;
+  final double rate;
   final String photo;
   final bool bestSelling;
 

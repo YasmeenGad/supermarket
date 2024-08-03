@@ -18,7 +18,9 @@ class CustomCartViewBody extends StatelessWidget {
       child: BlocListener<GetOrderBloc, GetOrderState>(
         listener: (context, state) {
           if (state is GetOrderSuccess) {
-            _fetchTotalOrder(context, state.orders.id);
+            if (state.orders.products.isNotEmpty) {
+              _fetchTotalOrder(context, state.orders.id);
+            }
           }
         },
         child: BlocBuilder<GetOrderBloc, GetOrderState>(
@@ -26,19 +28,30 @@ class CustomCartViewBody extends StatelessWidget {
             if (state is GetOrderLoading) {
               return const Center(child: CustomLoadingIndicator());
             } else if (state is GetOrderSuccess) {
-              return Stack(
-                children: [
-                  CustomCartList(state),
-                  if (state.orders.products.isNotEmpty)
-                    CustomGoToCheckoutButton(
-                      state: state,
-                    ),
-                ],
-              );
+              if (state.orders.products.isEmpty) {
+                return CustomEmptyCartContent();
+              } else {
+                return Stack(
+                  children: [
+                    CustomCartList(state),
+                    if (state.orders.products.isNotEmpty)
+                      CustomGoToCheckoutButton(
+                        state: state,
+                      ),
+                  ],
+                );
+              }
             } else if (state is GetOrderError) {
-              _showErrorDialog(context, state.message);
+              // Only show error dialog if it's not the "order not found" error
+              if (state.message != "Exception: Order not found") {
+                _showErrorDialog(context, state.message);
+              } else {
+                return CustomEmptyCartContent();
+              }
+            } else {
+              return CustomEmptyCartContent();
             }
-            return CustomEmptyCartContent();
+            return Container();
           },
         ),
       ),

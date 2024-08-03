@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supermarket/core/constants/app_colors.dart';
-import 'package:supermarket/core/utils/app_routes.dart';
 import 'package:supermarket/core/utils/app_styles.dart';
 import 'package:supermarket/core/widgets/custom_button.dart';
 import 'package:supermarket/features/Home/presentation/widgets/custom_list_tile_product_details.dart';
@@ -106,11 +105,9 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                 ),
                 GestureDetector(
                     onTap: () {
-                      Navigator.pushNamed(context, AppRoutes.cartRoute);
                       context
                           .read<CreateOrderBloc>()
                           .add(CreateOrder([widget.products.id]));
-                          
                     },
                     child: CustomButton(text: "Add To Basket")),
                 const SizedBox(
