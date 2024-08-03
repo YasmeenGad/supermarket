@@ -145,6 +145,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                 opacity: _showSuccessAnimation ? 1.0 : 0.0,
                 duration: Duration(milliseconds: 500),
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Icon(
                       Icons.check_circle,
@@ -152,9 +153,9 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                       size: 100,
                     ),
                     Text(
-                      "Added To Cart",
+                      "Added To Cart Successfully",
                       style: AppStyles.styleSemiBold20(context)
-                          .copyWith(color: darkColor),
+                          .copyWith(color: primaryColor),
                     ),
                   ],
                 ),

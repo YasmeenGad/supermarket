@@ -19,14 +19,7 @@ class ListTileCartSection extends StatelessWidget {
         "${subtitle}",
         style: AppStyles.styleMedium14(context).copyWith(color: secondaryColor),
       ),
-      trailing: IconButton(
-        onPressed: () {},
-        icon: Icon(
-          Icons.close,
-          size: 14,
-          color: Color(0xffB3B3B3),
-        ),
-      ),
+     
     );
   }
 }

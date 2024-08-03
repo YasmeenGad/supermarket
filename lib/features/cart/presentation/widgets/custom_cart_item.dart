@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:supermarket/core/constants/app_colors.dart';
 import 'package:supermarket/core/utils/app_styles.dart';
 import 'package:supermarket/features/cart/domain/entities/fetch_order_entities.dart';
-import 'package:supermarket/features/cart/presentation/widgets/list_tile_cart_section.dart';
+import 'package:supermarket/features/cart/presentation/widgets/custom_cart_details.dart';
 import 'package:supermarket/features/cart/presentation/widgets/quantity_cart_section.dart';
 
 class CustomCartItem extends StatelessWidget {
@@ -45,28 +45,30 @@ class CustomCartItem extends StatelessWidget {
                   ),
                 ),
                 SizedBox(width: 16),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ListTileCartSection(
-                        title: order.categoryName,
-                        subtitle: order.productDetail,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          QuantityCartSection(
-                            quantity: order.quantity,
-                          ),
-                          Text(
-                            "\$${order.price}",
-                            style: AppStyles.styleSemiBold18(context)
-                                .copyWith(color: darkColor),
-                          ),
-                        ],
-                      ),
-                    ],
+                Flexible(
+                  child: Container(
+                    height: 120,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CustomCartDetails(productName: order.productName, productDetail: order.productDetail,),
+                
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            QuantityCartSection(
+                              quantity: order.quantity,
+                            ),
+                            Text(
+                              "\$${order.price}",
+                              style: AppStyles.styleSemiBold18(context)
+                                  .copyWith(color: darkColor),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],

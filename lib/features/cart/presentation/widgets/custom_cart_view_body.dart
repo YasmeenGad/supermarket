@@ -42,7 +42,6 @@ class CustomCartViewBody extends StatelessWidget {
                 );
               }
             } else if (state is GetOrderError) {
-              // Only show error dialog if it's not the "order not found" error
               if (state.message != "Exception: Order not found") {
                 _showErrorDialog(context, state.message);
               } else {
