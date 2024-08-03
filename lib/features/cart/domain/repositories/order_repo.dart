@@ -10,4 +10,6 @@ abstract class OrderRepository {
 
   Future<Either<String, TotalOrder>> calculateOrderTotals(String orderId);
 
+  Future<Either<String, MyOrder>> updateOrder(String orderId, List<String> productIds);
+
 }

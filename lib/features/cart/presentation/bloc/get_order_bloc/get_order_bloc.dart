@@ -7,7 +7,7 @@ part 'get_order_event.dart';
 part 'get_order_state.dart';
 
 class GetOrderBloc extends Bloc<GetOrderEvent, GetOrderState> {
-  final GetOrderUseCase getOrderUseCase;
+  final OrderUsecases getOrderUseCase;
   GetOrderBloc({required this.getOrderUseCase}) : super(GetOrderInitial()) {
     on<GetOrder>(_getOrderEvent);
   }
@@ -15,7 +15,7 @@ class GetOrderBloc extends Bloc<GetOrderEvent, GetOrderState> {
   Future<void> _getOrderEvent(
       GetOrder event, Emitter<GetOrderState> emit) async {
     emit(GetOrderLoading());
-    final result = await getOrderUseCase();
+    final result = await getOrderUseCase.getOrder();
     result.fold(
       (l) => emit(GetOrderError(l.toString())),
       (r) => emit(GetOrderSuccess(r)),

@@ -20,20 +20,10 @@ class OrderRepositoryImpl implements OrderRepository {
   @override
   Future<Either<String, MyOrder>> createOrder(List<String> productIds) async {
     if (!await networkInfo.isConnected) {
-      try {
-        final cachedOrder = await localDataSource.getLastOrder();
-        if (cachedOrder != null) {
-          return Right(cachedOrder);
-        } else {
-          return Left('No internet connection and no cached data available');
-        }
-      } catch (e) {
-        return Left('Failed to get order from local cache: $e');
-      }
+      return Left('No internet connection');
     }
     try {
       final order = await remoteDataSource.createOrder(productIds);
-      localDataSource.cacheOrder(order);
       return Right(order);
     } catch (e) {
       return Left('Failed to create order: $e');
@@ -89,4 +79,18 @@ class OrderRepositoryImpl implements OrderRepository {
       }
     }
   }
-}
+  
+  @override
+  Future<Either<String, MyOrder>> updateOrder(String orderId, List<String> productIds) async{
+    if (!await networkInfo.isConnected) {
+      return Left('No internet connection');
+    }
+    try {
+      final order = await remoteDataSource.updateOrder(orderId, productIds);
+      return Right(order);
+    } catch (e) {
+      return Left('Failed to update order: $e');
+    }
+  }
+  }
+

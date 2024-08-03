@@ -11,6 +11,7 @@ abstract class OrderRemoteDataSource {
   Future<OrderModel> createOrder(List<String> productIds);
   Future<FetchedOrderModel> getOrder();
   Future<TotalOrderModel> getOrderTotals(String orderId);
+  Future<OrderModel> updateOrder(String orderId, List<String> productIds);
 }
 
 class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
@@ -86,6 +87,31 @@ class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
       return TotalOrderModel.fromJson(json.decode(response.body));
     } else {
       throw Exception('Failed to calculate order totals');
+    }
+  }
+  
+  @override
+  Future<OrderModel> updateOrder(String orderId, List<String> productIds) async{
+    final token = await authLocalDataSource.getCachedLoginResponse();
+    final cachedToken = token?.token;
+    final response = await client.patch(
+      Uri.parse('http://$ip:4000/order/add/$orderId'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $cachedToken',
+      },
+      body: jsonEncode({'products': productIds}),
+    );
+
+    if (response.statusCode == 200) {
+      final json = jsonDecode(response.body);
+      if (json['status']) {
+        return OrderModel.fromJson(json['order']);
+      } else {
+        throw Exception(json['message']);
+      }
+    } else {
+      throw Exception(jsonDecode(response.body)['message']);
     }
   }
 }

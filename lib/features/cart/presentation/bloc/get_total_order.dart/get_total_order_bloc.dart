@@ -7,7 +7,7 @@ part 'get_total_order_event.dart';
 part 'get_total_order_state.dart';
 
 class GetTotalOrderBloc extends Bloc<GetTotalOrderEvent, GetTotalOrderState> {
-  final TotalOderUsecase totalOderUsecase;
+  final OrderUsecases totalOderUsecase;
   GetTotalOrderBloc({required this.totalOderUsecase}) : super(GetTotalOrderInitial()) {
     on<GetTotalOrder>(_getTotalOrder);
   }
@@ -15,7 +15,7 @@ class GetTotalOrderBloc extends Bloc<GetTotalOrderEvent, GetTotalOrderState> {
   Future<void> _getTotalOrder(
       GetTotalOrder event, Emitter<GetTotalOrderState> emit) async {
     emit(GetTotalOrderLoading());
-    final result = await totalOderUsecase(event.orderId);
+    final result = await totalOderUsecase.calculateOrderTotals(event.orderId);
     result.fold(
       (l) => emit(GetTotalOrderError(message:l)),
       (r) => emit(GetTotalOrderSuccess(totalOrder: r)),

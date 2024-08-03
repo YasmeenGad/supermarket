@@ -218,20 +218,10 @@ Future<void> init() async {
         sl(),
       ));
 
-  // create order use case
-  sl.registerLazySingleton(() => CreateOrderUsecase(
+  //order use case
+  sl.registerLazySingleton(() => OrderUsecases(
         repository: sl(),
       ));
-
-  // fetch order use case
-  sl.registerLazySingleton(() => GetOrderUseCase(
-        repository: sl(),
-      ));
-
-      // get total orders use case
-  sl.registerLazySingleton(() => TotalOderUsecase(
-    repository: sl(),
-  ));
 
   // Auth Blocs
   sl.registerFactory(() => AuthBloc(
@@ -273,16 +263,16 @@ Future<void> init() async {
 
   // create order Blocs
   sl.registerFactory(() => CreateOrderBloc(
-        createOrderUsecase: sl(),
+        orderUsecases: sl(),
       ));
 
   // fetch order Blocs
   sl.registerFactory(() => GetOrderBloc(
-          getOrderUseCase: sl(),
+        getOrderUseCase: sl(),
       ));
 
   // total order Blocs
   sl.registerFactory(() => GetTotalOrderBloc(
-          totalOderUsecase: sl(),
+        totalOderUsecase: sl(),
       ));
 }

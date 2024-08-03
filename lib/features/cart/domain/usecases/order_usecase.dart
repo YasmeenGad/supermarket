@@ -4,30 +4,28 @@ import 'package:supermarket/features/cart/domain/entities/fetch_order_entities.d
 import 'package:supermarket/features/cart/domain/entities/get_total_order.dart';
 import 'package:supermarket/features/cart/domain/repositories/order_repo.dart';
 
-class CreateOrderUsecase {
+typedef OrderResult = Either<String, MyOrder>;
+typedef FetchedOrderResult = Either<String, FetchedOrder>;
+typedef TotalOrderResult = Either<String, TotalOrder>;
+
+class OrderUsecases {
   final OrderRepository repository;
 
-  CreateOrderUsecase({required this.repository});
+  OrderUsecases({required this.repository});
 
-  Future<Either<String, MyOrder>> call(List<String> productIds) async {
+  Future<OrderResult> createOrder(List<String> productIds) async {
     return await repository.createOrder(productIds);
   }
-}
 
-class GetOrderUseCase{
-  final OrderRepository repository;
-  GetOrderUseCase({required this.repository});
-
-  Future<Either<String, FetchedOrder>> call() async {
+  Future<FetchedOrderResult> getOrder() async {
     return await repository.getOrder();
   }
-}
 
-class TotalOderUsecase{
-  final OrderRepository repository;
-  TotalOderUsecase({required this.repository});
-
-  Future<Either<String, TotalOrder>> call(String orderId) async {
+  Future<TotalOrderResult> calculateOrderTotals(String orderId) async {
     return await repository.calculateOrderTotals(orderId);
+  }
+
+  Future<OrderResult> updateOrder(String orderId, List<String> productIds) async {
+    return await repository.updateOrder(orderId, productIds);
   }
 }
