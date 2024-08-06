@@ -175,14 +175,10 @@ Future<void> init() async {
       ));
 
   // explore use case
-  sl.registerLazySingleton(() => GetCategoriesUseCase(
+  sl.registerLazySingleton(() => CategoryUsecase(
         sl(),
       ));
 
-  // search category use case
-  sl.registerLazySingleton(() => SearchCategoryUsecase(
-        sl(),
-      ));
 
   // Filter Products use case
   sl.registerLazySingleton(() => FilteredProductsUsecase(

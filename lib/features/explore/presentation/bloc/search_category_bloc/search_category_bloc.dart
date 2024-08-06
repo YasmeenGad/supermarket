@@ -6,7 +6,7 @@ part 'search_category_event.dart';
 part 'search_category_state.dart';
 
 class SearchCategoryBloc extends Bloc<SearchCategoryEvent, SearchCategoryState> {
-  final SearchCategoryUsecase CategoryUseCase;
+  final CategoryUsecase CategoryUseCase;
   SearchCategoryBloc({required this.CategoryUseCase}) : super(SearchCategoryInitial()) {
     on<GetCategoryEvent>(_onGetCategoryEvent);
         on<ClearSearchEvent>((event, emit) {
@@ -16,7 +16,7 @@ class SearchCategoryBloc extends Bloc<SearchCategoryEvent, SearchCategoryState> 
 
   Future<void> _onGetCategoryEvent(GetCategoryEvent event, Emitter<SearchCategoryState> emit) async {
     emit(SearchCategoryLoading());
-    final result = await CategoryUseCase(event.categoryName);
+    final result = await CategoryUseCase.getSearchedCategory(event.categoryName);
     result.fold(
       (failure) => emit(SearchCategoryError(message: failure.toString())),
       (category) => emit(SearchCategoryLoaded(category: category)),

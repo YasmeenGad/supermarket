@@ -3,22 +3,20 @@ import 'package:supermarket/features/explore/domain/entities/category.dart';
 import 'package:supermarket/features/explore/domain/entities/searched_category.dart';
 import 'package:supermarket/features/explore/domain/repositories/category_repo.dart';
 
-class GetCategoriesUseCase {
-  final CategoryRepository repository;
 
-  GetCategoriesUseCase(this.repository);
+typedef CategoryResult = Either<String, List<Categories>>;
+typedef SearchedCategoryResult = Either<String, SearchedCategory>;
 
-  Future<Either<dynamic, List<Categories>>> call() async {
-    return await repository.getCategories();
+class CategoryUsecase{
+  CategoryRepository categoryRepository;
+
+  CategoryUsecase(this.categoryRepository);
+
+  Future<CategoryResult> getCategories() async {
+    return await categoryRepository.getCategories();
   }
-  
-}
-class SearchCategoryUsecase {
-  final CategoryRepository repository;
 
-  SearchCategoryUsecase(this.repository);
-
-  Future<Either<String, SearchedCategory>> call(String categoryName) async{
-    return await repository.getSearchedCategory(categoryName);
+  Future<SearchedCategoryResult> getSearchedCategory(String categoryName) async{
+    return await categoryRepository.getSearchedCategory(categoryName);
   }
 }
