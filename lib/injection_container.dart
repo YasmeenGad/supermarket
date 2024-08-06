@@ -8,7 +8,6 @@ import 'package:supermarket/features/Home/data/datasources/product_remote_data_s
 import 'package:supermarket/features/Home/data/repositories/product_repositories_impl.dart';
 import 'package:supermarket/features/Home/domain/repositories/product_repository.dart';
 import 'package:supermarket/features/Home/domain/usecases/get_all_products_usecase.dart';
-import 'package:supermarket/features/Home/domain/usecases/get_best_selling_product_usecase.dart';
 import 'package:supermarket/features/Home/presentation/bloc/BestSellingProducts/best_selling_products_bloc.dart';
 import 'package:supermarket/features/Home/presentation/bloc/all_product_bloc/all_products_bloc_bloc.dart';
 
@@ -135,8 +134,6 @@ Future<void> init() async {
         networkInfo: sl(),
       ));
 
-
-
   // explore Repositories
   sl.registerLazySingleton<CategoryRepository>(() => CategoryRepositoryImpl(
         networkInfo: sl(),
@@ -164,10 +161,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => AuthUsecase(authRepositories: sl()));
 
   // Product Use cases
-  sl.registerLazySingleton(() => GetAllProducts(sl()));
-
-  // Best Selling Products Use Case
-  sl.registerLazySingleton(() => GetBestSellingProductUsecase(sl()));
+  sl.registerLazySingleton(() => GetProductsUseCase(sl()));
 
   // search use case
   sl.registerLazySingleton(() => SearchProductUsecase(
@@ -178,7 +172,6 @@ Future<void> init() async {
   sl.registerLazySingleton(() => CategoryUsecase(
         sl(),
       ));
-
 
   // Filter Products use case
   sl.registerLazySingleton(() => FilteredProductsUsecase(
@@ -193,16 +186,15 @@ Future<void> init() async {
   // Auth Blocs
   sl.registerFactory(() => AuthBloc(
         authUsecase: sl(),
-
       ));
 
   // Product Blocs
   sl.registerFactory(() => AllProductsBlocBloc(
-        getAllProducts: sl(),
+        getProductsUseCase: sl(),
       ));
   // Best Sellin Products Blocs
   sl.registerFactory(() => BestSellingProductsBloc(
-        bestSellingProductUsecase: sl(),
+        getProductsUseCase: sl(),
       ));
 
   // Search Blocs

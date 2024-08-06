@@ -7,15 +7,15 @@ part 'all_products_bloc_event.dart';
 part 'all_products_bloc_state.dart';
 
 class AllProductsBlocBloc extends Bloc<AllProductsBlocEvent, AllProductsBlocState> {
-  final GetAllProducts getAllProducts;
+  final GetProductsUseCase getProductsUseCase;
 
-  AllProductsBlocBloc({required this.getAllProducts}) : super(AllProductsBlocInitial()) {
+  AllProductsBlocBloc({required this.getProductsUseCase}) : super(AllProductsBlocInitial()) {
     on<FetchProducts>(_onFetchProducts);
   }
 
   Future<void> _onFetchProducts(FetchProducts event, Emitter<AllProductsBlocState> emit) async {
     emit(AllProductsBlocLoading());
-    final result = await getAllProducts();
+    final result = await getProductsUseCase.getAllProducts();
 
     result.fold(
       (failure) => emit(AllProductsBlocError(failure.toString())),
