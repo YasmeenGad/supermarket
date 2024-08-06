@@ -17,7 +17,7 @@ class FilteredProductsBloc
   Future<void> _getProductsByCategory(GetProductsByCategoryEvent event,
       Emitter<FilteredProductsState> emit) async {
     emit(FilteredProductsLoading());
-    final result = await filteredProductsUsecase(event.categoryName);
+    final result = await filteredProductsUsecase.getProductsByCategory(event.categoryName);
     result.fold(
       (failure) => emit(FilteredProductsError(message: failure.toString())),
       (filteredProducts) =>
