@@ -1,33 +1,23 @@
-// lib/features/favorites/data/models/favorites_model.dart
+import 'package:supermarket/features/favorite/domain/entities/favorite_data.dart';
 
-import 'package:equatable/equatable.dart';
+class FavoriteModel extends Favorites {
+  FavoriteModel({
+    required List<String> products,
+    required String id,
+    required DateTime createdAt,
+    required DateTime updatedAt,
+  }) : super(
+            products: products,
+            id: id,
+            createdAt: createdAt,
+            updatedAt: updatedAt);
 
-class FavoritesModel extends Equatable {
-  final bool status;
-  final String message;
-  final FavoritesData favorites;
-
-  const FavoritesModel({
-    required this.status,
-    required this.message,
-    required this.favorites,
-  });
-
-  factory FavoritesModel.fromJson(Map<String, dynamic> json) {
-    return FavoritesModel(
-      status: json['status'],
-      message: json['message'],
-      favorites: FavoritesData.fromJson(json['favorites']),
+  factory FavoriteModel.fromJson(Map<String, dynamic> json) {
+    return FavoriteModel(
+      products: List<String>.from(json['products'].map((x) => x)),
+      id: json['id'],
+      createdAt: DateTime.parse(json['created_at']),
+      updatedAt: DateTime.parse(json['updated_at']),
     );
   }
-
-  @override
-  List<Object> get props => [status, message, favorites];
 }
-
-
-
-
-
-
-
