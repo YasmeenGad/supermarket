@@ -25,6 +25,12 @@ class Assets {
   /// assets/images/eggs.png
   static const String imagesEggs = "assets/images/eggs.png";
 
+  /// Assets for imagesEmptyWishList
+  /// assets/images/emptyWishList.png
+  static const String imagesEmptyWishList = "assets/images/emptyWishList.png";
+
+
+
   /// Assets for imagesEmptycart
   /// assets/images/emptycart.gif
   static const String imagesEmptycart = "assets/images/emptycart.gif";
@@ -64,7 +70,6 @@ class Assets {
   /// Assets for imagesPageView4
   /// assets/images/pageView4.avif
   static const String imagesPageView4 = "assets/images/pageView4.avif";
-
 
   /// Assets for imagesSearch
   /// assets/images/search.gif

@@ -4,6 +4,7 @@ import 'package:supermarket/core/constants/app_colors.dart';
 import 'package:supermarket/features/Home/presentation/widgets/home_widget.dart';
 import 'package:supermarket/features/cart/presentation/views/cart_view.dart';
 import 'package:supermarket/features/explore/presentation/views/all_categories_view.dart';
+import 'package:supermarket/features/favorite/presentation/views/fav_view.dart';
 
 class HomeLayout extends StatefulWidget {
   const HomeLayout({super.key, required this.userName});
@@ -24,7 +25,7 @@ late List<Widget> widgetOptions;
       HomeWidget(userName: widget.userName),
       AllCategoriesView(),
       CartView(),
-      Container(),
+      FavView(),
       Container(),
     ];
   }
