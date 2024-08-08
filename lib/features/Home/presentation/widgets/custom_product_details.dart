@@ -57,6 +57,7 @@ class CustomProductDetails extends StatelessWidget {
                     context
                         .read<CreateOrderBloc>()
                         .add(CreateOrder([products.id]));
+
                   },
                   child: CustomButton(text: "Add To Basket"),
                 ),

@@ -1,36 +1,32 @@
-// lib/features/favorites/data/datasources/favorites_local_data_source.dart
-
 import 'dart:convert';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:supermarket/features/favorite/data/models/favorite_data_model.dart';
 
-abstract class FavoritesLocalDataSource {
-  Future<FavoriteModel?> getLastFavoriteProducts();
-  Future<void> cacheFavoriteProducts(FavoriteModel favoriteToCache);
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:supermarket/features/favorite/data/models/get_fav_model.dart';
+
+abstract class FavoriteLocalDataSource {
+  Future<FavoriteProductsModel> getLastFavorite();
+  Future<void> cacheFavorite(FavoriteProductsModel favoriteModel);
 }
 
-const CACHED_FAVORITE_PRODUCTS = 'CACHED_FAVORITE_PRODUCTS';
-
-class FavoritesLocalDataSourceImpl implements FavoritesLocalDataSource {
+class FavoriteLocalDataSourceImpl implements FavoriteLocalDataSource {
   final SharedPreferences sharedPreferences;
 
-  FavoritesLocalDataSourceImpl({required this.sharedPreferences});
+  FavoriteLocalDataSourceImpl(this.sharedPreferences);
 
   @override
-  Future<FavoriteModel?> getLastFavoriteProducts() {
-    final jsonString = sharedPreferences.getString(CACHED_FAVORITE_PRODUCTS);
+  Future<FavoriteProductsModel> getLastFavorite() {
+    final jsonString = sharedPreferences.getString('CACHED_FAVORITE');
     if (jsonString != null) {
-      return Future.value(FavoriteModel.fromJson(json.decode(jsonString)));
+      return Future.value(FavoriteProductsModel.fromJson(json.decode(jsonString)));
     } else {
-      return Future.value(null);
+      throw Exception('No favorite cached');
     }
   }
 
   @override
-  Future<void> cacheFavoriteProducts(FavoriteModel favoriteToCache) {
+  Future<void> cacheFavorite(FavoriteProductsModel favoriteModel) {
     return sharedPreferences.setString(
-      CACHED_FAVORITE_PRODUCTS,
-      json.encode(favoriteToCache.toJson()),
+      'CACHED_FAVORITE',json.encode(favoriteModel.toJson()),
     );
   }
 }

@@ -1,10 +1,12 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:supermarket/core/constants/app_colors.dart';
 import 'package:supermarket/core/utils/app_styles.dart';
-import 'package:supermarket/core/utils/assets.dart';
+import 'package:supermarket/features/favorite/domain/entities/fav_products.dart';
 
 class CustomFavItem extends StatelessWidget {
-  const CustomFavItem({super.key});
+  const CustomFavItem({super.key, required this.favorite});
+  final Favorite favorite;
 
   @override
   Widget build(BuildContext context) {
@@ -25,11 +27,15 @@ class CustomFavItem extends StatelessWidget {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(12),
-                  child: Image.asset(
-                    Assets.imagesApple,
-                    fit: BoxFit.cover,
-                    height: MediaQuery.sizeOf(context).height * 0.15,
-                  ),
+                  child: CachedNetworkImage(
+                      imageUrl: "${favorite.products[0].photo}",
+                      fit: BoxFit.cover,
+                      placeholder: (context, url) =>
+                          Center(child: CircularProgressIndicator()),
+                      errorWidget: (context, url, error) => Icon(
+                            Icons.error,
+                            color: Colors.red,
+                          )),
                 ),
                 const SizedBox(width: 8),
                 Expanded(
@@ -38,12 +44,12 @@ class CustomFavItem extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Apple",
+                        "${favorite.products[0].productName}",
                         style: AppStyles.styleBold16(context)
                             .copyWith(color: darkColor),
                       ),
                       Text(
-                        "1 kg",
+                        "${favorite.products[0].productDetail}",
                         style: AppStyles.styleMedium14(context)
                             .copyWith(color: secondaryColor),
                       ),
@@ -51,11 +57,16 @@ class CustomFavItem extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  "\$ 1.00",
-                  style: AppStyles.styleSemiBold16(context).copyWith(color: darkColor)
+                  "\$${favorite.products[0].price}",
+                  style: AppStyles.styleSemiBold16(context)
+                      .copyWith(color: darkColor)
                       .copyWith(color: darkColor),
                 ),
-            Icon(Icons.arrow_forward_ios, size: 20,)
+                SizedBox(width: 8,),
+                Icon(
+                  Icons.arrow_forward_ios,
+                  size: 20,
+                )
               ],
             ),
           ),

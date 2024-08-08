@@ -10,6 +10,7 @@ import 'package:supermarket/features/cart/presentation/bloc/create_order_bloc/cr
 import 'package:supermarket/features/cart/presentation/bloc/get_order_bloc/get_order_bloc.dart';
 import 'package:supermarket/features/explore/presentation/bloc/categoruBloc/category_bloc.dart';
 import 'package:supermarket/features/favorite/presentation/bloc/add_faorite_bloc/add_favorite_bloc.dart';
+import 'package:supermarket/features/favorite/presentation/bloc/get_favorite/get_favorite_bloc.dart';
 import 'package:supermarket/features/filter/presentation/bloc/filtered_products_bloc/filtered_products_bloc.dart';
 import 'package:supermarket/features/explore/presentation/bloc/search_category_bloc/search_category_bloc.dart';
 import 'package:supermarket/features/search/presentation/bloc/search_product_bloc/search_product_bloc.dart';
@@ -46,6 +47,7 @@ class SuperMarket extends StatelessWidget {
           BlocProvider(create: (context) => sl<GetOrderBloc>()),
           BlocProvider(create: (context) => sl<GetTotalOrderBloc>()),
           BlocProvider(create: (context) => sl<AddFavoriteBloc>()),
+          BlocProvider(create: (context) => sl<GetFavoriteBloc>())
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,

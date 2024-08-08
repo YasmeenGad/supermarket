@@ -10,6 +10,7 @@ import 'package:supermarket/features/auth/presentation/views/register.dart';
 import 'package:supermarket/features/auth/presentation/views/reset_password.dart';
 import 'package:supermarket/features/auth/presentation/views/verify_otp.dart';
 import 'package:supermarket/features/cart/presentation/views/cart_view.dart';
+import 'package:supermarket/features/favorite/presentation/views/fav_view.dart';
 import 'package:supermarket/features/filter/presentation/views/filtered_products_view.dart';
 import 'package:supermarket/features/search/presentation/views/search_view.dart';
 import 'package:supermarket/features/splash/presentation/views/onboarding_view.dart';
@@ -29,6 +30,7 @@ class AppRoutes {
   static const String filteredProductsViewRoute='filteredProductsViewRoute';
   static const String seeAllProductsRoute='seeAllProductsRoute';
   static const String cartRoute='cartRoute';
+  static const String favRoute='favRoute';
   static Map<String, WidgetBuilder> getRoutes() {
     return {
       splashView: (context) => const SplashView(),
@@ -46,6 +48,7 @@ class AppRoutes {
       filteredProductsViewRoute: (context) =>  FilteredProductsView(categoryName: ModalRoute.of(context)!.settings.arguments as String ),
       seeAllProductsRoute: (context) =>  SeeAllProducts(title: ModalRoute.of(context)!.settings.arguments as String, products: ModalRoute.of(context)!.settings.arguments as List, ),
       cartRoute: (context) => const CartView(),
+      favRoute: (context) =>  FavView(productId: ModalRoute.of(context)!.settings.arguments as String),
     };
   }
 }

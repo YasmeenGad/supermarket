@@ -4,7 +4,7 @@ import 'package:supermarket/core/constants/app_colors.dart';
 import 'package:supermarket/features/Home/presentation/widgets/home_widget.dart';
 import 'package:supermarket/features/cart/presentation/views/cart_view.dart';
 import 'package:supermarket/features/explore/presentation/views/all_categories_view.dart';
-import 'package:supermarket/features/favorite/presentation/views/fav_view.dart';
+import 'package:supermarket/features/favorite/presentation/views/fav_view.dart'; // Ensure this import is correct
 
 class HomeLayout extends StatefulWidget {
   const HomeLayout({super.key, required this.userName});
@@ -16,7 +16,7 @@ class HomeLayout extends StatefulWidget {
 
 class _HomeLayoutState extends State<HomeLayout> {
   int selectedIndex = 0;
-late List<Widget> widgetOptions;
+  late List<Widget> widgetOptions;
 
   @override
   void initState() {
@@ -25,11 +25,10 @@ late List<Widget> widgetOptions;
       HomeWidget(userName: widget.userName),
       AllCategoriesView(),
       CartView(),
-      FavView(),
-      Container(),
+      FavView(productId: ''), // Provide a default value or adjust as needed
+      Container(), // Consider replacing with a meaningful widget or remove if not used
     ];
   }
-
 
   void onItemTapped(int index) {
     setState(() {
@@ -57,7 +56,6 @@ late List<Widget> widgetOptions;
           child: BottomNavigationBar(
             elevation: 2,
             type: BottomNavigationBarType.fixed,
-            // showSelectedLabels: true,
             iconSize: 24,
             backgroundColor: Colors.white,
             items: const <BottomNavigationBarItem>[

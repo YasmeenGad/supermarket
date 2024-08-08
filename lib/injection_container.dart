@@ -37,6 +37,7 @@ import 'package:supermarket/features/favorite/data/repositories/favorites_repo_i
 import 'package:supermarket/features/favorite/domain/repositories/favorites_repo.dart';
 import 'package:supermarket/features/favorite/domain/usecases/favorites_usecase.dart';
 import 'package:supermarket/features/favorite/presentation/bloc/add_faorite_bloc/add_favorite_bloc.dart';
+import 'package:supermarket/features/favorite/presentation/bloc/get_favorite/get_favorite_bloc.dart';
 import 'package:supermarket/features/filter/data/datasources/filtered_products_local_datasource.dart';
 import 'package:supermarket/features/filter/data/datasources/filtered_products_remote_datasource.dart';
 import 'package:supermarket/features/filter/data/repositories/filtered_products_repo_impl.dart';
@@ -134,8 +135,8 @@ Future<void> init() async {
   );
 
   // add favorite local data source
-  sl.registerLazySingleton<FavoritesLocalDataSource>(
-    () => FavoritesLocalDataSourceImpl(sharedPreferences: sharedPreferences),
+  sl.registerLazySingleton<FavoriteLocalDataSource>(
+    () => FavoriteLocalDataSourceImpl(sharedPreferences),
   );
 
   // Auth Repositories
@@ -265,6 +266,11 @@ Future<void> init() async {
 
   // add favorite Blocs
   sl.registerFactory(() => AddFavoriteBloc(
+        sl(),
+      ));
+
+      // get favorite Blocs
+  sl.registerFactory(() => GetFavoriteBloc(
         sl(),
       ));
 }

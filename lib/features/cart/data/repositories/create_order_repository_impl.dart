@@ -25,8 +25,8 @@ class OrderRepositoryImpl implements OrderRepository {
 
     try {
       return Right(await remoteDataSource.createOrder(productIds));
-    } on Exception catch (e) {
-      return Left('Failed to create order: $e');
+    }  catch (e) {
+      return Left('Failed to create order');
     }
   }
 
@@ -41,7 +41,7 @@ class OrderRepositoryImpl implements OrderRepository {
           return Left('No internet connection and no cached data available');
         }
       } catch (e) {
-        return Left('Failed to get order from local cache: $e');
+        return Left('Failed to get order from local cache');
       }
     } else {
       try {
@@ -49,7 +49,7 @@ class OrderRepositoryImpl implements OrderRepository {
         await localDataSource.cacheFetchedOrder(fetchedOrder);
         return Right(fetchedOrder);
       } catch (e) {
-        return Left('Failed to get order: $e');
+        return Left('Failed to get order');
       }
     }
   }
