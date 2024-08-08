@@ -31,6 +31,12 @@ import 'package:supermarket/features/explore/data/repositories/category_repo_imp
 import 'package:supermarket/features/explore/domain/repositories/category_repo.dart';
 import 'package:supermarket/features/explore/domain/usecases/category_usecase.dart';
 import 'package:supermarket/features/explore/presentation/bloc/categoruBloc/category_bloc.dart';
+import 'package:supermarket/features/favorite/data/datasources/favorite_remote_datasource.dart';
+import 'package:supermarket/features/favorite/data/datasources/favorites_local_data_source.dart';
+import 'package:supermarket/features/favorite/data/repositories/favorites_repo_impl.dart';
+import 'package:supermarket/features/favorite/domain/repositories/favorites_repo.dart';
+import 'package:supermarket/features/favorite/domain/usecases/favorites_usecase.dart';
+import 'package:supermarket/features/favorite/presentation/bloc/add_faorite_bloc/add_favorite_bloc.dart';
 import 'package:supermarket/features/filter/data/datasources/filtered_products_local_datasource.dart';
 import 'package:supermarket/features/filter/data/datasources/filtered_products_remote_datasource.dart';
 import 'package:supermarket/features/filter/data/repositories/filtered_products_repo_impl.dart';
@@ -114,10 +120,22 @@ Future<void> init() async {
       authLocalDataSource: sl(),
     ),
   );
+  // add favorite remote data source
+  sl.registerLazySingleton<FavoritesRemoteDataSource>(
+    () => FavoritesRemoteDataSourceImpl(
+      client: httpClient,
+      authLocalDataSource: sl(),
+    ),
+  );
 
   // create order local data source
   sl.registerLazySingleton<OrderLocalDataSource>(
     () => OrderLocalDataSourceImpl(sharedPreferences: sharedPreferences),
+  );
+
+  // add favorite local data source
+  sl.registerLazySingleton<FavoritesLocalDataSource>(
+    () => FavoritesLocalDataSourceImpl(sharedPreferences: sharedPreferences),
   );
 
   // Auth Repositories
@@ -157,6 +175,14 @@ Future<void> init() async {
       remoteDataSource: sl(),
     ),
   );
+  // add favorite Repositories
+  sl.registerLazySingleton<FavoritesRepository>(
+    () => FavoritesRepositoryImpl(
+      localDataSource: sl(),
+      networkInfo: sl(),
+      remoteDataSource: sl(),
+    ),
+  );
   // Auth Use cases
   sl.registerLazySingleton(() => AuthUsecase(authRepositories: sl()));
 
@@ -181,6 +207,11 @@ Future<void> init() async {
   //order use case
   sl.registerLazySingleton(() => OrderUsecases(
         repository: sl(),
+      ));
+
+  // add favorite use case
+  sl.registerLazySingleton(() => FavoritesUsecase(
+        sl(),
       ));
 
   // Auth Blocs
@@ -230,5 +261,10 @@ Future<void> init() async {
   // total order Blocs
   sl.registerFactory(() => GetTotalOrderBloc(
         totalOderUsecase: sl(),
+      ));
+
+  // add favorite Blocs
+  sl.registerFactory(() => AddFavoriteBloc(
+        sl(),
       ));
 }

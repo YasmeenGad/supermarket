@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supermarket/core/constants/app_colors.dart';
 import 'package:supermarket/core/utils/app_styles.dart';
+import 'package:supermarket/features/favorite/presentation/bloc/add_faorite_bloc/add_favorite_bloc.dart';
 
 class CustomListTileProductDetails extends StatelessWidget {
   const CustomListTileProductDetails(
-      {super.key, required this.productName, required this.productDetails});
+      {super.key, required this.productName, required this.productDetails, required this.productId});
   final String productName;
   final String productDetails;
+  final String productId;
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +31,17 @@ class CustomListTileProductDetails extends StatelessWidget {
               style: AppStyles.styleMedium16(context)
                   .copyWith(color: secondaryColor),
             ),
-            trailing: Icon(
-              Icons.favorite_outline,
-              color: darkColor,
+            trailing: GestureDetector(
+              onTap: () {
+                // Dispatch the event to add product to favorites
+                context
+                    .read<AddFavoriteBloc>()
+                    .add(AddFavorite( [productId]));
+              },
+              child: Icon(
+                Icons.favorite_outline,
+                color: darkColor,
+              ),
             ),
           ),
         )

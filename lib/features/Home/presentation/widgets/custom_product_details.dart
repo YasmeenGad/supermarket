@@ -27,6 +27,7 @@ class CustomProductDetails extends StatelessWidget {
                 CustomListTileProductDetails(
                   productName: products.productName,
                   productDetails: products.productDetail,
+                  productId: products.id,
                 ),
                 SizedBox(height: 25),
                 CustomQuantity(
