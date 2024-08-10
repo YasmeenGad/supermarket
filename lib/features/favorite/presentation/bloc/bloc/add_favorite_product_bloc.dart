@@ -18,7 +18,7 @@ class AddFavoriteProductBloc
   Future<void> _addFavoriteProduct(
       AddFavoriteProduct event, Emitter<AddFavoriteProductState> emit) async {
     emit(AddFavoriteProductLoading());
-    final isAdded = await addFavoriteProductsUseCase.call(event.productIds);
+    final isAdded = await addFavoriteProductsUseCase.addFavoriteProducts(event.productIds);
 
     isAdded.fold((l) => emit(AddFavoriteProductFailure(message: l.toString())),
         (r) => emit(AddFavoriteProductSuccess(addFavorite: r)));
