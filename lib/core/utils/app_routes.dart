@@ -48,7 +48,7 @@ class AppRoutes {
       filteredProductsViewRoute: (context) =>  FilteredProductsView(categoryName: ModalRoute.of(context)!.settings.arguments as String ),
       seeAllProductsRoute: (context) =>  SeeAllProducts(title: ModalRoute.of(context)!.settings.arguments as String, products: ModalRoute.of(context)!.settings.arguments as List, ),
       cartRoute: (context) => const CartView(),
-      favRoute: (context) =>  FavView(productId: ModalRoute.of(context)!.settings.arguments as String),
+      favRoute: (context) =>  FavView(),
     };
   }
 }

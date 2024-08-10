@@ -8,7 +8,9 @@ class GetFavoriteProductModel extends GetFavoriteProduct {
     required int quantity,
     required String productDetail,
     required String photo,
+    required double rate,
   }) : super(
+          rate: rate,
           id: id,
           productName: productName,
           price: price,
@@ -19,6 +21,7 @@ class GetFavoriteProductModel extends GetFavoriteProduct {
 
   factory GetFavoriteProductModel.fromJson(Map<String, dynamic> json) {
     return GetFavoriteProductModel(
+      rate: json['rate'].toDouble(),
       id: json['_id'],
       productName: json['productName'],
       price: json['price'].toDouble(),
@@ -26,6 +29,18 @@ class GetFavoriteProductModel extends GetFavoriteProduct {
       productDetail: json['productDetail'],
       photo: json['photo'],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'rate': rate,
+      '_id': id,
+      'productName': productName,
+      'price': price,
+      'quantity': quantity,
+      'productDetail': productDetail,
+      'photo': photo,
+    };
   }
 }
 
@@ -48,11 +63,22 @@ class GetFavoriteModel extends GetFavorite {
     return GetFavoriteModel(
       id: json['_id'],
       products: List<GetFavoriteProductModel>.from(
-        json['products'].map((productJson) => GetFavoriteProductModel.fromJson(productJson)),
+        json['products'].map(
+            (productJson) => GetFavoriteProductModel.fromJson(productJson)),
       ),
       user: json['user'],
       createdAt: DateTime.parse(json['createdAt']),
       updatedAt: DateTime.parse(json['updatedAt']),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      '_id': id,
+      'products': products.map((product) => (product as GetFavoriteProductModel).toJson()).toList(),  // Convert each product to JSON
+      'user': user,
+      'createdAt': createdAt.toIso8601String(),
+      'updatedAt': updatedAt.toIso8601String(),
+    };
   }
 }

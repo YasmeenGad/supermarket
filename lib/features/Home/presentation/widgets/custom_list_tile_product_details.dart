@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supermarket/core/constants/app_colors.dart';
+import 'package:supermarket/core/utils/app_routes.dart';
 import 'package:supermarket/core/utils/app_styles.dart';
 import 'package:supermarket/features/favorite/presentation/bloc/add_fav_products/add_favorite_product_bloc.dart';
-import 'package:supermarket/features/favorite/presentation/views/fav_view.dart';
+import 'package:supermarket/features/favorite/presentation/bloc/get_fav_products/get_favorite_products_bloc.dart';
 
 class CustomListTileProductDetails extends StatelessWidget {
   const CustomListTileProductDetails(
@@ -65,15 +66,11 @@ class CustomListTileProductDetails extends StatelessWidget {
             ),
           );
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
+          context
+              .read<GetFavoriteProductsBloc>()
+              .add(GetFavoriteProducts(id: state.addFavorite.id));
           // Navigate to the FavoriteView
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => FavView(
-                      productId: state.addFavorite.id,
-                    )),
-          );
+          Navigator.pushNamed(context, AppRoutes.favRoute);
         } else if (state is AddFavoriteProductFailure) {
           // Dismiss the loading Snackbar
           ScaffoldMessenger.of(context).hideCurrentSnackBar();
@@ -84,7 +81,7 @@ class CustomListTileProductDetails extends StatelessWidget {
               children: [
                 Icon(Icons.error, color: Colors.white),
                 SizedBox(width: 10),
-                Text('Failed to add to favorites!'),
+                Text('${state.message}'),
               ],
             ),
             backgroundColor: Colors.red,

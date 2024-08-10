@@ -5,9 +5,11 @@ class GetFavoriteProduct {
   final int quantity;
   final String productDetail;
   final String photo;
+  final double rate;
 
   GetFavoriteProduct({
     required this.id,
+    required this.rate,
     required this.productName,
     required this.price,
     required this.quantity,

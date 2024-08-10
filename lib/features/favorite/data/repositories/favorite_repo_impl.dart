@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:supermarket/core/network/network_info.dart';
+import 'package:supermarket/features/favorite/data/datasources/favorite_local_datasource.dart';
 import 'package:supermarket/features/favorite/data/datasources/favorite_remote_datasource.dart';
 import 'package:supermarket/features/favorite/domain/entities/add_favorite.dart';
 import 'package:supermarket/features/favorite/domain/entities/get_favorite.dart';
@@ -7,10 +8,13 @@ import 'package:supermarket/features/favorite/domain/repositories/favorite_repo.
 
 class FavoriteRepositoryImpl implements FavoriteRepository {
   final FavoriteRemoteDataSource remoteDataSource;
+  final FavoriteLocalDataSource localDataSource;
   final NetworkInfo networkInfo;
 
   FavoriteRepositoryImpl(
-      {required this.remoteDataSource, required this.networkInfo});
+      {required this.remoteDataSource,
+      required this.networkInfo,
+      required this.localDataSource});
 
   @override
   Future<Either<String, AddFavorite>> addFavoriteProducts(
@@ -29,10 +33,22 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
   @override
   Future<Either<String, GetFavorite>> getFavoriteProducts(String id) async {
     if (!await networkInfo.isConnected) {
-      return Left('No internet connection');
+      try {
+        final cachedFavorite =
+            await localDataSource.getCachedFavoriteProducts();
+        if (cachedFavorite != null) {
+          return Right(cachedFavorite);
+        } else {
+          return const Left(
+              'No Internet Connection and No Cached Data Available');
+        }
+      } catch (e) {
+        return Left(e.toString());
+      }
     }
     try {
       final favorite = await remoteDataSource.getFavoriteProducts(id);
+      await localDataSource.cacheFavoriteProducts(favorite);
       return Right(favorite);
     } catch (e) {
       return Left(e.toString());

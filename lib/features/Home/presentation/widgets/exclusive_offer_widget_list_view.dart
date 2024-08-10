@@ -9,9 +9,8 @@ class ExclusiveOfferWidgetListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // grid view
     return SizedBox(
-      height: 275,
+      height: 270,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: products.length,

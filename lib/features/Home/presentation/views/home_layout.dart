@@ -25,7 +25,7 @@ class _HomeLayoutState extends State<HomeLayout> {
       HomeWidget(userName: widget.userName),
       AllCategoriesView(),
       CartView(),
-      FavView(productId: ''), // Provide a default value or adjust as needed
+      FavView(), // Provide a default value or adjust as needed
       Container(), // Consider replacing with a meaningful widget or remove if not used
     ];
   }

@@ -31,11 +31,13 @@ import 'package:supermarket/features/explore/data/repositories/category_repo_imp
 import 'package:supermarket/features/explore/domain/repositories/category_repo.dart';
 import 'package:supermarket/features/explore/domain/usecases/category_usecase.dart';
 import 'package:supermarket/features/explore/presentation/bloc/categoruBloc/category_bloc.dart';
+import 'package:supermarket/features/favorite/data/datasources/favorite_local_datasource.dart';
 import 'package:supermarket/features/favorite/data/datasources/favorite_remote_datasource.dart';
 import 'package:supermarket/features/favorite/data/repositories/favorite_repo_impl.dart';
 import 'package:supermarket/features/favorite/domain/repositories/favorite_repo.dart';
 import 'package:supermarket/features/favorite/domain/usecases/favorite_usecase.dart';
 import 'package:supermarket/features/favorite/presentation/bloc/add_fav_products/add_favorite_product_bloc.dart';
+import 'package:supermarket/features/favorite/presentation/bloc/get_fav_products/get_favorite_products_bloc.dart';
 
 import 'package:supermarket/features/filter/data/datasources/filtered_products_local_datasource.dart';
 import 'package:supermarket/features/filter/data/datasources/filtered_products_remote_datasource.dart';
@@ -44,6 +46,8 @@ import 'package:supermarket/features/filter/domain/repositories/filtered_product
 import 'package:supermarket/features/filter/domain/usecases/filtered_products_usecase.dart';
 import 'package:supermarket/features/filter/presentation/bloc/filtered_products_bloc/filtered_products_bloc.dart';
 import 'package:supermarket/features/search/data/datasources/search_remote_datasource.dart';
+import 'package:supermarket/features/search/data/repositories/search_product_repo_impl.dart';
+import 'package:supermarket/features/search/domain/repositories/search_product_repo.dart';
 
 import 'package:supermarket/features/search/domain/usecases/search_product_usecase.dart';
 import 'package:supermarket/features/explore/presentation/bloc/search_category_bloc/search_category_bloc.dart';
@@ -127,7 +131,12 @@ Future<void> init() async {
       authLocalDataSource: sl(),
     ),
   );
-
+// add favorite local data source
+  sl.registerLazySingleton<FavoriteLocalDataSource>(
+    () => FavoriteLocalDataSourceImpl(
+      sharedPreferences: sharedPreferences,
+    ),
+  );
   // create order local data source
   sl.registerLazySingleton<OrderLocalDataSource>(
     () => OrderLocalDataSourceImpl(sharedPreferences: sharedPreferences),
@@ -170,9 +179,16 @@ Future<void> init() async {
       remoteDataSource: sl(),
     ),
   );
+  // search Repositories
+  sl.registerLazySingleton<SearchProductsRepository>(
+    () => SearchProductsRepositoryImpl(
+      networkInfo: sl(),
+      searchRemoteDatasource: sl(),
+    ),
+  );
   // add favorite Repositories
   sl.registerLazySingleton<FavoriteRepository>(
-    () => FavoriteRepositoryImpl(remoteDataSource: sl(), networkInfo: sl()),
+    () => FavoriteRepositoryImpl(remoteDataSource: sl(), networkInfo: sl(), localDataSource: sl()),
   );
   // Auth Use cases
   sl.registerLazySingleton(() => AuthUsecase(authRepositories: sl()));
@@ -256,6 +272,11 @@ Future<void> init() async {
 
   // add favorite Blocs
   sl.registerFactory(() => AddFavoriteProductBloc(
+        sl(),
+      ));
+
+  // get favorite products Blocs
+  sl.registerFactory(() => GetFavoriteProductsBloc(
         sl(),
       ));
 }
