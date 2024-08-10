@@ -27,7 +27,15 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
   }
 
   @override
-  Future<Either<String, GetFavorite>> getFavoriteProducts(String id) {
-    throw UnimplementedError();
+  Future<Either<String, GetFavorite>> getFavoriteProducts(String id) async {
+    if (!await networkInfo.isConnected) {
+      return Left('No internet connection');
+    }
+    try {
+      final favorite = await remoteDataSource.getFavoriteProducts(id);
+      return Right(favorite);
+    } catch (e) {
+      return Left(e.toString());
+    }
   }
 }

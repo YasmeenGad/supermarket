@@ -9,7 +9,7 @@ import 'package:supermarket/features/cart/presentation/bloc/get_total_order.dart
 import 'package:supermarket/features/cart/presentation/bloc/create_order_bloc/create_order_bloc.dart';
 import 'package:supermarket/features/cart/presentation/bloc/get_order_bloc/get_order_bloc.dart';
 import 'package:supermarket/features/explore/presentation/bloc/categoruBloc/category_bloc.dart';
-import 'package:supermarket/features/favorite/presentation/bloc/bloc/add_favorite_product_bloc.dart';
+import 'package:supermarket/features/favorite/presentation/bloc/add_fav_products/add_favorite_product_bloc.dart';
 
 import 'package:supermarket/features/filter/presentation/bloc/filtered_products_bloc/filtered_products_bloc.dart';
 import 'package:supermarket/features/explore/presentation/bloc/search_category_bloc/search_category_bloc.dart';

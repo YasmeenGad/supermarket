@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supermarket/core/constants/app_colors.dart';
 import 'package:supermarket/core/utils/app_styles.dart';
-import 'package:supermarket/features/favorite/presentation/bloc/bloc/add_favorite_product_bloc.dart';
+import 'package:supermarket/features/favorite/presentation/bloc/add_fav_products/add_favorite_product_bloc.dart';
 import 'package:supermarket/features/favorite/presentation/views/fav_view.dart';
 
 class CustomListTileProductDetails extends StatelessWidget {
