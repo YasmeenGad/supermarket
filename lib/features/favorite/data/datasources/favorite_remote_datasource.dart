@@ -4,9 +4,11 @@ import 'package:supermarket/features/auth/data/datasources/auth_local_datasource
 import 'dart:convert';
 
 import 'package:supermarket/features/favorite/data/models/add_favorite_model.dart';
+import 'package:supermarket/features/favorite/data/models/get_favorite_model.dart';
 
 abstract class FavoriteRemoteDataSource {
   Future<AddFavoriteModel> addFavoriteProducts(List<String> productIds);
+  Future<GetFavoriteModel> getFavoriteProducts(String id);
 }
 
 class FavoriteRemoteDataSourceImpl implements FavoriteRemoteDataSource {
@@ -36,6 +38,26 @@ class FavoriteRemoteDataSourceImpl implements FavoriteRemoteDataSource {
       print('Failed to add favorite products');
       print(response.body);
       throw Exception('Failed to add favorite products');
+    }
+  }
+
+  @override
+  Future<GetFavoriteModel> getFavoriteProducts(String id) async {
+    final token = await authLocalDataSource.getCachedLoginResponse();
+    final accessToken = token?.token ?? '';
+    final url = Uri.parse('http://$ip:4000/favorite/getFav/$id');
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $accessToken',
+    };
+
+    final response = await client.get(url, headers: headers);
+
+    if (response.statusCode == 200) {
+      final jsonResponse = json.decode(response.body);
+      return GetFavoriteModel.fromJson(jsonResponse['fav']);
+    } else {
+      throw Exception('Failed to retrieve favorite products');
     }
   }
 }
