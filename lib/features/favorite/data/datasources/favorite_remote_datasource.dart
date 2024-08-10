@@ -30,8 +30,11 @@ class FavoriteRemoteDataSourceImpl implements FavoriteRemoteDataSource {
 
     if (response.statusCode == 200) {
       final responseBody = json.decode(response.body);
+      print(responseBody['message']);
       return AddFavoriteModel.fromJson(responseBody['favorites']);
     } else {
+      print('Failed to add favorite products');
+      print(response.body);
       throw Exception('Failed to add favorite products');
     }
   }
