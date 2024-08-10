@@ -32,12 +32,11 @@ import 'package:supermarket/features/explore/domain/repositories/category_repo.d
 import 'package:supermarket/features/explore/domain/usecases/category_usecase.dart';
 import 'package:supermarket/features/explore/presentation/bloc/categoruBloc/category_bloc.dart';
 import 'package:supermarket/features/favorite/data/datasources/favorite_remote_datasource.dart';
-import 'package:supermarket/features/favorite/data/datasources/favorites_local_data_source.dart';
-import 'package:supermarket/features/favorite/data/repositories/favorites_repo_impl.dart';
-import 'package:supermarket/features/favorite/domain/repositories/favorites_repo.dart';
-import 'package:supermarket/features/favorite/domain/usecases/favorites_usecase.dart';
-import 'package:supermarket/features/favorite/presentation/bloc/add_faorite_bloc/add_favorite_bloc.dart';
-import 'package:supermarket/features/favorite/presentation/bloc/get_favorite/get_favorite_bloc.dart';
+import 'package:supermarket/features/favorite/data/repositories/favorite_repo_impl.dart';
+import 'package:supermarket/features/favorite/domain/repositories/favorite_repo.dart';
+import 'package:supermarket/features/favorite/domain/usecases/favorite_usecase.dart';
+import 'package:supermarket/features/favorite/presentation/bloc/bloc/add_favorite_product_bloc.dart';
+
 import 'package:supermarket/features/filter/data/datasources/filtered_products_local_datasource.dart';
 import 'package:supermarket/features/filter/data/datasources/filtered_products_remote_datasource.dart';
 import 'package:supermarket/features/filter/data/repositories/filtered_products_repo_impl.dart';
@@ -122,8 +121,8 @@ Future<void> init() async {
     ),
   );
   // add favorite remote data source
-  sl.registerLazySingleton<FavoritesRemoteDataSource>(
-    () => FavoritesRemoteDataSourceImpl(
+  sl.registerLazySingleton<FavoriteRemoteDataSource>(
+    () => FavoriteRemoteDataSourceImpl(
       client: httpClient,
       authLocalDataSource: sl(),
     ),
@@ -132,11 +131,6 @@ Future<void> init() async {
   // create order local data source
   sl.registerLazySingleton<OrderLocalDataSource>(
     () => OrderLocalDataSourceImpl(sharedPreferences: sharedPreferences),
-  );
-
-  // add favorite local data source
-  sl.registerLazySingleton<FavoriteLocalDataSource>(
-    () => FavoriteLocalDataSourceImpl(sharedPreferences),
   );
 
   // Auth Repositories
@@ -177,12 +171,8 @@ Future<void> init() async {
     ),
   );
   // add favorite Repositories
-  sl.registerLazySingleton<FavoritesRepository>(
-    () => FavoritesRepositoryImpl(
-      localDataSource: sl(),
-      networkInfo: sl(),
-      remoteDataSource: sl(),
-    ),
+  sl.registerLazySingleton<FavoriteRepository>(
+    () => FavoriteRepositoryImpl(remoteDataSource: sl(), networkInfo: sl()),
   );
   // Auth Use cases
   sl.registerLazySingleton(() => AuthUsecase(authRepositories: sl()));
@@ -211,7 +201,7 @@ Future<void> init() async {
       ));
 
   // add favorite use case
-  sl.registerLazySingleton(() => FavoritesUsecase(
+  sl.registerLazySingleton(() => AddFavoriteProductsUseCase(
         sl(),
       ));
 
@@ -265,12 +255,7 @@ Future<void> init() async {
       ));
 
   // add favorite Blocs
-  sl.registerFactory(() => AddFavoriteBloc(
-        sl(),
-      ));
-
-      // get favorite Blocs
-  sl.registerFactory(() => GetFavoriteBloc(
+  sl.registerFactory(() => AddFavoriteProductBloc(
         sl(),
       ));
 }

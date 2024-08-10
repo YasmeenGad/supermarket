@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supermarket/core/constants/app_colors.dart';
 import 'package:supermarket/core/utils/app_styles.dart';
-import 'package:supermarket/features/favorite/presentation/bloc/add_faorite_bloc/add_favorite_bloc.dart';
-import 'package:supermarket/features/favorite/presentation/views/fav_view.dart'; // Import the FavoriteView
+import 'package:supermarket/features/favorite/presentation/bloc/bloc/add_favorite_product_bloc.dart';
+import 'package:supermarket/features/favorite/presentation/views/fav_view.dart';
 
 class CustomListTileProductDetails extends StatelessWidget {
   const CustomListTileProductDetails(
@@ -17,9 +17,9 @@ class CustomListTileProductDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<AddFavoriteBloc, AddFavoriteState>(
+    return BlocListener<AddFavoriteProductBloc, AddFavoriteProductState>(
       listener: (context, state) {
-        if (state is AddFavoriteLoading) {
+        if (state is AddFavoriteProductLoading) {
           // Show a loading Snackbar
           final snackBar = SnackBar(
             content: Row(
@@ -39,7 +39,7 @@ class CustomListTileProductDetails extends StatelessWidget {
             ),
           );
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        } else if (state is AddFavoriteSuccess) {
+        } else if (state is AddFavoriteProductSuccess) {
           // Dismiss the loading Snackbar
           ScaffoldMessenger.of(context).hideCurrentSnackBar();
 
@@ -71,10 +71,10 @@ class CustomListTileProductDetails extends StatelessWidget {
             context,
             MaterialPageRoute(
                 builder: (context) => FavView(
-                      productId: state.favorites.id,
+                      productId: state.addFavorite.id,
                     )),
           );
-        } else if (state is AddFavoriteError) {
+        } else if (state is AddFavoriteProductFailure) {
           // Dismiss the loading Snackbar
           ScaffoldMessenger.of(context).hideCurrentSnackBar();
 
@@ -117,7 +117,9 @@ class CustomListTileProductDetails extends StatelessWidget {
               ),
               trailing: GestureDetector(
                 onTap: () {
-                  context.read<AddFavoriteBloc>().add(AddFavorite([productId]));
+                  context
+                      .read<AddFavoriteProductBloc>()
+                      .add(AddFavoriteProduct(productIds: [productId]));
                 },
                 child: Icon(
                   Icons.favorite_outline,

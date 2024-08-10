@@ -5,11 +5,15 @@ import 'dart:convert';
 
 import 'package:supermarket/features/favorite/data/models/add_favorite_model.dart';
 
-class FavoriteRemoteDataSource {
+abstract class FavoriteRemoteDataSource {
+  Future<AddFavoriteModel> addFavoriteProducts(List<String> productIds);
+}
+
+class FavoriteRemoteDataSourceImpl implements FavoriteRemoteDataSource {
   final http.Client client;
   final AuthLocalDataSource authLocalDataSource;
 
-  FavoriteRemoteDataSource(
+  FavoriteRemoteDataSourceImpl(
       {required this.client, required this.authLocalDataSource});
 
   Future<AddFavoriteModel> addFavoriteProducts(List<String> productIds) async {
