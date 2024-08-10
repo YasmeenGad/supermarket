@@ -1,22 +1,26 @@
-class FavoriteData {
+class AddFavoriteDataModel {
   final List<String> products;
   final String id;
   final DateTime createdAt;
   final DateTime updatedAt;
 
-  const FavoriteData({
+  const AddFavoriteDataModel({
     required this.products,
     required this.id,
     required this.createdAt,
     required this.updatedAt,
   });
 
-  factory FavoriteData.fromJson(Map<String, dynamic> json) {
-    return FavoriteData(
+  factory AddFavoriteDataModel.fromJson(Map<String, dynamic> json) {
+    return AddFavoriteDataModel(
       products: List<String>.from(json['products'] ?? []),
-      id: json['_id'] ?? '',
-      createdAt: DateTime.parse(json['createdAt'] ?? DateTime.now().toIso8601String()),
-      updatedAt: DateTime.parse(json['updatedAt'] ?? DateTime.now().toIso8601String()),
+      id: json['_id'] ?? 'unknown',
+      createdAt: json['createdAt'] != null
+          ? DateTime.parse(json['createdAt'])
+          : DateTime.now(),
+      updatedAt: json['updatedAt'] != null
+          ? DateTime.parse(json['updatedAt'])
+          : DateTime.now(),
     );
   }
 

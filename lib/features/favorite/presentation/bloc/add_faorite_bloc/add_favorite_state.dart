@@ -12,7 +12,7 @@ final class AddFavoriteInitial extends AddFavoriteState {}
 class AddFavoriteLoading extends AddFavoriteState {}
 
 class AddFavoriteSuccess extends AddFavoriteState {
-  final Favorites favorites;
+  final  favorites;
 
   const AddFavoriteSuccess(this.favorites);
 

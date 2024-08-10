@@ -2,16 +2,15 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:supermarket/core/constants/app_colors.dart';
 import 'package:supermarket/core/utils/app_styles.dart';
-import 'package:supermarket/features/favorite/domain/entities/fav_products.dart';
 
 class CustomFavItem extends StatelessWidget {
-  const CustomFavItem({super.key, required this.favorite});
-  final Favorite favorite;
+  const CustomFavItem({super.key, required this.product});
+  final  product;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+      padding: const EdgeInsets.symmetric(vertical: 5),
       child: Card(
         elevation: 2,
         color: Colors.white,
@@ -28,8 +27,10 @@ class CustomFavItem extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(12),
                   child: CachedNetworkImage(
-                      imageUrl: "${favorite.products[0].photo}",
+                      imageUrl: product.photo ?? "",
                       fit: BoxFit.cover,
+                      width: 100,
+                      height: double.infinity,
                       placeholder: (context, url) =>
                           Center(child: CircularProgressIndicator()),
                       errorWidget: (context, url, error) => Icon(
@@ -44,12 +45,12 @@ class CustomFavItem extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "${favorite.products[0].productName}",
+                        product.productName,
                         style: AppStyles.styleBold16(context)
                             .copyWith(color: darkColor),
                       ),
                       Text(
-                        "${favorite.products[0].productDetail}",
+                        product.productDetail,
                         style: AppStyles.styleMedium14(context)
                             .copyWith(color: secondaryColor),
                       ),
@@ -57,9 +58,8 @@ class CustomFavItem extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  "\$${favorite.products[0].price}",
+                  "\$${product.price}",
                   style: AppStyles.styleSemiBold16(context)
-                      .copyWith(color: darkColor)
                       .copyWith(color: darkColor),
                 ),
                 SizedBox(width: 8,),

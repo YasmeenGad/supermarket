@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:supermarket/features/favorite/domain/entities/fav_products.dart';
+import 'package:supermarket/features/favorite/domain/entities/favorite_entities.dart';
 import 'package:supermarket/features/favorite/domain/usecases/favorites_usecase.dart';
 
 part 'get_favorite_event.dart';

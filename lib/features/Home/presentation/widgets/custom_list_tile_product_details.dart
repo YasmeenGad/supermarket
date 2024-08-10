@@ -59,11 +59,9 @@ class CustomListTileProductDetails extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
             ),
             action: SnackBarAction(
-              label: 'UNDO',
+              label: 'OK',
               textColor: Colors.white,
-              onPressed: () {
-                // Handle UNDO action
-              },
+              onPressed: () {},
             ),
           );
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -71,7 +69,10 @@ class CustomListTileProductDetails extends StatelessWidget {
           // Navigate to the FavoriteView
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => FavView(productId: state.favorites.id,)),
+            MaterialPageRoute(
+                builder: (context) => FavView(
+                      productId: state.favorites.id,
+                    )),
           );
         } else if (state is AddFavoriteError) {
           // Dismiss the loading Snackbar

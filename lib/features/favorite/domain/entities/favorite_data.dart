@@ -1,13 +1,13 @@
 
 import 'package:equatable/equatable.dart';
 
-class Favorites extends Equatable {
+class AddFavorite extends Equatable {
   final List<String> products;
   final String id;
   final DateTime createdAt;
   final DateTime updatedAt;
 
-  const Favorites({
+  const AddFavorite({
     required this.products,
     required this.id,
     required this.createdAt,

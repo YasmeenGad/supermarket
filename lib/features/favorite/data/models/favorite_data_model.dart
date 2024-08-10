@@ -1,22 +1,28 @@
 import 'package:supermarket/features/favorite/data/models/favorite_model.dart';
 import 'package:supermarket/features/favorite/domain/entities/favorite_data.dart';
 
-class FavoriteModel {
+class AddFavoriteModel {
   final bool status;
   final String message;
-  final FavoriteData favorites;
+  final AddFavoriteDataModel favorites;
 
-  const FavoriteModel({
+  const AddFavoriteModel({
     required this.status,
     required this.message,
     required this.favorites,
   });
 
-  factory FavoriteModel.fromJson(Map<String, dynamic> json) {
-    return FavoriteModel(
+  factory AddFavoriteModel.fromJson(Map<String, dynamic> json) {
+    return AddFavoriteModel(
       status: json['status'] ?? false,
-      message: json['message'] ?? '',
-      favorites: FavoriteData.fromJson(json['favorites'] ?? {}),
+      message: json['message'] ?? 'No message provided',
+      favorites: json['favorites'] != null
+          ? AddFavoriteDataModel.fromJson(json['favorites'])
+          : AddFavoriteDataModel(
+              products: [],
+              id: '',
+              createdAt: DateTime.now(),
+              updatedAt: DateTime.now()),
     );
   }
 
@@ -28,8 +34,8 @@ class FavoriteModel {
     };
   }
 
-  Favorites toEntity() {
-    return Favorites(
+  AddFavorite toEntity() {
+    return AddFavorite(
       products: favorites.products,
       id: favorites.id,
       createdAt: favorites.createdAt,
