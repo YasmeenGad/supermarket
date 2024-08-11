@@ -4,11 +4,14 @@ import 'package:supermarket/features/auth/data/datasources/auth_local_datasource
 import 'dart:convert';
 
 import 'package:supermarket/features/favorite/data/models/add_favorite_model.dart';
+import 'package:supermarket/features/favorite/data/models/delete_one_favorite_product_model.dart';
 import 'package:supermarket/features/favorite/data/models/get_favorite_model.dart';
 
 abstract class FavoriteRemoteDataSource {
   Future<AddFavoriteModel> addFavoriteProducts(List<String> productIds);
   Future<GetFavoriteModel> getFavoriteProducts();
+  Future<DeleteOneFavoriteProductModel> deleteOneFavoriteProduct(
+      List<String> productIds);
 }
 
 class FavoriteRemoteDataSourceImpl implements FavoriteRemoteDataSource {
@@ -64,6 +67,29 @@ class FavoriteRemoteDataSourceImpl implements FavoriteRemoteDataSource {
       }
     } else {
       throw Exception('Failed to retrieve favorite products');
+    }
+  }
+
+  @override
+  Future<DeleteOneFavoriteProductModel> deleteOneFavoriteProduct(
+      List<String> productIds) async {
+    final token = await authLocalDataSource.getCachedLoginResponse();
+    final accessToken = token?.token ?? '';
+    final url = Uri.parse('http://$ip:4000/favorite/one');
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $accessToken',
+    };
+    final body = jsonEncode({'products': productIds});
+    final response = await client.patch(url, headers: headers, body: body);
+    if (response.statusCode == 200) {
+      final responseBody = json.decode(response.body);
+      print(responseBody['message']);
+      return DeleteOneFavoriteProductModel.fromJson(responseBody['favorites']);
+    } else {
+      print('Failed to add favorite products');
+      print(response.body);
+      throw Exception('Failed to add favorite products');
     }
   }
 }

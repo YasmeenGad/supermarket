@@ -3,6 +3,7 @@ import 'package:supermarket/core/network/network_info.dart';
 import 'package:supermarket/features/favorite/data/datasources/favorite_local_datasource.dart';
 import 'package:supermarket/features/favorite/data/datasources/favorite_remote_datasource.dart';
 import 'package:supermarket/features/favorite/domain/entities/add_favorite.dart';
+import 'package:supermarket/features/favorite/domain/entities/delete_one_favorite_product.dart';
 import 'package:supermarket/features/favorite/domain/entities/get_favorite.dart';
 import 'package:supermarket/features/favorite/domain/repositories/favorite_repo.dart';
 
@@ -49,6 +50,21 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
     try {
       final favorite = await remoteDataSource.getFavoriteProducts();
       await localDataSource.cacheFavoriteProducts(favorite);
+      return Right(favorite);
+    } catch (e) {
+      return Left(e.toString());
+    }
+  }
+
+  @override
+  Future<Either<String, DeleteOneFavoriteProduct>> deleteOneFavoriteProduct(
+      List<String> productIds) async {
+    if (!await networkInfo.isConnected) {
+      return const Left('No internet connection');
+    }
+    try {
+      final favorite =
+          await remoteDataSource.deleteOneFavoriteProduct(productIds);
       return Right(favorite);
     } catch (e) {
       return Left(e.toString());

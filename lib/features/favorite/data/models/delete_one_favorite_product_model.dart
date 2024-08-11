@@ -1,6 +1,6 @@
-import 'package:supermarket/features/favorite/domain/entities/add_favorite.dart';
+import 'package:supermarket/features/favorite/domain/entities/delete_one_favorite_product.dart';
 
-class DeleteOneFavoriteProductModel extends AddFavorite {
+class DeleteOneFavoriteProductModel extends DeleteOneFavoriteProduct {
   DeleteOneFavoriteProductModel({
     required String id,
     required List<String> products,
