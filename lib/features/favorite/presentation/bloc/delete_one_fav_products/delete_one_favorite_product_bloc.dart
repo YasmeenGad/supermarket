@@ -21,8 +21,8 @@ class DeleteOneFavoriteProductBloc
     final result =
         await deleteFavoriteProductsUseCase.deleteOneFavoriteProduct(event.id);
     result.fold(
-      (l) => emit(DeleteOneFavoriteProductError(message: l.toString())),
-      (r) => emit(DeleteOneFavoriteProductSuccess(deleteOneFavoriteProduct: r)),
+      (failure) => emit(DeleteOneFavoriteProductError(message: failure.toString())),
+      (success) => emit(DeleteOneFavoriteProductSuccess(deleteOneFavoriteProduct: success)),
     );
   }
 }

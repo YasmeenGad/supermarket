@@ -2,7 +2,9 @@ import 'package:dartz/dartz.dart';
 import 'package:supermarket/core/network/network_info.dart';
 import 'package:supermarket/features/favorite/data/datasources/favorite_local_datasource.dart';
 import 'package:supermarket/features/favorite/data/datasources/favorite_remote_datasource.dart';
+import 'package:supermarket/features/favorite/data/models/get_favorite_model.dart';
 import 'package:supermarket/features/favorite/domain/entities/add_favorite.dart';
+import 'package:supermarket/features/favorite/domain/entities/delete_all_favorite_products.dart';
 import 'package:supermarket/features/favorite/domain/entities/delete_one_favorite_product.dart';
 import 'package:supermarket/features/favorite/domain/entities/get_favorite.dart';
 import 'package:supermarket/features/favorite/domain/repositories/favorite_repo.dart';
@@ -60,12 +62,41 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
   Future<Either<String, DeleteOneFavoriteProduct>> deleteOneFavoriteProduct(
       List<String> productIds) async {
     if (!await networkInfo.isConnected) {
+      print('no internet connection');
       return const Left('No internet connection');
     }
     try {
-      final favorite =
+      final result =
           await remoteDataSource.deleteOneFavoriteProduct(productIds);
-      return Right(favorite);
+
+      // Update cache after successful deletion
+      final cachedFavorite = await localDataSource.getCachedFavoriteProducts();
+      if (cachedFavorite != null) {
+        final updatedProducts = cachedFavorite.products
+            .where((product) => !productIds.contains(product.id))
+            .toList();
+        final updatedFavorite = cachedFavorite.copyWith(
+            products: updatedProducts as List<GetFavoriteProductModel>);
+        await localDataSource.cacheFavoriteProducts(updatedFavorite);
+      }
+      print('deleted successfully');
+
+      return Right(result);
+    } catch (e) {
+      print(e.toString());
+      return Left(e.toString());
+    }
+  }
+
+  @override
+  Future<Either<String, DeleteAllFavoritesProducts>>
+      deleteAllFavoritesProducts() async {
+    if (!await networkInfo.isConnected) {
+      return const Left('No internet connection');
+    }
+    try {
+      final result = await remoteDataSource.deleteAllFavoriteProducts();
+      return Right(result);
     } catch (e) {
       return Left(e.toString());
     }

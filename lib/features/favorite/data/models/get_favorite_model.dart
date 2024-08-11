@@ -44,7 +44,6 @@ class GetFavoriteProductModel extends GetFavoriteProduct {
   }
 }
 
-
 class GetFavoriteModel extends GetFavorite {
   GetFavoriteModel({
     required String id,
@@ -81,8 +80,25 @@ class GetFavoriteModel extends GetFavorite {
       'updatedAt': updatedAt.toIso8601String(),
     };
   }
-}
 
+  // Add the copyWith method here
+GetFavoriteModel copyWith({
+  String? id,
+  List<GetFavoriteProductModel>? products,
+  String? user,
+  DateTime? createdAt,
+  DateTime? updatedAt,
+}) {
+  List<GetFavoriteProductModel> convertedProducts = this.products.map((product) => GetFavoriteProductModel.fromJson((product as GetFavoriteProductModel).toJson())).toList();
+  return GetFavoriteModel(
+    id: id ?? this.id,
+    products: products ?? convertedProducts,
+    user: user ?? this.user,
+    createdAt: createdAt ?? this.createdAt,
+    updatedAt: updatedAt ?? this.updatedAt,
+  );
+}
+}
 
 class FavoriteResponseModel extends FavoriteResponse {
   FavoriteResponseModel({

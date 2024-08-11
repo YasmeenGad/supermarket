@@ -37,6 +37,7 @@ import 'package:supermarket/features/favorite/data/repositories/favorite_repo_im
 import 'package:supermarket/features/favorite/domain/repositories/favorite_repo.dart';
 import 'package:supermarket/features/favorite/domain/usecases/favorite_usecase.dart';
 import 'package:supermarket/features/favorite/presentation/bloc/add_fav_products/add_favorite_product_bloc.dart';
+import 'package:supermarket/features/favorite/presentation/bloc/delete_all_fav/delete_all_favorite_products_bloc.dart';
 import 'package:supermarket/features/favorite/presentation/bloc/delete_one_fav_products/delete_one_favorite_product_bloc.dart';
 import 'package:supermarket/features/favorite/presentation/bloc/get_fav_products/get_favorite_products_bloc.dart';
 
@@ -284,6 +285,11 @@ Future<void> init() async {
 
   // delete favorite products Blocs
   sl.registerFactory(() => DeleteOneFavoriteProductBloc(
+        sl(),
+      ));
+
+      // delete all favorite products Blocs
+  sl.registerFactory(() => DeleteAllFavoriteProductsBloc(
         sl(),
       ));
 }

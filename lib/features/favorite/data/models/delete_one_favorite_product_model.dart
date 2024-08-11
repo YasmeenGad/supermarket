@@ -16,14 +16,14 @@ class DeleteOneFavoriteProductModel extends DeleteOneFavoriteProduct {
         );
 
   factory DeleteOneFavoriteProductModel.fromJson(Map<String, dynamic> json) {
-    return DeleteOneFavoriteProductModel(
-      id: json['_id'],
-      products: List<String>.from(json['products']),
-      user: json['user'],
-      createdAt: DateTime.parse(json['createdAt']),
-      updatedAt: DateTime.parse(json['updatedAt']),
-    );
-  }
+  return DeleteOneFavoriteProductModel(
+    id: json['_id'] ?? '',
+    products: json['products'] != null ? List<String>.from(json['products']) : [],
+    user: json['user'] ?? '',
+    createdAt: json['createdAt'] != null ? DateTime.parse(json['createdAt']) : DateTime.now(),
+    updatedAt: json['updatedAt'] != null ? DateTime.parse(json['updatedAt']) : DateTime.now(),
+  );
+}
 
   Map<String, dynamic> toJson() {
     return {
