@@ -68,7 +68,7 @@ class CustomListTileProductDetails extends StatelessWidget {
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
           context
               .read<GetFavoriteProductsBloc>()
-              .add(GetFavoriteProducts(id: state.addFavorite.id));
+              .add(GetFavoriteProducts());
           // Navigate to the FavoriteView
           Navigator.pushNamed(context, AppRoutes.favRoute);
         } else if (state is AddFavoriteProductFailure) {

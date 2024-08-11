@@ -9,12 +9,12 @@ class GetFavoriteProduct {
 
   GetFavoriteProduct({
     required this.id,
-    required this.rate,
     required this.productName,
     required this.price,
     required this.quantity,
     required this.productDetail,
     required this.photo,
+    required this.rate,
   });
 }
 
@@ -31,5 +31,17 @@ class GetFavorite {
     required this.user,
     required this.createdAt,
     required this.updatedAt,
+  });
+}
+
+class FavoriteResponse {
+  final bool status;
+  final String message;
+  final List<GetFavorite> fav;
+
+  FavoriteResponse({
+    required this.status,
+    required this.message,
+    required this.fav,
   });
 }

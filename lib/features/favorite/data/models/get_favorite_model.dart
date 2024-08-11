@@ -10,39 +10,40 @@ class GetFavoriteProductModel extends GetFavoriteProduct {
     required String photo,
     required double rate,
   }) : super(
-          rate: rate,
           id: id,
           productName: productName,
           price: price,
           quantity: quantity,
           productDetail: productDetail,
           photo: photo,
+          rate: rate,
         );
 
   factory GetFavoriteProductModel.fromJson(Map<String, dynamic> json) {
     return GetFavoriteProductModel(
-      rate: json['rate'].toDouble(),
-      id: json['_id'],
-      productName: json['productName'],
-      price: json['price'].toDouble(),
-      quantity: json['quantity'],
-      productDetail: json['productDetail'],
-      photo: json['photo'],
+      id: json['_id'] ?? '',
+      productName: json['productName'] ?? '',
+      price: (json['price'] as num?)?.toDouble() ?? 0.0,
+      quantity: json['quantity'] ?? 0,
+      productDetail: json['productDetail'] ?? '',
+      photo: json['photo'] ?? '',
+      rate: (json['rate'] as num?)?.toDouble() ?? 0.0,
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'rate': rate,
       '_id': id,
       'productName': productName,
       'price': price,
       'quantity': quantity,
       'productDetail': productDetail,
       'photo': photo,
+      'rate': rate,
     };
   }
 }
+
 
 class GetFavoriteModel extends GetFavorite {
   GetFavoriteModel({
@@ -61,24 +62,54 @@ class GetFavoriteModel extends GetFavorite {
 
   factory GetFavoriteModel.fromJson(Map<String, dynamic> json) {
     return GetFavoriteModel(
-      id: json['_id'],
-      products: List<GetFavoriteProductModel>.from(
-        json['products'].map(
-            (productJson) => GetFavoriteProductModel.fromJson(productJson)),
-      ),
-      user: json['user'],
-      createdAt: DateTime.parse(json['createdAt']),
-      updatedAt: DateTime.parse(json['updatedAt']),
+      id: json['_id'] ?? '',
+      products: (json['products'] as List)
+          .map((productJson) => GetFavoriteProductModel.fromJson(productJson as Map<String, dynamic>))
+          .toList(),
+      user: json['user'] ?? '',
+      createdAt: DateTime.parse(json['createdAt'] ?? DateTime.now().toIso8601String()),
+      updatedAt: DateTime.parse(json['updatedAt'] ?? DateTime.now().toIso8601String()),
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
       '_id': id,
-      'products': products.map((product) => (product as GetFavoriteProductModel).toJson()).toList(),  // Convert each product to JSON
+      'products': products.map((product) => (product as GetFavoriteProductModel).toJson()).toList(),
       'user': user,
       'createdAt': createdAt.toIso8601String(),
       'updatedAt': updatedAt.toIso8601String(),
+    };
+  }
+}
+
+
+class FavoriteResponseModel extends FavoriteResponse {
+  FavoriteResponseModel({
+    required bool status,
+    required String message,
+    required List<GetFavoriteModel> fav,
+  }) : super(
+          status: status,
+          message: message,
+          fav: fav,
+        );
+
+  factory FavoriteResponseModel.fromJson(Map<String, dynamic> json) {
+    return FavoriteResponseModel(
+      status: json['status'] ?? false,
+      message: json['message'] ?? '',
+      fav: (json['fav'] as List)
+          .map((favJson) => GetFavoriteModel.fromJson(favJson as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'status': status,
+      'message': message,
+      'fav': fav.map((favorite) => (favorite as GetFavoriteModel).toJson()).toList(),
     };
   }
 }

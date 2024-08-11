@@ -15,7 +15,7 @@ class AddFavoriteProductsUseCase {
     return repository.addFavoriteProducts(productIds);
   }
 
-  Future<GetFavoriteResult> getFavoriteProducts(String id) async {
-    return await repository.getFavoriteProducts(id);
+  Future<GetFavoriteResult> getFavoriteProducts() async {
+    return await repository.getFavoriteProducts();
   }
 }

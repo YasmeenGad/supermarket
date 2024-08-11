@@ -17,7 +17,7 @@ class GetFavoriteProductsBloc
   Future<void> _getFavoriteProducts(
       GetFavoriteProducts event, Emitter<GetFavoriteProductsState> emit) async {
     emit(GetFavoriteProductsLoading());
-    final result = await usecase.getFavoriteProducts(event.id);
+    final result = await usecase.getFavoriteProducts();
     result.fold(
       (l) => emit(GetFavoriteProductsError(l)),
       (r) => emit(GetFavoriteProductsSuccess(r)),

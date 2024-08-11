@@ -31,7 +31,7 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
   }
 
   @override
-  Future<Either<String, GetFavorite>> getFavoriteProducts(String id) async {
+  Future<Either<String, GetFavorite>> getFavoriteProducts() async {
     if (!await networkInfo.isConnected) {
       try {
         final cachedFavorite =
@@ -47,7 +47,7 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
       }
     }
     try {
-      final favorite = await remoteDataSource.getFavoriteProducts(id);
+      final favorite = await remoteDataSource.getFavoriteProducts();
       await localDataSource.cacheFavoriteProducts(favorite);
       return Right(favorite);
     } catch (e) {

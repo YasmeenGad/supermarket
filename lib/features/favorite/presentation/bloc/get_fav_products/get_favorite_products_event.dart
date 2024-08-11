@@ -6,10 +6,4 @@ sealed class GetFavoriteProductsEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class GetFavoriteProducts extends GetFavoriteProductsEvent {
-  final String id;
-  GetFavoriteProducts({required this.id});
-
-  @override
-  List<Object?> get props => [id];
-}
+class GetFavoriteProducts extends GetFavoriteProductsEvent {}
