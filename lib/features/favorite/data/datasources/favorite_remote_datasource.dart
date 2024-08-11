@@ -89,7 +89,7 @@ class FavoriteRemoteDataSourceImpl implements FavoriteRemoteDataSource {
     } else {
       print('Failed to add favorite products');
       print(response.body);
-      throw Exception('Failed to add favorite products');
+      throw Exception('Failed to delete this product from favorite');
     }
   }
 }
