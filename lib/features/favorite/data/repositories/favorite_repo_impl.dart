@@ -98,6 +98,7 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
       final result = await remoteDataSource.deleteAllFavoriteProducts();
       return Right(result);
     } catch (e) {
+      print(e.toString());
       return Left(e.toString());
     }
   }

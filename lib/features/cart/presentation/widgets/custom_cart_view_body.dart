@@ -63,7 +63,7 @@ void _fetchTotalOrder(BuildContext context, String orderId) {
   context.read<GetTotalOrderBloc>().add(GetTotalOrder(orderId: orderId));
 }
 
-void _showErrorDialog(BuildContext context, String message) {
+void showErrorDialog(BuildContext context, String message) {
   WidgetsBinding.instance.addPostFrameCallback((_) {
     CustomAwesomDialog.showErrorDialog(context, message);
   });

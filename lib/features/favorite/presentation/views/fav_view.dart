@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:supermarket/core/utils/app_styles.dart';
 import 'package:supermarket/features/cart/presentation/widgets/custom_text_bar.dart';
-import 'package:supermarket/features/favorite/presentation/bloc/delete_all_fav/delete_all_favorite_products_bloc.dart';
 import 'package:supermarket/features/favorite/presentation/bloc/delete_one_fav_products/delete_one_favorite_product_bloc.dart';
 import 'package:supermarket/features/favorite/presentation/bloc/get_fav_products/get_favorite_products_bloc.dart';
 import 'package:supermarket/features/favorite/presentation/widgets/custom_fav_default_widget.dart';
@@ -17,7 +15,7 @@ class FavView extends StatefulWidget {
 
 class _FavViewState extends State<FavView> {
   bool hasShownSuccessSnackbar = false;
-  final _snackbarMessages = <String>{};
+  final Set<String> _snackbarMessages = {};
 
   @override
   void initState() {
@@ -31,14 +29,7 @@ class _FavViewState extends State<FavView> {
 
   void _onProductDeleted() {
     _loadFavoriteProducts();
-    hasShownSuccessSnackbar =
-        false; // Reset flag when refreshing the product list
-  }
-
-  void _deleteAllFavorites() {
-    context
-        .read<DeleteAllFavoriteProductsBloc>()
-        .add(DeleteAllFavoriteProductsItemEvent());
+    hasShownSuccessSnackbar = false;
   }
 
   @override
@@ -47,56 +38,29 @@ class _FavViewState extends State<FavView> {
       backgroundColor: Colors.white,
       appBar: const CustomTextBar(text: 'Favorite'),
       body: BlocConsumer<GetFavoriteProductsBloc, GetFavoriteProductsState>(
-        listener: (context, state) {
-          if (state is GetFavoriteProductsError) {
-            _showErrorSnackbar(state.message);
-          }
-        },
-        builder: (context, state) {
-          if (state is GetFavoriteProductsLoading) {
-            return _buildLoadingIndicator();
-          } else if (state is GetFavoriteProductsSuccess) {
-            if (state.favorites.products.isEmpty) {
-              return const CustomFavDefaultWidget();
-            } else {
-              return _buildProductList(state.favorites.products);
-            }
-          } else if (state is GetFavoriteProductsError) {
-            return _buildErrorText(state.message);
-          }
-          return const CustomFavDefaultWidget();
-        },
-      ),
-      floatingActionButton:
-          BlocBuilder<GetFavoriteProductsBloc, GetFavoriteProductsState>(
-        builder: (context, state) {
-          bool hasFavorites = false;
-          if (state is GetFavoriteProductsSuccess) {
-            hasFavorites = state.favorites.products.isNotEmpty;
-          }
-          return Offstage(
-            offstage: !hasFavorites,
-            child: FloatingActionButton.extended(
-              onPressed: _deleteAllFavorites,
-              label: Text(
-                'Delete All',
-                style: AppStyles.styleMedium16(context)
-                    .copyWith(color: Colors.white),
-              ),
-              icon: const Icon(
-                Icons.delete_forever,
-                color: Colors.white,
-              ),
-              backgroundColor: Colors.red,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12.0),
-              ),
-              tooltip: 'Delete all favorite products',
-            ),
-          );
-        },
+        listener: _favoriteProductsListener,
+        builder: _favoriteProductsBuilder,
       ),
     );
+  }
+
+  void _favoriteProductsListener(BuildContext context, GetFavoriteProductsState state) {
+    if (state is GetFavoriteProductsError) {
+      _showErrorSnackbar(state.message);
+    }
+  }
+
+  Widget _favoriteProductsBuilder(BuildContext context, GetFavoriteProductsState state) {
+    if (state is GetFavoriteProductsLoading) {
+      return _buildLoadingIndicator();
+    } else if (state is GetFavoriteProductsSuccess) {
+      return state.favorites.products.isEmpty
+          ? const CustomFavDefaultWidget()
+          : _buildProductList(state.favorites.products);
+    } else if (state is GetFavoriteProductsError) {
+      return _buildErrorText(state.message);
+    }
+    return const CustomFavDefaultWidget();
   }
 
   Widget _buildLoadingIndicator() {
@@ -109,16 +73,10 @@ class _FavViewState extends State<FavView> {
       itemCount: products.length,
       itemBuilder: (context, index) {
         final product = products[index];
-        return BlocConsumer<DeleteOneFavoriteProductBloc,
-            DeleteOneFavoriteProductState>(
+        return BlocConsumer<DeleteOneFavoriteProductBloc, DeleteOneFavoriteProductState>(
           listener: (context, deleteState) {
             if (deleteState is DeleteOneFavoriteProductSuccess) {
-              final message = 'Product removed successfully!';
-              if (!_snackbarMessages.contains(message)) {
-                _showSuccessSnackbar(message);
-                _snackbarMessages.add(message); // Track shown message
-              }
-              _onProductDeleted();
+              _handleDeleteSuccess();
             } else if (deleteState is DeleteOneFavoriteProductError) {
               _showErrorSnackbar(deleteState.message);
             }
@@ -126,16 +84,25 @@ class _FavViewState extends State<FavView> {
           builder: (context, deleteState) {
             return FavViewBody(
               products: product,
-              onDelete: () {
-                context.read<DeleteOneFavoriteProductBloc>().add(
-                      DeleteOneFavoriteProductItem(id: [product.id]),
-                    );
-              },
+              onDelete: () => _deleteFavoriteProduct(context, product.id),
             );
           },
         );
       },
     );
+  }
+
+  void _handleDeleteSuccess() {
+    const message = 'Product removed successfully!';
+    if (!_snackbarMessages.contains(message)) {
+      _showSuccessSnackbar(message);
+      _snackbarMessages.add(message);
+    }
+    _onProductDeleted();
+  }
+
+  void _deleteFavoriteProduct(BuildContext context, String productId) {
+    context.read<DeleteOneFavoriteProductBloc>().add(DeleteOneFavoriteProductItem(id: [productId]));
   }
 
   Widget _buildErrorText(String message) {
@@ -148,50 +115,47 @@ class _FavViewState extends State<FavView> {
   }
 
   void _showSuccessSnackbar(String message) {
+    _showSnackbar(
+      context,
+      message: message,
+      icon: Icons.check_circle,
+      backgroundColor: Colors.green,
+    );
+  }
+
+  void _showErrorSnackbar(String message) {
+    _showSnackbar(
+      context,
+      message: message,
+      icon: Icons.error,
+      backgroundColor: Colors.red,
+      action: SnackBarAction(
+        label: 'Ok',
+        textColor: Colors.white,
+        onPressed: () {},
+      ),
+    );
+  }
+
+  void _showSnackbar(BuildContext context,
+      {required String message, required IconData icon, required Color backgroundColor, SnackBarAction? action}) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Row(
           children: [
-            Icon(Icons.check_circle, color: Colors.white),
+            Icon(icon, color: Colors.white),
             const SizedBox(width: 8.0),
             Expanded(child: Text(message)),
           ],
         ),
-        backgroundColor: Colors.green,
+        backgroundColor: backgroundColor,
         duration: const Duration(seconds: 3),
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.0),
         ),
         padding: const EdgeInsets.all(16.0),
-      ),
-    );
-  }
-
-  void _showErrorSnackbar(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Row(
-          children: [
-            Icon(Icons.error, color: Colors.white),
-            const SizedBox(width: 8.0),
-            Expanded(child: Text(message)),
-          ],
-        ),
-        backgroundColor: Colors.red,
-        duration: const Duration(seconds: 4),
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.0),
-        ),
-        padding: const EdgeInsets.all(8),
-        action: SnackBarAction(
-          label: 'Ok',
-          textColor: Colors.white,
-          onPressed: () {
-            // Add undo functionality if needed
-          },
-        ),
+        action: action,
       ),
     );
   }

@@ -111,6 +111,7 @@ class FavoriteRemoteDataSourceImpl implements FavoriteRemoteDataSource {
     };
 
     final response = await client.delete(url, headers: headers);
+    print(response.body);
 
     if (response.statusCode == 200) {
       final responseBody = json.decode(response.body) as Map<String, dynamic>;
