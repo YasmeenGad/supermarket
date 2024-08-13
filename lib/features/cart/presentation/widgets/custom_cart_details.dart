@@ -3,8 +3,12 @@ import 'package:supermarket/core/constants/app_colors.dart';
 import 'package:supermarket/core/utils/app_styles.dart';
 
 class CustomCartDetails extends StatelessWidget {
-  const CustomCartDetails(
-      {super.key, required this.productName, required this.productDetail});
+  const CustomCartDetails({
+    super.key,
+    required this.productName,
+    required this.productDetail,
+  });
+
   final String productName;
   final String productDetail;
 
@@ -13,26 +17,35 @@ class CustomCartDetails extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              productName,
-              style: AppStyles.styleSemiBold18(context),
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            ),
-            Text(
-              productDetail,
-              style: AppStyles.styleMedium14(context)
-                  .copyWith(color: secondaryColor),
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ],
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                productName,
+                style: AppStyles.styleSemiBold18(context),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+              SizedBox(height: 4),
+              Text(
+                productDetail,
+                style: AppStyles.styleMedium14(context)
+                    .copyWith(color: secondaryColor.withOpacity(0.7)),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
+          ),
         ),
-        Spacer(),
-        IconButton(onPressed: () {}, icon: Icon(Icons.close_rounded)),
+        IconButton(
+          onPressed: () {},
+          icon: Icon(
+            Icons.close_rounded,
+            color: Colors.redAccent,
+            size: 24,
+          ),
+        ),
       ],
     );
   }
