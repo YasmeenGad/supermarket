@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:supermarket/core/constants/app_colors.dart';
 import 'package:supermarket/core/utils/app_styles.dart';
+import 'package:supermarket/features/Home/presentation/widgets/custom_animated_container.dart';
 import 'package:supermarket/features/Home/presentation/widgets/custom_image.dart';
 import 'package:supermarket/features/Home/presentation/widgets/custom_product_name_and_desc.dart';
 
@@ -11,36 +12,61 @@ class ExclusiveOfferWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.sizeOf(context).width * 0.4,
+      width: MediaQuery.sizeOf(context).width * 0.423,
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(width: 1, color: borderColor),
+        color: Colors.white.withOpacity(0.8),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(width: 1, color: Colors.transparent),
+        gradient: LinearGradient(
+          colors: [Colors.white, Color(0xfff8f8f8)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.2),
+            // spreadRadius: 2,
+            blurRadius: 1,
+            offset: Offset(0, 0),
+          ),
+        ],
       ),
       child: Padding(
-        padding:
-             EdgeInsets.all(12),
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Align(
               alignment: Alignment.center,
               child: Container(
-                width: 150,
-                height: 120,
+                width: MediaQuery.sizeOf(context).width * 0.35,
+                height: MediaQuery.sizeOf(context).height * 0.18,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      blurRadius: 8,
+                      offset: Offset(0, 4),
+                    ),
+                  ],
+                  gradient: LinearGradient(
+                    colors: [Colors.white, Color(0xfff8f8f8)],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
                 ),
                 child: ClipRRect(
-                    borderRadius: BorderRadius.circular(12),
-                    child: CustomImage(image: product.photo)),
+                  borderRadius: BorderRadius.circular(16),
+                  child: CustomImage(image: product.photo,),
+                ),
               ),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 10),
             CustomProductNameAndDesc(
               product: product,
             ),
-            Spacer(),
+            const Spacer(),
             Row(
               children: [
                 FittedBox(
@@ -48,20 +74,21 @@ class ExclusiveOfferWidget extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     "\$${product.price}",
-                    style: AppStyles.styleSemiBold18(context)
-                        .copyWith(color: darkColor),
+                    style: AppStyles.styleSemiBold18(context).copyWith(
+                      color: darkColor,
+                      fontSize: 20,
+                      shadows: [
+                        Shadow(
+                          color: Colors.black.withOpacity(0.1),
+                          offset: Offset(0, 1),
+                          blurRadius: 2,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 Expanded(child: SizedBox()),
-                Container(
-                  height: 45,
-                  width: 45,
-                  decoration: BoxDecoration(
-                    color: primaryColor,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Icon(Icons.add, color: Colors.white),
-                ),
+                CustomAnimatedContainer(),
               ],
             ),
           ],

@@ -4,7 +4,7 @@ import 'package:supermarket/core/constants/app_colors.dart';
 import 'package:supermarket/features/Home/presentation/widgets/home_widget.dart';
 import 'package:supermarket/features/cart/presentation/views/cart_view.dart';
 import 'package:supermarket/features/explore/presentation/views/all_categories_view.dart';
-import 'package:supermarket/features/favorite/presentation/views/fav_view.dart'; // Ensure this import is correct
+import 'package:supermarket/features/favorite/presentation/views/fav_view.dart';
 
 class HomeLayout extends StatefulWidget {
   const HomeLayout({super.key, required this.userName});
@@ -14,9 +14,11 @@ class HomeLayout extends StatefulWidget {
   State<HomeLayout> createState() => _HomeLayoutState();
 }
 
-class _HomeLayoutState extends State<HomeLayout> {
+class _HomeLayoutState extends State<HomeLayout>
+    with SingleTickerProviderStateMixin {
   int selectedIndex = 0;
   late List<Widget> widgetOptions;
+  late AnimationController _controller;
 
   @override
   void initState() {
@@ -25,14 +27,19 @@ class _HomeLayoutState extends State<HomeLayout> {
       HomeWidget(userName: widget.userName),
       AllCategoriesView(),
       CartView(),
-      FavView(), // Provide a default value or adjust as needed
-      Container(), // Consider replacing with a meaningful widget or remove if not used
+      FavView(),
+      Container(),
     ];
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 300),
+      vsync: this,
+    );
   }
 
   void onItemTapped(int index) {
     setState(() {
       selectedIndex = index;
+      _controller.forward(from: 0.0);
     });
   }
 
@@ -43,46 +50,74 @@ class _HomeLayoutState extends State<HomeLayout> {
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.only(
+          borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(16),
             topRight: Radius.circular(16),
           ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              spreadRadius: 3,
+              blurRadius: 10,
+              offset: const Offset(0, 0),
+            ),
+          ],
         ),
         child: ClipRRect(
-          borderRadius: BorderRadius.only(
+          borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(16),
             topRight: Radius.circular(16),
           ),
           child: BottomNavigationBar(
             elevation: 2,
             type: BottomNavigationBarType.fixed,
-            iconSize: 24,
+            iconSize: 18,
             backgroundColor: Colors.white,
-            items: const <BottomNavigationBarItem>[
+            items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
-                icon: Icon(Icons.shopping_bag),
+                icon: AnimatedIconItem(
+                  icon: Icons.shopping_bag,
+                  selectedIndex: selectedIndex,
+                  itemIndex: 0,
+                  animationController: _controller,
+                ),
                 label: 'Shop',
-                backgroundColor: Colors.white,
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.search),
+                icon: AnimatedIconItem(
+                  icon: CupertinoIcons.search,
+                  selectedIndex: selectedIndex,
+                  itemIndex: 1,
+                  animationController: _controller,
+                ),
                 label: 'Explore',
-                backgroundColor: Colors.white,
               ),
               BottomNavigationBarItem(
-                icon: Icon(CupertinoIcons.cart),
+                icon: AnimatedIconItem(
+                  icon: CupertinoIcons.shopping_cart,
+                  selectedIndex: selectedIndex,
+                  itemIndex: 2,
+                  animationController: _controller,
+                ),
                 label: 'Cart',
-                backgroundColor: Colors.white,
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.favorite_outline_outlined),
+                icon: AnimatedIconItem(
+                  icon: CupertinoIcons.heart,
+                  selectedIndex: selectedIndex,
+                  itemIndex: 3,
+                  animationController: _controller,
+                ),
                 label: 'Favorite',
-                backgroundColor: Colors.white,
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.person_3_outlined),
+                icon: AnimatedIconItem(
+                  icon: CupertinoIcons.person,
+                  selectedIndex: selectedIndex,
+                  itemIndex: 4,
+                  animationController: _controller,
+                ),
                 label: 'Account',
-                backgroundColor: Colors.white,
               ),
             ],
             currentIndex: selectedIndex,
@@ -91,6 +126,39 @@ class _HomeLayoutState extends State<HomeLayout> {
             onTap: onItemTapped,
           ),
         ),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+}
+
+class AnimatedIconItem extends StatelessWidget {
+  const AnimatedIconItem({
+    Key? key,
+    required this.icon,
+    required this.selectedIndex,
+    required this.itemIndex,
+    required this.animationController,
+  }) : super(key: key);
+
+  final IconData icon;
+  final int selectedIndex;
+  final int itemIndex;
+  final AnimationController animationController;
+
+  @override
+  Widget build(BuildContext context) {
+    return ScaleTransition(
+      scale: Tween(begin: 0.8, end: 1.2).animate(CurvedAnimation(
+          parent: animationController, curve: Curves.easeInOut)),
+      child: Icon(
+        icon,
+        color: selectedIndex == itemIndex ? primaryColor : blackColor,
       ),
     );
   }

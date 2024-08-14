@@ -52,7 +52,7 @@ class _HomeWidgetState extends State<HomeWidget> {
       color: Colors.white,
       child: Padding(
         padding:
-            const EdgeInsets.only(top: 30, left: 16, right: 16, bottom: 16),
+            const EdgeInsets.only(top: 30, left: 16, right: 16),
         child: CustomScrollView(
           slivers: [
             SliverToBoxAdapter(

@@ -9,6 +9,8 @@ class CustomImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return CachedNetworkImage(
                   imageUrl: "${image}",
+                  width: MediaQuery.sizeOf(context).width * 0.2,
+                  height: MediaQuery.sizeOf(context).height * 0.15,
                   fit: BoxFit.cover,
                   placeholder: (context, url) =>
                       Center(child: CircularProgressIndicator()),
