@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 class MyOrder extends Equatable {
+  final bool status;
   final String userId;
   final List<String> products;
   final String id;
@@ -8,6 +9,7 @@ class MyOrder extends Equatable {
   final DateTime updatedAt;
 
   MyOrder({
+    required this.status,
     required this.userId,
     required this.products,
     required this.id,

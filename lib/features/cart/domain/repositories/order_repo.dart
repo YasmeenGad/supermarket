@@ -11,7 +11,7 @@ abstract class OrderRepository {
 
   Future<Either<String, TotalOrder>> calculateOrderTotals(String orderId);
 
-  Future<Either<String, MyOrder>> updateOrder(String orderId, List<String> productIds);
+  Future<Either<String, MyOrder>> updateOrder(List<String> productIds);
   Future<Either<String, DeleteOrder>> deleteOrder(List<String> productIds);
 
 }

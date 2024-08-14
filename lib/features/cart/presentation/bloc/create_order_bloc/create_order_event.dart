@@ -17,11 +17,10 @@ class CreateOrder extends CreateOrderEvent {
 }
 
 class UpdateOrder extends CreateOrderEvent {
-  final String orderId;
   final List<String> productIds;
 
-  UpdateOrder(this.orderId, this.productIds);
+  UpdateOrder( this.productIds);
 
   @override
-  List<Object> get props => [orderId, productIds];
+  List<Object> get props => [productIds];
 }

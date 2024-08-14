@@ -41,7 +41,7 @@ class CreateOrderBloc extends Bloc<CreateOrderEvent, CreateOrderState> {
 
   Future<void> _updateExistingOrder(String orderId, List<String> productIds,
       Emitter<CreateOrderState> emit) async {
-    final result = await orderUsecases.updateOrder(orderId, productIds);
+    final result = await orderUsecases.updateOrder( productIds);
     result.fold(
       (l) => emit(CreateOrderError(l.toString())),
       (r) => emit(CreateOrderSuccess(r)),

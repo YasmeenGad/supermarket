@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:supermarket/core/utils/app_routes.dart';
 import 'package:supermarket/core/widgets/custom_loading_indicator.dart';
 import 'package:supermarket/features/cart/presentation/bloc/get_total_order.dart/get_total_order_bloc.dart';
 import 'package:supermarket/features/cart/presentation/widgets/custom_cart_item.dart';
@@ -21,8 +22,13 @@ class CustomCartList extends StatelessWidget {
               SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
-                    return CustomCartItem(
-                      order: state.orders.products[index],
+                    return GestureDetector(
+                      onTap: (){
+                        Navigator.pushNamed(context, AppRoutes.productDeatailsRoute, arguments: state.orders.products[index]);
+                      },
+                      child: CustomCartItem(
+                        order: state.orders.products[index],
+                      ),
                     );
                   },
                   childCount: state.orders.products.length,

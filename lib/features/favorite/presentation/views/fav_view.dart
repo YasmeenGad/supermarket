@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:supermarket/core/constants/app_colors.dart';
 import 'package:supermarket/features/cart/presentation/widgets/custom_text_bar.dart';
 import 'package:supermarket/features/favorite/presentation/bloc/delete_one_fav_products/delete_one_favorite_product_bloc.dart';
 import 'package:supermarket/features/favorite/presentation/bloc/get_fav_products/get_favorite_products_bloc.dart';
@@ -44,27 +45,37 @@ class _FavViewState extends State<FavView> {
     );
   }
 
-  void _favoriteProductsListener(BuildContext context, GetFavoriteProductsState state) {
+  void _favoriteProductsListener(
+      BuildContext context, GetFavoriteProductsState state) {
     if (state is GetFavoriteProductsError) {
-      _showErrorSnackbar(state.message);
+      if (state.message != "Exception: Empty favorite products list") {
+        _showErrorSnackbar(state.message);
+      }
     }
   }
 
-  Widget _favoriteProductsBuilder(BuildContext context, GetFavoriteProductsState state) {
+  Widget _favoriteProductsBuilder(
+      BuildContext context, GetFavoriteProductsState state) {
     if (state is GetFavoriteProductsLoading) {
       return _buildLoadingIndicator();
     } else if (state is GetFavoriteProductsSuccess) {
-      return state.favorites.products.isEmpty
-          ? const CustomFavDefaultWidget()
-          : _buildProductList(state.favorites.products);
+      if (state.favorites.products.isEmpty) {
+        return const CustomFavDefaultWidget(); // Show custom widget when the list is empty
+      } else {
+        return _buildProductList(state.favorites.products);
+      }
     } else if (state is GetFavoriteProductsError) {
-      return _buildErrorText(state.message);
+      if (state.message == "Exception: Empty favorite products list") {
+        return const CustomFavDefaultWidget();
+      } else {
+        return _buildErrorText(state.message);
+      }
     }
-    return const CustomFavDefaultWidget();
+    return const CustomFavDefaultWidget(); // Default case when the state is not recognized
   }
 
   Widget _buildLoadingIndicator() {
-    return const Center(child: CircularProgressIndicator());
+    return const Center(child: CircularProgressIndicator(color: primaryColor,));
   }
 
   Widget _buildProductList(List<dynamic> products) {
@@ -73,7 +84,8 @@ class _FavViewState extends State<FavView> {
       itemCount: products.length,
       itemBuilder: (context, index) {
         final product = products[index];
-        return BlocConsumer<DeleteOneFavoriteProductBloc, DeleteOneFavoriteProductState>(
+        return BlocConsumer<DeleteOneFavoriteProductBloc,
+            DeleteOneFavoriteProductState>(
           listener: (context, deleteState) {
             if (deleteState is DeleteOneFavoriteProductSuccess) {
               _handleDeleteSuccess();
@@ -102,7 +114,9 @@ class _FavViewState extends State<FavView> {
   }
 
   void _deleteFavoriteProduct(BuildContext context, String productId) {
-    context.read<DeleteOneFavoriteProductBloc>().add(DeleteOneFavoriteProductItem(id: [productId]));
+    context
+        .read<DeleteOneFavoriteProductBloc>()
+        .add(DeleteOneFavoriteProductItem(id: [productId]));
   }
 
   Widget _buildErrorText(String message) {
@@ -138,7 +152,10 @@ class _FavViewState extends State<FavView> {
   }
 
   void _showSnackbar(BuildContext context,
-      {required String message, required IconData icon, required Color backgroundColor, SnackBarAction? action}) {
+      {required String message,
+      required IconData icon,
+      required Color backgroundColor,
+      SnackBarAction? action}) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Row(

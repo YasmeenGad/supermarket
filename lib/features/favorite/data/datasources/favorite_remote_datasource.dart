@@ -68,7 +68,7 @@ class FavoriteRemoteDataSourceImpl implements FavoriteRemoteDataSource {
             .toList();
         return favoriteList.first;
       } else {
-        throw Exception('No favorite products found or invalid data format');
+        throw Exception('Empty favorite products list');
       }
     } else {
       final responseBody = json.decode(response.body) as Map<String, dynamic>;

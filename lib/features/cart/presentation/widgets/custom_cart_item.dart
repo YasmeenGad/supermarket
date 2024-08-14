@@ -60,12 +60,13 @@ class CustomCartItem extends StatelessWidget {
             SizedBox(width: 18),
             Expanded(
               child: Container(
-                height: MediaQuery.of(context).size.width * 0.28,
+                // height: MediaQuery.of(context).size.width * 0.28,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CustomCartDetails(
+                      productId: order.id,
                       productName: order.productName,
                       productDetail: order.productDetail,
                     ),
@@ -75,11 +76,10 @@ class CustomCartItem extends StatelessWidget {
                         QuantityCartSection(quantity: order.quantity),
                         Text(
                           "\$${order.price.toStringAsFixed(2)}",
-                          style: AppStyles.styleSemiBold18(context)
-                              .copyWith(
-                                color: darkColor,
-                                fontWeight: FontWeight.bold,
-                              ),
+                          style: AppStyles.styleSemiBold18(context).copyWith(
+                            color: darkColor,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ],
                     ),

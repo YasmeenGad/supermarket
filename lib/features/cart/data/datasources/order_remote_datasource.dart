@@ -12,7 +12,7 @@ abstract class OrderRemoteDataSource {
   Future<OrderModel> createOrder(List<String> productIds);
   Future<FetchedOrderModel> getOrder();
   Future<TotalOrderModel> getOrderTotals(String orderId);
-  Future<OrderModel> updateOrder(String orderId, List<String> productIds);
+  Future<OrderModel> updateOrder( List<String> productIds);
   Future<DeleteOrderModel> deleteOrder(List<String> productIds);
 }
 
@@ -96,11 +96,11 @@ class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
 
   @override
   Future<OrderModel> updateOrder(
-      String orderId, List<String> productIds) async {
+       List<String> productIds) async {
     final token = await authLocalDataSource.getCachedLoginResponse();
     final cachedToken = token?.token;
     final response = await client.patch(
-      Uri.parse('http://$ip:4000/order/add/$orderId'),
+      Uri.parse('http://$ip:4000/order/add'),
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer $cachedToken',

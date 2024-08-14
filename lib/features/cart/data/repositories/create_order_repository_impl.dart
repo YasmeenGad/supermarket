@@ -83,16 +83,16 @@ class OrderRepositoryImpl implements OrderRepository {
 
   @override
   Future<Either<String, MyOrder>> updateOrder(
-      String orderId, List<String> productIds) async {
+      List<String> productIds) async {
     if (!await networkInfo.isConnected) {
       return Left('No internet connection');
     }
     try {
-      final order = await remoteDataSource.updateOrder(orderId, productIds);
+      final order = await remoteDataSource.updateOrder( productIds);
       print(order);
       return Right(order);
     } catch (e) {
-      
+      print(e.toString());
       return Left('Failed to update order: $e');
     }
   }

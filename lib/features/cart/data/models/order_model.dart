@@ -2,12 +2,14 @@ import 'package:supermarket/features/cart/domain/entities/create_order_entity.da
 
 class OrderModel extends MyOrder {
   OrderModel({
+    required bool status,
     required String userId,
     required List<String> products,
     required String id,
     required DateTime createdAt,
     required DateTime updatedAt,
   }) : super(
+          status: status,
           userId: userId,
           products: products,
           id: id,
@@ -17,16 +19,20 @@ class OrderModel extends MyOrder {
 
   factory OrderModel.fromJson(Map<String, dynamic> json) {
     return OrderModel(
-      userId: json['userId'],
-      products: List<String>.from(json['products']),
-      id: json['_id'],
-      createdAt: DateTime.parse(json['createdAt']),
-      updatedAt: DateTime.parse(json['updatedAt']),
+      status: json['status'] as bool? ?? false,
+      userId: json['userId'] as String? ?? '', // Provide default value if null
+      products: List<String>.from(json['products'] ?? []), // Handle null list
+      id: json['_id'] as String? ?? '', // Provide default value if null
+      createdAt: DateTime.tryParse(json['createdAt'] as String? ?? '') ??
+          DateTime.now(), // Handle null or invalid date
+      updatedAt: DateTime.tryParse(json['updatedAt'] as String? ?? '') ??
+          DateTime.now(), // Handle null or invalid date
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
+      'status': status,
       'userId': userId,
       'products': products,
       '_id': id,

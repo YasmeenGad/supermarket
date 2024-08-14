@@ -11,9 +11,9 @@ class DeleteOrderModel extends DeleteOrder {
       throw ArgumentError('JSON data is null');
     }
     return DeleteOrderModel(
-      status: json['status'] ?? false, // Handle missing key or null value
+      status: json['status'] ?? false, 
       message: json['message'] ??
-          '', // Default empty string for missing or null message
+          '', 
     );
   }
 

@@ -43,15 +43,17 @@ class CustomCartViewBody extends StatelessWidget {
                 );
               }
             } else if (state is GetOrderError) {
-              if (state.message != "Exception: Order not found") {
-              return  CustomContainerInternetConnection(state: "${state.message}",);
+              if (state.message != "Exception: Order not found" &&
+                  state.message != "Failed to get order") {
+                return CustomContainerInternetConnection(
+                  state: "${state.message}",
+                );
               } else {
                 return CustomEmptyCartContent();
               }
             } else {
               return CustomEmptyCartContent();
             }
-          
           },
         ),
       ),

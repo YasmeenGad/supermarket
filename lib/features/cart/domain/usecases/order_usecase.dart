@@ -28,8 +28,8 @@ class OrderUsecases {
     return await repository.calculateOrderTotals(orderId);
   }
 
-  Future<OrderResult> updateOrder(String orderId, List<String> productIds) async {
-    return await repository.updateOrder(orderId, productIds);
+  Future<OrderResult> updateOrder(List<String> productIds) async {
+    return await repository.updateOrder( productIds);
   }
 
   Future<DeleteOrderResult> deleteOrder(List<String> productIds) async {
