@@ -295,7 +295,7 @@ Future<void> init() async {
       ));
 
   // delete item from cart Blocs
-  sl.registerFactory(() => DeleteItemBloc(
-        sl(),
-      ));
+  // sl.registerFactory(() => DeleteItemBloc(
+  //       sl(),
+  //     ));
 }

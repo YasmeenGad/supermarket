@@ -55,7 +55,7 @@ class SuperMarket extends StatelessWidget {
           BlocProvider(create: (context) => sl<DeleteOneFavoriteProductBloc>()),
           BlocProvider(
               create: (context) => sl<DeleteAllFavoriteProductsBloc>()),
-          BlocProvider(create: (context) => sl<DeleteItemBloc>()),
+          // BlocProvider(create: (context) => sl<DeleteItemBloc>()),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
