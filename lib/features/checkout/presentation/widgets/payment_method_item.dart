@@ -1,25 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:supermarket/core/constants/app_colors.dart';
 import 'package:supermarket/core/utils/assets.dart';
 
 class PaymentMethodItem extends StatelessWidget {
-  const PaymentMethodItem({super.key});
+  const PaymentMethodItem({super.key, this.isActive = true});
+
+  final bool isActive;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return AnimatedContainer(
+      duration: Duration(milliseconds: 600),
       width: 103,
       height: 62,
       decoration: BoxDecoration(
           color: Colors.white,
-          border: Border.all(color: primaryColor, width: 1.50),
+          border: Border.all(
+              color: isActive ? Color(0xff34A853) : Color(0xff000000),
+              width: 1.50),
           borderRadius: BorderRadius.circular(15),
           boxShadow: [
             BoxShadow(
-              color: primaryColor.withOpacity(0.2),
+              color: isActive ? Color(0xff34A853) : Colors.white,
               blurRadius: 5,
-              offset: Offset(0, 1),
+              offset: Offset(0, 0),
             ),
           ]),
       child: Container(
