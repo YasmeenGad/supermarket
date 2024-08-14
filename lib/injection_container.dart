@@ -22,6 +22,7 @@ import 'package:supermarket/features/cart/data/datasources/order_remote_datasour
 import 'package:supermarket/features/cart/data/repositories/create_order_repository_impl.dart';
 import 'package:supermarket/features/cart/domain/repositories/order_repo.dart';
 import 'package:supermarket/features/cart/domain/usecases/order_usecase.dart';
+import 'package:supermarket/features/cart/presentation/bloc/delete_item/delete_item_bloc.dart';
 import 'package:supermarket/features/cart/presentation/bloc/get_total_order.dart/get_total_order_bloc.dart';
 import 'package:supermarket/features/cart/presentation/bloc/create_order_bloc/create_order_bloc.dart';
 import 'package:supermarket/features/cart/presentation/bloc/get_order_bloc/get_order_bloc.dart';
@@ -288,8 +289,13 @@ Future<void> init() async {
         sl(),
       ));
 
-      // delete all favorite products Blocs
+  // delete all favorite products Blocs
   sl.registerFactory(() => DeleteAllFavoriteProductsBloc(
+        sl(),
+      ));
+
+  // delete item from cart Blocs
+  sl.registerFactory(() => DeleteItemBloc(
         sl(),
       ));
 }

@@ -3,6 +3,7 @@ import 'package:supermarket/core/network/network_info.dart';
 import 'package:supermarket/features/cart/data/datasources/create_order_local_datasource.dart';
 import 'package:supermarket/features/cart/data/datasources/order_remote_datasource.dart';
 import 'package:supermarket/features/cart/domain/entities/create_order_entity.dart';
+import 'package:supermarket/features/cart/domain/entities/delete_order.dart';
 import 'package:supermarket/features/cart/domain/entities/fetch_order_entities.dart';
 import 'package:supermarket/features/cart/domain/entities/get_total_order.dart';
 import 'package:supermarket/features/cart/domain/repositories/order_repo.dart';
@@ -25,7 +26,7 @@ class OrderRepositoryImpl implements OrderRepository {
 
     try {
       return Right(await remoteDataSource.createOrder(productIds));
-    }  catch (e) {
+    } catch (e) {
       return Left('Failed to create order');
     }
   }
@@ -79,9 +80,10 @@ class OrderRepositoryImpl implements OrderRepository {
       }
     }
   }
-  
+
   @override
-  Future<Either<String, MyOrder>> updateOrder(String orderId, List<String> productIds) async{
+  Future<Either<String, MyOrder>> updateOrder(
+      String orderId, List<String> productIds) async {
     if (!await networkInfo.isConnected) {
       return Left('No internet connection');
     }
@@ -94,5 +96,19 @@ class OrderRepositoryImpl implements OrderRepository {
       return Left('Failed to update order: $e');
     }
   }
-  }
 
+  @override
+  Future<Either<String, DeleteOrder>> deleteOrder(
+      List<String> productIds) async {
+    if (!await networkInfo.isConnected) {
+      return Left('No internet connection');
+    }
+    try {
+      final order = await remoteDataSource.deleteOrder(productIds);
+      await localDataSource.removeItemFromCache(productIds[0]);
+      return Right(order);
+    } catch (e) {
+      return Left('Failed to delete order');
+    }
+  }
+}

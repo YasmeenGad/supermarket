@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:supermarket/core/constants/ip.dart';
 import 'package:supermarket/features/auth/data/datasources/auth_local_datasource.dart';
+import 'package:supermarket/features/cart/data/models/delete_order_model.dart';
 import 'package:supermarket/features/cart/data/models/fetch_order_model.dart';
 import 'package:supermarket/features/cart/data/models/get_total_order_model.dart';
 import 'package:supermarket/features/cart/data/models/order_model.dart';
@@ -12,6 +13,7 @@ abstract class OrderRemoteDataSource {
   Future<FetchedOrderModel> getOrder();
   Future<TotalOrderModel> getOrderTotals(String orderId);
   Future<OrderModel> updateOrder(String orderId, List<String> productIds);
+  Future<DeleteOrderModel> deleteOrder(List<String> productIds);
 }
 
 class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
@@ -115,6 +117,28 @@ class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
       }
     } else {
       throw Exception(jsonDecode(response.body)['message']);
+    }
+  }
+
+  @override
+  Future<DeleteOrderModel> deleteOrder(List<String> productIds) async {
+    final token = await authLocalDataSource.getCachedLoginResponse();
+    final accessToken = token?.token;
+
+    final response = await client.delete(
+      Uri.parse('http://$ip:4000/order/delete'),
+      headers: {
+        'Authorization': 'Bearer $accessToken',
+        'Content-Type': 'application/json',
+      },
+      body: json.encode({'products': productIds}),
+    );
+
+    if (response.statusCode == 200) {
+      final responseBody = json.decode(response.body) as Map<String, dynamic>;
+      return DeleteOrderModel.fromJson(responseBody);
+    } else {
+      throw Exception('Failed to delete products from order');
     }
   }
 }

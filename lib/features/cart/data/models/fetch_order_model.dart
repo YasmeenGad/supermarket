@@ -62,7 +62,7 @@ class FetchedOrderModel extends FetchedOrder {
   }
   FetchedOrderModel copyWith({
     String? id,
-    String? user,
+    UserCart? user,
     List<ProductCart>? products,
     DateTime? createdAt,
     DateTime? updatedAt,
