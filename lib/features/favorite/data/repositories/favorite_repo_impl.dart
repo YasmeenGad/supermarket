@@ -79,7 +79,6 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
             products: updatedProducts as List<GetFavoriteProductModel>);
         await localDataSource.cacheFavoriteProducts(updatedFavorite);
       }
-      print('deleted successfully');
 
       return Right(result);
     } catch (e) {
