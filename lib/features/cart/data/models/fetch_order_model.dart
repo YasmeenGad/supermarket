@@ -24,6 +24,7 @@ class FetchedOrderModel extends FetchedOrder {
       ),
       products: (json['products'] as List)
           .map((product) => ProductCart(
+                id: product['_id'] ?? '',
                 productName: product['productName'] ?? '',
                 bestSelling: product['bestSelling'] == 'true',
                 price: (product['price'] as num?)?.toDouble() ?? 0.0,
@@ -50,6 +51,7 @@ class FetchedOrderModel extends FetchedOrder {
       },
       'products': products
           .map((product) => {
+                '_id': product.id,
                 'productName': product.productName,
                 'bestSelling': product.bestSelling ? 'true' : 'false',
                 'price': product.price,
@@ -63,5 +65,20 @@ class FetchedOrderModel extends FetchedOrder {
       'createdAt': createdAt.toIso8601String(),
       'updatedAt': updatedAt.toIso8601String(),
     };
+  }
+  FetchedOrderModel copyWith({
+    String? id,
+    UserCart? user,
+    List<ProductCart>? products,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+  }) {
+    return FetchedOrderModel(
+      id: id ?? this.id,
+      user: user ?? this.user,
+      products: products ?? this.products,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+    );
   }
 }

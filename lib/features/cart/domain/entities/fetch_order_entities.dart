@@ -33,6 +33,7 @@ class UserCart extends Equatable {
 }
 
 class ProductCart extends Equatable {
+  final String id;
   final String productName;
   final bool bestSelling;
   final double price;
@@ -43,6 +44,7 @@ class ProductCart extends Equatable {
   final String photo;
 
   ProductCart({
+    required this.id,
     required this.productName,
     required this.bestSelling,
     required this.price,
