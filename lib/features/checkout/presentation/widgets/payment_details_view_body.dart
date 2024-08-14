@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:supermarket/core/constants/app_colors.dart';
-import 'package:supermarket/core/utils/assets.dart';
+import 'package:supermarket/features/checkout/presentation/widgets/payment_method_item.dart';
 
 class PaymentDetailsViewBody extends StatelessWidget {
   const PaymentDetailsViewBody({super.key});
@@ -10,31 +8,7 @@ class PaymentDetailsViewBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Container(
-          width: 103,
-          height: 62,
-          decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border.all(color: primaryColor, width: 1.50),
-              borderRadius: BorderRadius.circular(15),
-              boxShadow: [
-                BoxShadow(
-                  color: primaryColor.withOpacity(0.2),
-                  blurRadius: 5,
-                  offset: Offset(0, 1),
-                ),
-              ]),
-          child: Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15), color: Colors.white),
-            child: Center(
-                child: SvgPicture.asset(
-              Assets.imagesCard,
-              height: 30.69,
-              width: 45,
-            )),
-          ),
-        )
+        PaymentMethodItem(),
       ],
     );
   }
