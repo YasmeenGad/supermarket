@@ -71,7 +71,7 @@ class _HomeLayoutState extends State<HomeLayout>
           child: BottomNavigationBar(
             elevation: 2,
             type: BottomNavigationBarType.fixed,
-            iconSize: 18,
+            iconSize: 20,
             backgroundColor: Colors.white,
             items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(

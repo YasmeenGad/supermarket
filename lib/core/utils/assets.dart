@@ -3,7 +3,7 @@ class Assets {
   
   /// Assets for images8140 1
   /// assets/images/8140 1.png
-  static const String images81401 = "assets/images/8140 1.png";
+  static const String imagesSplash = "assets/images/splash.png";
 
   /// Assets for imagesApple
   /// assets/images/apple.png
@@ -82,6 +82,18 @@ class Assets {
   /// Assets for imagesSplashScreen
   /// assets/images/splashScreen.svg
   static const String imagesSplashScreen = "assets/images/splashScreen.svg";
+
+    /// Assets for imagesCard
+  /// assets/images/card.svg
+  static const String imagesCard = "assets/images/card.svg";
+
+    /// Assets for imagesMasterCard
+  /// assets/images/master_card.svg
+  static const String imagesMasterCard = "assets/images/master_card.svg";
+
+    /// Assets for imagesPaypal
+  /// assets/images/paypal.png
+  static const String imagesPaypal = "assets/images/paypal.svg";
 
   /// Assets for imagesVector
   /// assets/images/Vector.png
