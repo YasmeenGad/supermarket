@@ -8,7 +8,6 @@ abstract class OrderLocalDataSource {
   Future<FetchedOrderModel?> getLastFetchedOrder();
   Future<void> cacheTotalOrder(TotalOrderModel totalOrderToCache);
   Future<TotalOrderModel?> getTotalOrder();
-  Future<void> removeItemFromCache(String itemId);
 }
 
 class OrderLocalDataSourceImpl implements OrderLocalDataSource {
@@ -27,7 +26,7 @@ class OrderLocalDataSourceImpl implements OrderLocalDataSource {
 
   @override
   Future<FetchedOrderModel?> getLastFetchedOrder() async {
-    final jsonString = sharedPreferences.getString(CACHED_FETCHED_ORDER);
+    final jsonString = await sharedPreferences.getString(CACHED_FETCHED_ORDER);
     if (jsonString != null) {
       return Future.value(FetchedOrderModel.fromJson(json.decode(jsonString)));
     } else {
@@ -36,36 +35,20 @@ class OrderLocalDataSourceImpl implements OrderLocalDataSource {
   }
 
   @override
-  Future<void> cacheTotalOrder(TotalOrderModel totalOrderToCache) async {
-    await sharedPreferences.setString(
+  Future<void> cacheTotalOrder(TotalOrderModel totalOrderToCache) {
+    return sharedPreferences.setString(
       CACHED_TOTAL_ORDER,
       json.encode(totalOrderToCache.toJson()),
     );
   }
 
   @override
-  Future<TotalOrderModel?> getTotalOrder() async {
+  Future<TotalOrderModel?> getTotalOrder() {
     final jsonString = sharedPreferences.getString(CACHED_TOTAL_ORDER);
     if (jsonString != null) {
       return Future.value(TotalOrderModel.fromJson(json.decode(jsonString)));
     } else {
       return Future.value(null);
-    }
-  }
-
-  @override
-  Future<void> removeItemFromCache(String itemId) async {
-    final fetchedOrder = await getLastFetchedOrder();
-    if (fetchedOrder != null) {
-      // Remove the item with the specified itemId from the cached order
-      final updatedProducts = fetchedOrder.products
-          .where((product) => product.id != itemId)
-          .toList();
-
-      final updatedFetchedOrder =
-          fetchedOrder.copyWith(products: updatedProducts);
-
-      await cacheFetchedOrder(updatedFetchedOrder);
     }
   }
 }

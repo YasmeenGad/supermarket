@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 
 class FetchedOrder extends Equatable {
   final String id;
-  final UserCart user;
+  final String user;
   final List<ProductCart> products;
   final DateTime createdAt;
   final DateTime updatedAt;
@@ -19,18 +19,7 @@ class FetchedOrder extends Equatable {
   List<Object?> get props => [id, user, products, createdAt, updatedAt];
 }
 
-class UserCart extends Equatable {
-  final String userName;
-  final String email;
 
-  UserCart({
-    required this.userName,
-    required this.email,
-  });
-  
-  @override
-  List<Object?> get props => [userName, email];
-}
 
 class ProductCart extends Equatable {
   final String id;

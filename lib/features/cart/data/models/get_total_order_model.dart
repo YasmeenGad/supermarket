@@ -19,12 +19,12 @@ class TotalOrderModel extends TotalOrder {
 
   factory TotalOrderModel.fromJson(Map<String, dynamic> json) {
     return TotalOrderModel(
-      orderId: json['orderId'] as String,
-      userId: json['userId'] as String,
-      totalAmount: (json['totalAmount'] as num).toInt(),  // Convert to double
-      totalPrice: (json['totalPrice'] as num).toDouble(),    // Convert to double
-      createdAt: DateTime.parse(json['createdAt'] as String),
-      updatedAt: DateTime.parse(json['updatedAt'] as String),
+      orderId: json['orderId'] as String? ?? '',  
+      userId: json['userId'] as String? ?? '',    
+      totalAmount: (json['totalAmount'] as num?)?.toInt() ?? 0,  
+      totalPrice: (json['totalPrice'] as num?)?.toDouble() ?? 0.0, 
+      createdAt: DateTime.tryParse(json['createdAt'] as String? ?? '') ?? DateTime.now(), 
+      updatedAt: DateTime.tryParse(json['updatedAt'] as String? ?? '') ?? DateTime.now(), 
     );
   }
 

@@ -3,7 +3,7 @@ import 'package:supermarket/features/cart/domain/entities/fetch_order_entities.d
 class FetchedOrderModel extends FetchedOrder {
   FetchedOrderModel({
     required String id,
-    required UserCart user,
+    required String user,
     required List<ProductCart> products,
     required DateTime createdAt,
     required DateTime updatedAt,
@@ -18,10 +18,7 @@ class FetchedOrderModel extends FetchedOrder {
   factory FetchedOrderModel.fromJson(Map<String, dynamic> json) {
     return FetchedOrderModel(
       id: json['_id'] ?? '',
-      user: UserCart(
-        userName: json['userId']['userName'] ?? '',
-        email: json['userId']['email'] ?? '',
-      ),
+      user: json['userId'] ?? '',
       products: (json['products'] as List)
           .map((product) => ProductCart(
                 id: product['_id'] ?? '',
@@ -45,10 +42,7 @@ class FetchedOrderModel extends FetchedOrder {
   Map<String, dynamic> toJson() {
     return {
       '_id': id,
-      'userId': {
-        'userName': user.userName,
-        'email': user.email,
-      },
+      'userId': user,
       'products': products
           .map((product) => {
                 '_id': product.id,
@@ -68,7 +62,7 @@ class FetchedOrderModel extends FetchedOrder {
   }
   FetchedOrderModel copyWith({
     String? id,
-    UserCart? user,
+    String? user,
     List<ProductCart>? products,
     DateTime? createdAt,
     DateTime? updatedAt,

@@ -9,31 +9,17 @@ class QuantityCartSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisSize: MainAxisSize.min,
       children: [
         CustomQuantityIcon(
           icon: Icons.remove,
           iconColor: Color(0xffB3B3B3),
-          onTap: () {
-            // Handle decrease quantity
-          },
         ),
-        const SizedBox(width: 8),
-        Text(
-          '$quantity',
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-            color: Colors.black87,
-          ),
-        ),
-        const SizedBox(width: 8),
+        const SizedBox(width: 6),
+        Text('${quantity}'),
+        const SizedBox(width: 6),
         CustomQuantityIcon(
           icon: Icons.add,
           iconColor: primaryColor,
-          onTap: () {
-            // Handle increase quantity
-          },
         ),
       ],
     );

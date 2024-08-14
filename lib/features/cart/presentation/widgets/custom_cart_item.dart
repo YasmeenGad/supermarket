@@ -13,83 +13,67 @@ class CustomCartItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 6,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-        side: BorderSide(color: borderColor.withOpacity(0.3)),
-      ),
-      color: Colors.white,
-      shadowColor: Colors.black26,
-      child: Padding(
-        padding: const EdgeInsets.all(14),
-        child: Row(
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
-                    blurRadius: 10,
-                    offset: Offset(0, 5),
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+          side: BorderSide(color: borderColor),
+        ),
+        color: Colors.white,
+        child: Column(children: [
+          Padding(
+            padding: const EdgeInsets.all(12),
+            child: Row(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
                   ),
-                ],
-                gradient: LinearGradient(
-                  colors: [Colors.white, Colors.grey.shade200],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(15),
-                child: CachedNetworkImage(
-                  imageUrl: order.photo,
-                  width: MediaQuery.of(context).size.width * 0.28,
-                  height: MediaQuery.of(context).size.width * 0.28,
-                  fit: BoxFit.cover,
-                  errorWidget: (context, url, error) => Icon(
-                    Icons.error_outline,
-                    color: Colors.redAccent,
-                    size: 40,
-                  ),
-                  placeholder: (context, url) =>
-                      Center(child: CircularProgressIndicator()),
-                ),
-              ),
-            ),
-            SizedBox(width: 18),
-            Expanded(
-              child: Container(
-                height: MediaQuery.of(context).size.width * 0.28,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CustomCartDetails(
-                      productName: order.productName,
-                      productDetail: order.productDetail,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(12),
+                    child: CachedNetworkImage(
+                      imageUrl: order.photo,
+                      width: 120,
+                      height: 120,
+                      fit: BoxFit.cover,
+                      errorWidget: (context, url, error) => Icon(
+                        Icons.error,
+                        color: Colors.red,
+                      ),
+                      placeholder: (context, url) =>
+                          Center(child: CircularProgressIndicator()),
                     ),
-                    Row(
+                  ),
+                ),
+                SizedBox(width: 16),
+                Flexible(
+                  child: Container(
+                    height: 120,
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        QuantityCartSection(quantity: order.quantity),
-                        Text(
-                          "\$${order.price.toStringAsFixed(2)}",
-                          style: AppStyles.styleSemiBold18(context)
-                              .copyWith(
-                                color: darkColor,
-                                fontWeight: FontWeight.bold,
-                              ),
+                        CustomCartDetails(productName: order.productName, productDetail: order.productDetail,),
+                
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            QuantityCartSection(
+                              quantity: order.quantity,
+                            ),
+                            Text(
+                              "\$${order.price}",
+                              style: AppStyles.styleSemiBold18(context)
+                                  .copyWith(color: darkColor),
+                            ),
+                          ],
                         ),
                       ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
+              ],
             ),
-          ],
-        ),
-      ),
-    );
+          ),
+        ]));
   }
 }
