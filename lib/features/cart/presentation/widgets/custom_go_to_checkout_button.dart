@@ -22,7 +22,9 @@ class CustomGoToCheckoutButton extends StatelessWidget {
         builder: (context, totalState) {
           final totalPrice = (totalState is GetTotalOrderSuccess)
               ? totalState.totalOrder.totalPrice
-              : 0.0;
+              : 0.0;  
+          final totalQuantity = (totalState is GetTotalOrderSuccess)?
+              totalState.totalOrder.totalAmount: 0;
 
           return GestureDetector(
             onTap: () {
@@ -82,6 +84,17 @@ class CustomGoToCheckoutButton extends StatelessWidget {
                             title: "Total Cost",
                             trailing: Text(
                               "${totalPrice} EGP",
+                              style: AppStyles.styleMedium18(context),
+                            ),
+                          ),
+                          Divider(
+                            endIndent: 20,
+                            indent: 20,
+                          ),
+                          CustomListTileCheckout(
+                            title: "Total Amount",
+                            trailing: Text(
+                              "${totalQuantity} Products",
                               style: AppStyles.styleMedium18(context),
                             ),
                           ),
