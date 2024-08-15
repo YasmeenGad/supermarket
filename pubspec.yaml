@@ -53,6 +53,7 @@ dependencies:
   flutter_pannable_rating_bar: ^2.7.2+1
   awesome_dialog: ^3.2.1
   animated_icon: ^0.0.9
+  flutter_credit_card: ^4.0.1
 flutter_assets:
   assets_path: assets/images/
   output_path: lib/core/utils/
