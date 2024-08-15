@@ -81,7 +81,7 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
         throw Exception("Error: ${jsonResponse['message']}");
       }
     } else {
-      throw Exception("Failed to load product");
+      throw Exception("Failed to update product");
     }
   }
 }
