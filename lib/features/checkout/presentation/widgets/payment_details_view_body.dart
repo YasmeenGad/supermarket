@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:supermarket/features/checkout/presentation/widgets/payment_method_item.dart';
+import 'package:supermarket/features/checkout/presentation/widgets/payment_methods.dart';
 
 class PaymentDetailsViewBody extends StatelessWidget {
   const PaymentDetailsViewBody({super.key});
@@ -7,8 +7,9 @@ class PaymentDetailsViewBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        PaymentMethodItem(),
+        PaymentMethodsListView(),
       ],
     );
   }

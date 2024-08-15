@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:supermarket/core/utils/assets.dart';
 
 class PaymentMethodItem extends StatelessWidget {
-  const PaymentMethodItem({super.key, this.isActive = true});
+  const PaymentMethodItem({super.key, this.isActive = true, required this.image});
 
   final bool isActive;
+  final String image;
 
   @override
   Widget build(BuildContext context) {
@@ -29,12 +29,16 @@ class PaymentMethodItem extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15), color: Colors.white),
-        child: Center(
-            child: SvgPicture.asset(
-          Assets.imagesCard,
-          height: 30.69,
-          width: 45,
-        )),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Center(
+              child: SvgPicture.asset(
+            image,
+            fit: BoxFit.scaleDown,
+            height: 30.69,
+            width: 45,
+          )),
+        ),
       ),
     );
   }
