@@ -57,7 +57,7 @@ class OrderRepositoryImpl implements OrderRepository {
 
   @override
   Future<Either<String, TotalOrder>> calculateOrderTotals(
-      String orderId) async {
+      ) async {
     if (!await networkInfo.isConnected) {
       try {
         final cachedTotalOrder = await localDataSource.getTotalOrder();
@@ -71,8 +71,9 @@ class OrderRepositoryImpl implements OrderRepository {
       }
     } else {
       try {
-        final totalOrder = await remoteDataSource.getOrderTotals(orderId);
+        final totalOrder = await remoteDataSource.getOrderTotals();
         localDataSource.cacheTotalOrder(totalOrder);
+        print(totalOrder);
         return Right(totalOrder);
       } catch (e) {
         print(e.toString());

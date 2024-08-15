@@ -24,8 +24,8 @@ class OrderUsecases {
     return await repository.getOrder();
   }
 
-  Future<TotalOrderResult> calculateOrderTotals(String orderId) async {
-    return await repository.calculateOrderTotals(orderId);
+  Future<TotalOrderResult> calculateOrderTotals() async {
+    return await repository.calculateOrderTotals();
   }
 
   Future<OrderResult> updateOrder(List<String> productIds) async {

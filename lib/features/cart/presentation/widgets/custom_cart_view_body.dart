@@ -38,6 +38,7 @@ class CustomCartViewBody extends StatelessWidget {
                     if (state.orders.products.isNotEmpty)
                       CustomGoToCheckoutButton(
                         state: state,
+                        orderId: state.orders.id,
                       ),
                   ],
                 );
@@ -62,7 +63,7 @@ class CustomCartViewBody extends StatelessWidget {
 }
 
 void _fetchTotalOrder(BuildContext context, String orderId) {
-  context.read<GetTotalOrderBloc>().add(GetTotalOrder(orderId: orderId));
+  context.read<GetTotalOrderBloc>().add(GetTotalOrder());
 }
 
 void showErrorDialog(BuildContext context, String message) {

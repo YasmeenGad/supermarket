@@ -11,7 +11,7 @@ import 'package:supermarket/features/cart/data/models/order_model.dart';
 abstract class OrderRemoteDataSource {
   Future<OrderModel> createOrder(List<String> productIds);
   Future<FetchedOrderModel> getOrder();
-  Future<TotalOrderModel> getOrderTotals(String orderId);
+  Future<TotalOrderModel> getOrderTotals();
   Future<OrderModel> updateOrder( List<String> productIds);
   Future<DeleteOrderModel> deleteOrder(List<String> productIds);
 }
@@ -76,11 +76,11 @@ class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
   }
 
   @override
-  Future<TotalOrderModel> getOrderTotals(String orderId) async {
+  Future<TotalOrderModel> getOrderTotals() async {
     final token = await authLocalDataSource.getCachedLoginResponse();
     final cachedToken = token?.token;
     final response = await client.get(
-      Uri.parse('http://$ip:4000/order/total/$orderId'),
+      Uri.parse('http://$ip:4000/order/total/'),
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer $cachedToken',

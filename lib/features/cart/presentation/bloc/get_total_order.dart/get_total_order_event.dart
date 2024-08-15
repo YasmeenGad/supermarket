@@ -7,10 +7,4 @@ sealed class GetTotalOrderEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class GetTotalOrder extends GetTotalOrderEvent {
-  final String orderId;
-  const GetTotalOrder({required this.orderId});
-
-  @override
-  List<Object> get props => [orderId];
-}
+class GetTotalOrder extends GetTotalOrderEvent {}

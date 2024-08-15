@@ -15,7 +15,7 @@ class GetTotalOrderBloc extends Bloc<GetTotalOrderEvent, GetTotalOrderState> {
   Future<void> _getTotalOrder(
       GetTotalOrder event, Emitter<GetTotalOrderState> emit) async {
     emit(GetTotalOrderLoading());
-    final result = await totalOderUsecase.calculateOrderTotals(event.orderId);
+    final result = await totalOderUsecase.calculateOrderTotals();
     result.fold(
       (l) => emit(GetTotalOrderError(message:l)),
       (r) => emit(GetTotalOrderSuccess(totalOrder: r)),
