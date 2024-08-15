@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:supermarket/features/Home/data/models/product_model.dart';
+import 'package:supermarket/features/Home/domain/entities/product.dart';
 import 'package:supermarket/features/Home/domain/usecases/get_all_products_usecase.dart';
 
 part 'all_products_bloc_event.dart';

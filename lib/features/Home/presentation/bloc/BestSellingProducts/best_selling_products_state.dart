@@ -10,7 +10,7 @@ abstract class BestSellingProductsState extends Equatable {
 final class BestSellingProductsInitial extends BestSellingProductsState {}
 final class BestSellingProductsLoading extends BestSellingProductsState {}
 final class BestSellingProductsLoaded extends BestSellingProductsState {
-  final List<BestSellingProductsModel> products;
+  final List<BestSellingProducts> products;
 
   BestSellingProductsLoaded(this.products);
 

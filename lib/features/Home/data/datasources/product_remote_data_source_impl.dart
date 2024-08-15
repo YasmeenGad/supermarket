@@ -8,6 +8,7 @@ import '../models/product_model.dart';
 abstract class ProductRemoteDataSource {
   Future<List<ProductModel>> getAllProducts();
   Future<List<BestSellingProductsModel>> getBestSellingProducts();
+  Future<ProductModel> updateQuantity(String id, int quantity);
 }
 
 class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
@@ -22,7 +23,7 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
     final getAllProductsUrl = Uri.parse('http://$ip:4000/product/all');
     final response = await client.get(
       getAllProductsUrl,
-      headers: {'Authorization': 'Bearer ${token?.token?? ''}'},
+      headers: {'Authorization': 'Bearer ${token?.token ?? ''}'},
     );
 
     if (response.statusCode == 200) {
@@ -40,11 +41,11 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
   @override
   Future<List<BestSellingProductsModel>> getBestSellingProducts() async {
     final token = await authLocalDataSource.getCachedLoginResponse();
-    final getBestSellingProductsUrl =
-        Uri.parse('http://$ip:4000/product/best');
+    final accessToken = token?.token ?? '';
+    final getBestSellingProductsUrl = Uri.parse('http://$ip:4000/product/best');
     final response = await client.get(
       getBestSellingProductsUrl,
-      headers: {'Authorization': 'Bearer ${token?.token?? ''}'},
+      headers: {'Authorization': 'Bearer $accessToken'},
     );
 
     if (response.statusCode == 200) {
@@ -56,6 +57,31 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
     } else {
       final errorResponse = jsonDecode(response.body);
       throw ('${errorResponse['message']}');
+    }
+  }
+
+  @override
+  Future<ProductModel> updateQuantity(String id, int quantity) async {
+    final url = Uri.parse('http://localhost:4000/product/$id');
+    final response = await client.patch(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: json.encode({
+        'quantity': quantity,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> jsonResponse = json.decode(response.body);
+      if (jsonResponse['status']) {
+        return ProductModel.fromJson(jsonResponse['message']);
+      } else {
+        throw Exception("Error: ${jsonResponse['message']}");
+      }
+    } else {
+      throw Exception("Failed to load product");
     }
   }
 }

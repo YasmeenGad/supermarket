@@ -5,6 +5,7 @@ import 'package:supermarket/features/Home/data/datasources/all_products_local_da
 import 'package:supermarket/features/Home/data/datasources/product_remote_data_source_impl.dart';
 import 'package:supermarket/features/Home/data/models/best_selling_products_model.dart';
 import 'package:supermarket/features/Home/data/models/product_model.dart';
+import 'package:supermarket/features/Home/domain/entities/product.dart';
 import '../../domain/repositories/product_repository.dart';
 
 class ProductRepositoryImpl implements ProductRepository {
@@ -67,6 +68,22 @@ class ProductRepositoryImpl implements ProductRepository {
       } catch (e) {
         return Left('Failed to get products from local cache: $e');
       }
+    }
+  }
+
+  @override
+  Future<Either<String, Product>> updateQuantity(
+      String id, int quantity) async {
+    if (!await networkInfo.isConnected) {
+      return Left('No Internet Connection');
+    }
+
+    try {
+      final updatedProduct =
+          await remoteDataSource.updateQuantity(id, quantity);
+      return Right(updatedProduct);
+    } catch (e) {
+      return Left(e.toString());
     }
   }
 }

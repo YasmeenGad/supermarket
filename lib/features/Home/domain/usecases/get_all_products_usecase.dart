@@ -6,7 +6,7 @@ import '../repositories/product_repository.dart';
 
 typedef GetAllProductsResult= Either<String, List<Product>>;
 typedef GetBestSellingProductsResult= Either<String, List<BestSellingProducts>>;
-typedef UpdateQuantityResult= Either<String, List<Product>>;
+typedef UpdateQuantityResult= Either<String, Product>;
 class GetProductsUseCase {
   final ProductRepository repository;
 

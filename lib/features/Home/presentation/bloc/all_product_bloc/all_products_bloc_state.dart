@@ -10,7 +10,7 @@ sealed class AllProductsBlocState extends Equatable {
 final class AllProductsBlocInitial extends AllProductsBlocState {}
 final class AllProductsBlocLoading extends AllProductsBlocState {}
 final class AllProductsBlocLoaded extends AllProductsBlocState {
-  final List<ProductModel> products;
+  final List<Product> products;
 
   AllProductsBlocLoaded(this.products);
 
