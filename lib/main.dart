@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supermarket/core/utils/app_routes.dart';
 import 'package:supermarket/features/Home/presentation/bloc/BestSellingProducts/best_selling_products_bloc.dart';
 import 'package:supermarket/features/Home/presentation/bloc/all_product_bloc/all_products_bloc_bloc.dart';
+import 'package:supermarket/features/Home/presentation/bloc/update_quantity/update_quantity_bloc.dart';
 import 'package:supermarket/features/auth/presentation/bloc/authBloc/auth_bloc.dart';
 import 'package:supermarket/features/cart/presentation/bloc/bloc/delete_item_bloc.dart';
 import 'package:supermarket/features/cart/presentation/bloc/get_total_order.dart/get_total_order_bloc.dart';
@@ -56,6 +57,7 @@ class SuperMarket extends StatelessWidget {
           BlocProvider(
               create: (context) => sl<DeleteAllFavoriteProductsBloc>()),
           BlocProvider(create: (context) => sl<DeleteItemBloc>()),
+          BlocProvider(create: (context) => sl<UpdateQuantityBloc>()),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,

@@ -10,6 +10,7 @@ import 'package:supermarket/features/Home/domain/repositories/product_repository
 import 'package:supermarket/features/Home/domain/usecases/get_all_products_usecase.dart';
 import 'package:supermarket/features/Home/presentation/bloc/BestSellingProducts/best_selling_products_bloc.dart';
 import 'package:supermarket/features/Home/presentation/bloc/all_product_bloc/all_products_bloc_bloc.dart';
+import 'package:supermarket/features/Home/presentation/bloc/update_quantity/update_quantity_bloc.dart';
 
 import 'package:supermarket/features/auth/data/datasources/auth_local_datasource.dart';
 import 'package:supermarket/features/auth/data/datasources/auth_remote_datasources.dart';
@@ -296,6 +297,10 @@ Future<void> init() async {
 
   // delete item from cart Blocs
   sl.registerFactory(() => DeleteItemBloc(
+        sl(),
+      ));
+  // update quantity Blocs
+  sl.registerFactory(() => UpdateQuantityBloc(
         sl(),
       ));
 }
