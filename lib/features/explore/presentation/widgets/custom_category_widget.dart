@@ -10,54 +10,75 @@ class CustomCategoryWidget extends StatelessWidget {
     required this.categoryName,
     required this.categoryImage,
   });
+
   final String categoryName;
-  final dynamic categoryImage;
+  final String categoryImage;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, AppRoutes.filteredProductsViewRoute,
-            arguments: categoryName);
+        Navigator.pushNamed(
+          context,
+          AppRoutes.filteredProductsViewRoute,
+          arguments: categoryName,
+        );
       },
       child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 8,
+              offset: Offset(0, 4),
+            ),
+          ],
           border: Border.all(width: 1, color: secondaryColor),
         ),
         child: Column(
           children: [
-            Expanded(
-              flex: 3,
-              child: ClipRRect(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(12),
-                    topRight: Radius.circular(12)),
-                child: CachedNetworkImage(
-                  imageUrl: categoryImage,
-                  fit: BoxFit.fill,
-                  width: double.infinity,
-                  placeholder: (context, url) =>
-                      Center(child: CircularProgressIndicator()),
-                  errorWidget: (context, url, error) => Icon(
+            ClipRRect(
+              borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+              child: CachedNetworkImage(
+                imageUrl: categoryImage,
+                fit: BoxFit.cover,
+                width: double.infinity,
+                height: MediaQuery.sizeOf(context).height * 0.179,
+                placeholder: (context, url) => Center(
+                  child: SizedBox(
+                    width: 30,
+                    height: 30,
+                    child: CircularProgressIndicator(
+                      color: primaryColor,
+                    ),
+                  ),
+                ),
+                errorWidget: (context, url, error) => Container(
+                  color: Colors.grey[200],
+                  child: Icon(
                     Icons.error,
                     color: Colors.red,
+                    size: 40,
                   ),
                 ),
               ),
             ),
-            Expanded(
-              child: Container(
-                child: Center(
-                  child: Text(
-                    categoryName,
-                    style: AppStyles.styleBold16(context)
-                        .copyWith(color: darkColor),
-                  ),
+            Spacer(),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+              child: Text(
+                categoryName,
+                textAlign: TextAlign.center,
+                style: AppStyles.styleBold16(context).copyWith(
+                  color: darkColor,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ),
+            SizedBox(height: 8),
           ],
         ),
       ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:supermarket/core/constants/app_colors.dart';
+import 'package:supermarket/core/widgets/custom_loading_indicator.dart';
 import 'package:supermarket/features/cart/presentation/widgets/custom_text_bar.dart';
 import 'package:supermarket/features/favorite/presentation/bloc/delete_one_fav_products/delete_one_favorite_product_bloc.dart';
 import 'package:supermarket/features/favorite/presentation/bloc/get_fav_products/get_favorite_products_bloc.dart';
@@ -75,7 +75,7 @@ class _FavViewState extends State<FavView> {
   }
 
   Widget _buildLoadingIndicator() {
-    return const Center(child: CircularProgressIndicator(color: primaryColor,));
+    return const Center(child: CustomLoadingIndicator());
   }
 
   Widget _buildProductList(List<dynamic> products) {
