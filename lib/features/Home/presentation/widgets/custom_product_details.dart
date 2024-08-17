@@ -33,6 +33,7 @@ class CustomProductDetails extends StatelessWidget {
                 CustomQuantity(
                   price: "${products.price}",
                   quantity: products.quantity,
+                  productId: products.id,
                 ),
                 SizedBox(height: 16),
                 Divider(thickness: 1, height: 12),

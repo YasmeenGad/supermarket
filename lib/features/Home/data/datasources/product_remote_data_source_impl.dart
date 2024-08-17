@@ -62,7 +62,7 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
 
   @override
   Future<ProductModel> updateQuantity(String id, int quantity) async {
-    final url = Uri.parse('http://localhost:4000/product/$id');
+    final url = Uri.parse('http://$ip:4000/product/$id');
     final response = await client.patch(
       url,
       headers: {
@@ -78,7 +78,7 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
       if (jsonResponse['status']) {
         return ProductModel.fromJson(jsonResponse['message']);
       } else {
-        throw Exception("Error: ${jsonResponse['message']}");
+        throw Exception("${jsonResponse['message']}");
       }
     } else {
       throw Exception("Failed to update product");

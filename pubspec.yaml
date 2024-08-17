@@ -54,6 +54,8 @@ dependencies:
   awesome_dialog: ^3.2.1
   animated_icon: ^0.0.9
   flutter_credit_card: ^4.0.1
+  pull_to_refresh_flutter3: ^2.0.2
+  flutter_spinkit: ^5.2.1
 flutter_assets:
   assets_path: assets/images/
   output_path: lib/core/utils/

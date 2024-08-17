@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supermarket/core/constants/app_colors.dart';
 import 'package:supermarket/core/utils/app_styles.dart';
-import 'package:supermarket/features/cart/presentation/bloc/bloc/delete_item_bloc.dart';
+import 'package:supermarket/features/cart/presentation/bloc/delete_item_bloc/delete_item_bloc.dart';
 import 'package:supermarket/features/cart/presentation/bloc/get_order_bloc/get_order_bloc.dart'; // Assuming you have a CartBloc to manage cart state
 
 class CustomCartDetails extends StatelessWidget {

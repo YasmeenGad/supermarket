@@ -73,7 +73,10 @@ class CustomCartItem extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        QuantityCartSection(quantity: order.quantity),
+                        QuantityCartSection(
+                          initialQuantity: order.quantity,
+                          productId: order.id,
+                        ),
                         Text(
                           "\$${order.price.toStringAsFixed(2)}",
                           style: AppStyles.styleSemiBold18(context).copyWith(
