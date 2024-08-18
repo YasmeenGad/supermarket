@@ -22,96 +22,104 @@ class CustomGoToCheckoutButton extends StatelessWidget {
         builder: (context, totalState) {
           final totalPrice = (totalState is GetTotalOrderSuccess)
               ? totalState.totalOrder.totalPrice
-              : 0.0;  
-          final totalQuantity = (totalState is GetTotalOrderSuccess)?
-              totalState.totalOrder.totalAmount: 0;
+              : 0.0;
+          final totalQuantity = (totalState is GetTotalOrderSuccess)
+              ? totalState.totalOrder.totalAmount
+              : 0;
 
           return GestureDetector(
             onTap: () {
-              showModalBottomSheet(
-                context: context,
-                isScrollControlled:
-                    true, // Allows the sheet to take full height
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(20),
-                  ),
-                ),
-                builder: (context) {
-                  return Container(
-                    width: MediaQuery.sizeOf(context).width,
-                    child: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          ListTile(
-                            title: Text(
-                              'Checkout',
-                              style: AppStyles.styleSemiBold24(context)
-                                  .copyWith(color: darkColor),
-                            ),
-                            trailing: GestureDetector(
-                              onTap: () {
-                                Navigator.pop(context);
-                              },
-                              child: Icon(
-                                Icons.close,
-                                color: darkColor,
-                              ),
-                            ),
-                          ),
-                          Divider(
-                            endIndent: 20,
-                            indent: 20,
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.pushNamed(
-                                  context, AppRoutes.paymentDetailsRoute);
-                            },
-                            child: CustomListTileCheckout(
-                              title: "Payment",
-                              trailing: Icon(Icons.arrow_forward_ios),
-                            ),
-                          ),
-                          Divider(
-                            endIndent: 20,
-                            indent: 20,
-                          ),
-                          CustomListTileCheckout(
-                            title: "Total Cost",
-                            trailing: Text(
-                              "${totalPrice} EGP",
-                              style: AppStyles.styleMedium18(context),
-                            ),
-                          ),
-                          Divider(
-                            endIndent: 20,
-                            indent: 20,
-                          ),
-                          CustomListTileCheckout(
-                            title: "Total Amount",
-                            trailing: Text(
-                              "${totalQuantity} Products",
-                              style: AppStyles.styleMedium18(context),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              );
+              showFriendlyBottomSheet(context, totalPrice, totalQuantity);
             },
             child: CustomButton(
               text: "Go To Checkout",
-              price: totalPrice,
             ),
           );
         },
       ),
+    );
+  }
+
+  void showFriendlyBottomSheet(
+      BuildContext context, double totalPrice, int totalQuantity) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(30), // Friendly rounded corners
+        ),
+      ),
+      backgroundColor: Colors.white, // Clean, friendly background
+      builder: (context) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Checkout',
+                      style: AppStyles.styleSemiBold24(context).copyWith(
+                        color: darkColor, // Neutral color for text
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Icon(
+                        Icons.close,
+                        color: darkColor,
+                        size: 28, // Larger icon for ease of use
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 16), // Space between header and content
+              Divider(
+                color: Colors.grey[300],
+                thickness: 1,
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, AppRoutes.paymentDetailsRoute);
+                },
+                child: CustomListTileCheckout(
+                  title: "Payment Methods",
+                  trailing: Icon(
+                    Icons.arrow_forward_ios,
+                    color: primaryColor,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 12),
+              CustomListTileCheckout(
+                title: "Total Cost",
+                trailing: Text(
+                  "${totalPrice} EGP",
+                  style: AppStyles.styleMedium18(context)
+                      .copyWith(color: primaryColor),
+                ),
+              ),
+              const SizedBox(height: 12),
+              CustomListTileCheckout(
+                title: "Total Amount",
+                trailing: Text(
+                  "${totalQuantity} Products",
+                  style: AppStyles.styleMedium18(context)
+                      .copyWith(color: primaryColor),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }
