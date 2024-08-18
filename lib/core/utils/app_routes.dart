@@ -11,6 +11,7 @@ import 'package:supermarket/features/auth/presentation/views/reset_password.dart
 import 'package:supermarket/features/auth/presentation/views/verify_otp.dart';
 import 'package:supermarket/features/cart/presentation/views/cart_view.dart';
 import 'package:supermarket/features/checkout/presentation/views/payment_details.dart';
+import 'package:supermarket/features/checkout/presentation/views/thank_you_view.dart';
 import 'package:supermarket/features/favorite/presentation/views/fav_view.dart';
 import 'package:supermarket/features/filter/presentation/views/filtered_products_view.dart';
 import 'package:supermarket/features/search/presentation/views/search_view.dart';
@@ -33,6 +34,7 @@ class AppRoutes {
   static const String cartRoute='cartRoute';
   static const String favRoute='favRoute';
   static const String paymentDetailsRoute='paymentDetailsRoute';
+  static const String paymentSuccessRoute='paymentSuccessRoute';
   static Map<String, WidgetBuilder> getRoutes() {
     return {
       splashView: (context) => const SplashView(),
@@ -52,6 +54,7 @@ class AppRoutes {
       cartRoute: (context) => const CartView(),
       favRoute: (context) =>  FavView(),
       paymentDetailsRoute: (context) => const PaymentDetailsView(),
+      paymentSuccessRoute: (context) => const ThankYouView()
     };
   }
 }

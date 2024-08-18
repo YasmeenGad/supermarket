@@ -102,5 +102,13 @@ class Assets {
   /// Assets for imagesVegetables
   /// assets/images/vegetables.png
   static const String imagesVegetables = "assets/images/vegetables.png";
+
+  /// Assets for imagesSuccess
+  /// assets/images/success.png
+  static const String imageSuccess = "assets/images/success.svg";
+
+  /// Assets for imagesSuccessScreen
+  /// assets/images/paypal.png
+  static const String imagesSuccessScreen = "assets/images/successScreen.svg";
 }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supermarket/core/utils/app_routes.dart';
 import 'package:supermarket/core/widgets/custom_button.dart';
 import 'package:supermarket/features/checkout/presentation/widgets/custom_credit_card.dart';
 import 'package:supermarket/features/checkout/presentation/widgets/payment_methods.dart';
@@ -36,6 +37,7 @@ class _PaymentDetailsViewBodyState extends State<PaymentDetailsViewBody> {
                   onTap: (){
                     if(formKey.currentState!.validate()){
                       formKey.currentState!.save();
+                      Navigator.pushNamed(context, AppRoutes.paymentSuccessRoute);
                     }else{
                       autovalidateMode = AutovalidateMode.always;
                       setState(() {
