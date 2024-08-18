@@ -20,26 +20,29 @@ class _PaymentMethodsListViewState extends State<PaymentMethodsListView> {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 62,
-      child: Center(
-        child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: paymentMethodsItems.length,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: GestureDetector(
-                onTap: () {
-                  activeIndex = index;
-                  setState(() {});
-                },
-                child: PaymentMethodItem(
-                  image: paymentMethodsItems[index],
-                  isActive: activeIndex == index,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: paymentMethodsItems.length,
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: GestureDetector(
+              onTap: () {
+                activeIndex = index;
+                setState(() {});
+              },
+              child: Container(
+                width: MediaQuery.sizeOf(context).width * 0.4,
+                child: Center(
+                  child: PaymentMethodItem(
+                    image: paymentMethodsItems[index],
+                    isActive: activeIndex == index,
+                  ),
                 ),
               ),
-            );
-          },
-        ),
+            ),
+          );
+        },
       ),
     );
   }

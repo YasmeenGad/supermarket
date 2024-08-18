@@ -37,7 +37,7 @@ class _PaymentDetailsViewBodyState extends State<PaymentDetailsViewBody> {
                   onTap: (){
                     if(formKey.currentState!.validate()){
                       formKey.currentState!.save();
-                      Navigator.pushNamed(context, AppRoutes.paymentSuccessRoute);
+                      Navigator.pushNamedAndRemoveUntil(context, AppRoutes.paymentSuccessRoute, (Route<dynamic> route) => false);
                     }else{
                       autovalidateMode = AutovalidateMode.always;
                       setState(() {
