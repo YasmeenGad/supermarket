@@ -12,8 +12,8 @@ class PaymentDetailsViewBody extends StatefulWidget {
 }
 
 class _PaymentDetailsViewBodyState extends State<PaymentDetailsViewBody> {
-    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-     AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,8 @@ class _PaymentDetailsViewBodyState extends State<PaymentDetailsViewBody> {
         SliverToBoxAdapter(
           child: CustomCreditCard(
             autovalidateMode: autovalidateMode,
-            formKey: formKey,),
+            formKey: formKey,
+          ),
         ),
         SliverFillRemaining(
           hasScrollBody: false,
@@ -34,18 +35,21 @@ class _PaymentDetailsViewBodyState extends State<PaymentDetailsViewBody> {
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 12, left: 12, right: 12),
                 child: GestureDetector(
-                  onTap: (){
-                    if(formKey.currentState!.validate()){
-                      formKey.currentState!.save();
-                      Navigator.pushNamedAndRemoveUntil(context, AppRoutes.paymentSuccessRoute, (Route<dynamic> route) => false);
-                    }else{
-                      autovalidateMode = AutovalidateMode.always;
-                      setState(() {
-                        
-                      });
-                    }
-                  },
-                  child: const CustomButton(text: 'Complete Payment',)),
+                    onTap: () {
+                      if (formKey.currentState!.validate()) {
+                        formKey.currentState!.save();
+                        Navigator.pushNamedAndRemoveUntil(
+                            context,
+                            AppRoutes.paymentSuccessRoute,
+                            (Route<dynamic> route) => false);
+                      } else {
+                        autovalidateMode = AutovalidateMode.always;
+                        setState(() {});
+                      }
+                    },
+                    child: const CustomButton(
+                      text: 'Complete Payment',
+                    )),
               )),
         )
       ],

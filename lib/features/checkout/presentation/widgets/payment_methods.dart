@@ -32,7 +32,7 @@ class _PaymentMethodsListViewState extends State<PaymentMethodsListView> {
                 setState(() {});
               },
               child: Container(
-                width: MediaQuery.sizeOf(context).width * 0.4,
+                // width: MediaQuery.sizeOf(context).width * 0.4,
                 child: Center(
                   child: PaymentMethodItem(
                     image: paymentMethodsItems[index],

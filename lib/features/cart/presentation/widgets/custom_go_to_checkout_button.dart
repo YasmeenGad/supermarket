@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supermarket/core/constants/app_colors.dart';
-import 'package:supermarket/core/utils/app_routes.dart';
 import 'package:supermarket/core/utils/app_styles.dart';
 import 'package:supermarket/core/widgets/custom_button.dart';
 import 'package:supermarket/features/cart/presentation/bloc/get_total_order.dart/get_total_order_bloc.dart';
 import 'package:supermarket/features/cart/presentation/widgets/custom_list_tile_checkout.dart';
+import 'package:supermarket/features/checkout/presentation/widgets/payment_methods.dart';
 
 class CustomGoToCheckoutButton extends StatelessWidget {
   const CustomGoToCheckoutButton({super.key, this.state, this.orderId});
@@ -44,7 +44,7 @@ class CustomGoToCheckoutButton extends StatelessWidget {
       BuildContext context, double totalPrice, int totalQuantity) {
     showModalBottomSheet(
       context: context,
-      isScrollControlled: true, 
+      isScrollControlled: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
           top: Radius.circular(20),
@@ -81,11 +81,14 @@ class CustomGoToCheckoutButton extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.pushNamed(context, AppRoutes.paymentDetailsRoute);
+                    // Navigator.pushNamed(context, AppRoutes.paymentDetailsRoute);
                   },
                   child: CustomListTileCheckout(
-                    title: "Payment",
-                    trailing: Icon(Icons.arrow_forward_ios),
+                    title: "Payment Methods",
+                    trailing: SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.5,
+                      child: PaymentMethodsListView(),
+                    ),
                   ),
                 ),
                 Divider(
@@ -96,7 +99,7 @@ class CustomGoToCheckoutButton extends StatelessWidget {
                   title: "Total Cost",
                   trailing: Text(
                     "${totalPrice} EGP",
-                    style: AppStyles.styleMedium18(context)
+                    style: AppStyles.styleMedium16(context)
                         .copyWith(color: primaryColor),
                   ),
                 ),
@@ -108,10 +111,21 @@ class CustomGoToCheckoutButton extends StatelessWidget {
                   title: "Total Amount",
                   trailing: Text(
                     "${totalQuantity} Products",
-                    style: AppStyles.styleMedium18(context)
+                    style: AppStyles.styleMedium16(context)
                         .copyWith(color: primaryColor),
                   ),
                 ),
+                const SizedBox(
+                  height: 16,
+                ),
+                Container(
+                    width: MediaQuery.sizeOf(context).width,
+                    child: Center(
+                        child: SizedBox(
+                            width: MediaQuery.sizeOf(context).width * 0.5,
+                            child: CustomButton(
+                              text: "Continue",
+                            )))),
               ],
             ),
           ),
