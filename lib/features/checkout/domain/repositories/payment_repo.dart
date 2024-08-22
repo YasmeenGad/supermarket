@@ -5,5 +5,5 @@ import '../../data/models/payment_intent_input_model.dart';
 
 abstract class PaymentRepository {
   Future<Either<String, PaymentIntentModel>> createPaymentIntent(
-      {required PaymentIntentInputModel paymentIntentInputModel});
+      PaymentIntentInputModel paymentIntentInputModel);
 }
