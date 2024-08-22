@@ -68,3 +68,8 @@ class SuperMarket extends StatelessWidget {
         ));
   }
 }
+
+// create payment sheet that take current & amount
+// init payment sheet 
+// present payment sheet
+
