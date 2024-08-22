@@ -1,4 +1,6 @@
-class PaymentIntent {
+import 'package:equatable/equatable.dart';
+
+class PaymentIntent extends Equatable {
   final String id;
   final String object;
   final int amount;
@@ -34,17 +36,42 @@ class PaymentIntent {
     required this.paymentMethodTypes,
     required this.status,
   });
+  
+  @override
+  List<Object?> get props => [
+    id,
+    object,
+    amount,
+    amountCapturable,
+    amountDetails,
+    amountReceived,
+    automaticPaymentMethodsEnabled,
+    captureMethod,
+    clientSecret,
+    confirmationMethod,
+    created,
+    currency,
+    livemode,
+    paymentMethodOptions,
+    paymentMethodTypes,
+    status,
+  ];
 }
 
-class AmountDetails {
+class AmountDetails extends Equatable {
   final Map<String, dynamic> tip;
 
   AmountDetails({
     required this.tip,
   });
+
+  @override 
+  List<Object?> get props => [
+    tip,
+  ];
 }
 
-class PaymentMethodOptions {
+class PaymentMethodOptions extends Equatable {
   final CardOptions card;
   final LinkOptions link;
 
@@ -52,20 +79,36 @@ class PaymentMethodOptions {
     required this.card,
     required this.link,
   });
+
+  @override 
+  List<Object?> get props => [
+    card,
+    link,
+  ];
 }
 
-class CardOptions {
+class CardOptions extends Equatable {
   final String requestThreeDSecure;
 
   CardOptions({
     required this.requestThreeDSecure,
   });
+
+  @override
+  List<Object?> get props => [
+    requestThreeDSecure,
+  ];
 }
 
-class LinkOptions {
+class LinkOptions extends Equatable {
   final String? persistentToken;
 
   LinkOptions({
     this.persistentToken,
   });
+
+  @override
+  List<Object?> get props => [
+    persistentToken,
+  ];
 }
