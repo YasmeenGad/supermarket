@@ -4,6 +4,7 @@ import 'package:supermarket/core/constants/app_colors.dart';
 import 'package:supermarket/core/utils/app_styles.dart';
 import 'package:supermarket/core/widgets/custom_button.dart';
 import 'package:supermarket/features/cart/presentation/bloc/get_total_order.dart/get_total_order_bloc.dart';
+import 'package:supermarket/features/cart/presentation/widgets/custom_button_bloc.dart';
 import 'package:supermarket/features/cart/presentation/widgets/custom_list_tile_checkout.dart';
 import 'package:supermarket/features/checkout/presentation/widgets/payment_methods.dart';
 
@@ -118,14 +119,7 @@ class CustomGoToCheckoutButton extends StatelessWidget {
                 const SizedBox(
                   height: 16,
                 ),
-                Container(
-                    width: MediaQuery.sizeOf(context).width,
-                    child: Center(
-                        child: SizedBox(
-                            width: MediaQuery.sizeOf(context).width * 0.5,
-                            child: CustomButton(
-                              text: "Continue",
-                            )))),
+                CustomButtonBloc(),
               ],
             ),
           ),
@@ -134,3 +128,5 @@ class CustomGoToCheckoutButton extends StatelessWidget {
     );
   }
 }
+
+

@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:supermarket/core/constants/app_colors.dart'; // Ensure you have the correct path
 
 class CustomButton extends StatelessWidget {
   final String text;
+  final bool isLoading;
 
   const CustomButton({
     super.key,
     required this.text,
+    this.isLoading = false,
   });
 
   @override
@@ -33,20 +36,20 @@ class CustomButton extends StatelessWidget {
         ],
       ),
       child: Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              text,
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
+        child: isLoading
+            ? SpinKitCircle(
+                color: primaryColor,
+                size: 40,
+              )
+            : Text(
+                text,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+                overflow: TextOverflow.ellipsis,
               ),
-              overflow: TextOverflow.ellipsis,
-            ),
-          ],
-        ),
       ),
     );
   }
