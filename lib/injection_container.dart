@@ -27,6 +27,11 @@ import 'package:supermarket/features/cart/presentation/bloc/delete_item_bloc/del
 import 'package:supermarket/features/cart/presentation/bloc/get_total_order.dart/get_total_order_bloc.dart';
 import 'package:supermarket/features/cart/presentation/bloc/create_order_bloc/create_order_bloc.dart';
 import 'package:supermarket/features/cart/presentation/bloc/get_order_bloc/get_order_bloc.dart';
+import 'package:supermarket/features/checkout/data/datasource/payment_remote_datasource.dart';
+import 'package:supermarket/features/checkout/data/repositories/payment_repo_impl.dart';
+import 'package:supermarket/features/checkout/domain/repositories/payment_repo.dart';
+import 'package:supermarket/features/checkout/domain/usecase/payment_usecase.dart';
+import 'package:supermarket/features/checkout/presentation/bloc/payment_bloc/payment_bloc.dart';
 import 'package:supermarket/features/explore/data/datasources/category_local_datasource.dart';
 import 'package:supermarket/features/explore/data/datasources/category_remote_datasource.dart';
 import 'package:supermarket/features/explore/data/repositories/category_repo_impl.dart';
@@ -146,6 +151,15 @@ Future<void> init() async {
     () => OrderLocalDataSourceImpl(sharedPreferences: sharedPreferences),
   );
 
+  // payment remote data source
+  sl.registerLazySingleton<PaymentRemoteDatasource>(
+    () => PaymentRemoteDatasourceImpl(
+      client: httpClient,
+    ),
+  );
+
+
+
   // Auth Repositories
   sl.registerLazySingleton<AuthRepositories>(() => AuthRepositoriesImp(
         authLocalDataSource: sl(),
@@ -195,6 +209,14 @@ Future<void> init() async {
     () => FavoriteRepositoryImpl(
         remoteDataSource: sl(), networkInfo: sl(), localDataSource: sl()),
   );
+
+  // payment Repositories
+  sl.registerLazySingleton<PaymentRepository>(
+    () => PaymentRepositoryImpl(
+      networkInfo: sl(),
+      paymentRemoteDatasource: sl(),
+    ),
+  );
   // Auth Use cases
   sl.registerLazySingleton(() => AuthUsecase(authRepositories: sl()));
 
@@ -224,6 +246,11 @@ Future<void> init() async {
   // add favorite use case
   sl.registerLazySingleton(() => AddFavoriteProductsUseCase(
         sl(),
+      ));
+
+  // payment use case
+  sl.registerLazySingleton(() => PaymentUsecase(
+       paymentRepository: sl(),
       ));
 
   // Auth Blocs
@@ -302,5 +329,10 @@ Future<void> init() async {
   // update quantity Blocs
   sl.registerFactory(() => UpdateQuantityBloc(
         sl(),
+      ));
+
+  // payment Blocs
+  sl.registerFactory(() => PaymentBloc(
+        paymentUsecase: sl(),
       ));
 }
