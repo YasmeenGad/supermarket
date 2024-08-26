@@ -1,4 +1,8 @@
+import 'dart:async';
+
 import 'package:dartz/dartz.dart';
+import 'package:supermarket/core/error/exceptions.dart';
+import 'package:supermarket/core/error/failure.dart';
 import 'package:supermarket/core/network/network_info.dart';
 import 'package:supermarket/features/auth/data/datasources/auth_local_datasource.dart';
 import 'package:supermarket/features/auth/data/datasources/auth_remote_datasources.dart';
@@ -15,84 +19,95 @@ class AuthRepositoriesImp implements AuthRepositories {
       required this.networkInfo});
 
   @override
-  Future<Either<String, String>> login(String email, String password) async {
+  Future<Either<Failure, String>> login(String email, String password) async {
     if (!await networkInfo.isConnected) {
-      return Left('No internet connection');
-    } else {
-      try {
-        final remoteUser = await authRemoteDatasource.login(email, password);
-        await authLocalDataSource.cacheLoginResponse(remoteUser);
-        return Right('Login successful');
-      } catch (e) {
-        return Left('$e');
-      }
+      return Left(NoInternetFailure());
+    }
+
+    try {
+      final remoteUser = await authRemoteDatasource.login(email, password);
+      await authLocalDataSource.cacheLoginResponse(remoteUser);
+      return Right('Login successful');
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message, e.statusCode));
+    } on TimeoutException {
+      return Left(TimeoutFailure());
+    } catch (e) {
+      return Left(GeneralFailure(e.toString()));
     }
   }
 
   @override
-  Future<Either<String, String>> register(
+  Future<Either<Failure, String>> register(
       String userName, String email, String password) async {
     if (!await networkInfo.isConnected) {
-      return Left('No internet connection');
-    } else {
-      try {
-        print("response1");
-        // ignore: unused_local_variable
-        final newUser =
-            await authRemoteDatasource.register(userName, email, password);
-        return Right('Register successful');
-      } catch (e) {
-        return Left(e.toString());
-      }
+      return Left(NoInternetFailure());
+    }
+    try {
+      // ignore: unused_local_variable
+      final newUser =
+          await authRemoteDatasource.register(userName, email, password);
+      return Right('Register successful');
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message, e.statusCode));
+    } on TimeoutException {
+      return Left(TimeoutFailure());
+    } catch (e) {
+      return Left(GeneralFailure(e.toString()));
     }
   }
 
   @override
-  Future<Either<String, String>> sendOtp(String email) async {
-    if (await networkInfo.isConnected) {
-      try {
-        final message = await authRemoteDatasource.sendOtp(email);
-        return Right(message);
-      } catch (e) {
-        return Left('Failed to Send Reset Code: $e');
-      }
-    } else {
-      return Left('No Internet Connection');
+  Future<Either<Failure, String>> sendOtp(String email) async {
+    if (!await networkInfo.isConnected) {
+      return Left(NoInternetFailure());
+    }
+    try {
+      final message = await authRemoteDatasource.sendOtp(email);
+      return Right(message);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message, e.statusCode));
+    } on TimeoutException {
+      return Left(TimeoutFailure());
+    } catch (e) {
+      return Left(GeneralFailure(e.toString()));
     }
   }
 
   @override
-  Future<Either<String, String>> verifyOtp(String otp) async {
-    if (await networkInfo.isConnected) {
-      try {
-        final token = await authRemoteDatasource.verifyOtp(otp);
-        await authLocalDataSource.cacheToken(token); // Cache the token locally
-        return Right(token);
-      } catch (e) {
-        return Left('$e');
-      }
-    } else {
-      return Left('No Internet Connection');
+  Future<Either<Failure, String>> verifyOtp(String otp) async {
+    if (!await networkInfo.isConnected) {
+      return left(NoInternetFailure());
+    }
+    try {
+      final token = await authRemoteDatasource.verifyOtp(otp);
+      await authLocalDataSource.cacheToken(token); // Cache the token locally
+      return Right(token);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message, e.statusCode));
+    } on TimeoutException {
+      return Left(TimeoutFailure());
+    } catch (e) {
+      return Left(GeneralFailure(e.toString()));
     }
   }
 
   @override
-  Future<Either<String, String>> resetPassword(
+  Future<Either<Failure, String>> resetPassword(
       String token, String newPassword) async {
-    if (await networkInfo.isConnected) {
-      try {
-        final message =
-            await authRemoteDatasource.resetPassword(token, newPassword);
-        return Right(message);
-      } catch (e) {
-        if (e.toString().contains('Token expired')) {
-          return Left('Token expired, please login and try again');
-        }
-        print(e);
-        return Left('Failed to Reset Password: $e');
-      }
-    } else {
-      return Left('No Internet Connection');
+    if (!await networkInfo.isConnected) {
+      return Left(NoInternetFailure());
+    }
+    try {
+      final message =
+          await authRemoteDatasource.resetPassword(token, newPassword);
+      return Right(message);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message, e.statusCode));
+    } on TimeoutException {
+      return Left(TimeoutFailure());
+    } catch (e) {
+      return Left(GeneralFailure(e.toString()));
     }
   }
 }

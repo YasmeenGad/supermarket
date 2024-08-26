@@ -3,7 +3,8 @@ abstract class Failure {
   const Failure(this.message);
 }
 
-class NetworkFailure extends Failure {
+// Network Failures
+abstract class NetworkFailure extends Failure {
   const NetworkFailure(String message) : super(message);
 }
 
@@ -16,7 +17,7 @@ class NoInternetFailure extends NetworkFailure {
       : super('No internet connection. Please check your network settings.');
 }
 
-// Server-side failures with specific status codes
+// Server-side Failures
 class ServerFailure extends Failure {
   final int statusCode;
   const ServerFailure(String message, this.statusCode) : super(message);
@@ -36,8 +37,12 @@ class InternalServerErrorFailure extends ServerFailure {
       : super('Internal server error. Please try again later.', 500);
 }
 
-// Cache-related failures
 class CacheFailure extends Failure {
   const CacheFailure({String message = 'No data found in cache'})
       : super(message);
+}
+
+// General Failure for any unspecified errors
+class GeneralFailure extends Failure {
+  const GeneralFailure(String message) : super(message);
 }

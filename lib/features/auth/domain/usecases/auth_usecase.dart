@@ -1,8 +1,9 @@
 import 'package:dartz/dartz.dart';
+import 'package:supermarket/core/error/failure.dart';
 import 'package:supermarket/features/auth/domain/repositories/auth_repositories.dart';
 
 
-typedef StringResult =  Either<String, String>;
+typedef StringResult =  Either<Failure, String>;
 
 class AuthUsecase{
   final AuthRepositories authRepositories;
