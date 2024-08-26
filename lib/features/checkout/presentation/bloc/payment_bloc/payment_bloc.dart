@@ -1,4 +1,3 @@
-import 'dart:math';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -29,9 +28,9 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
     );
   }
 
-  @override
-  void onChange(Change<PaymentState> change) {
-    super.onChange(change);
-    log(change as num);
-  }
+  // @override
+  // void onChange(Change<PaymentState> change) {
+  //   super.onChange(change);
+  //   log(change as num);
+  // }
 }

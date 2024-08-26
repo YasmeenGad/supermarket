@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supermarket/core/utils/app_routes.dart';
 import 'package:supermarket/core/widgets/custom_button.dart';
+import 'package:supermarket/features/checkout/data/models/payment_intent_input_model.dart';
 import 'package:supermarket/features/checkout/presentation/bloc/payment_bloc/payment_bloc.dart';
 
 class CustomButtonBloc extends StatelessWidget {
+  final dynamic amount; // Pass the total price here
   const CustomButtonBloc({
     super.key,
+    required this.amount,
   });
 
   @override
@@ -18,6 +21,7 @@ class CustomButtonBloc extends StatelessWidget {
               AppRoutes.paymentSuccessRoute, (Route<dynamic> route) => false);
         }
         if (state is PaymentError) {
+          Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Row(
@@ -45,19 +49,29 @@ class CustomButtonBloc extends StatelessWidget {
       },
       builder: (context, state) {
         return Container(
-            width: MediaQuery.sizeOf(context).width,
-            child: Center(
-                child: SizedBox(
-                    width: MediaQuery.sizeOf(context).width * 0.5,
-                    child: GestureDetector(
-                      onTap: () {
-                        // context.read<PaymentBloc>().add(MakePaymentEvent(paymentIntentInputModel: PaymentIntentInputModel(amount: '', currency: '')));
-                      },
-                      child: CustomButton(
-                        isLoading: state is PaymentLoading ? true : false,
-                        text: "Continue",
+          width: MediaQuery.sizeOf(context).width,
+          child: Center(
+            child: SizedBox(
+              width: MediaQuery.sizeOf(context).width * 0.5,
+              child: GestureDetector(
+                onTap: () {
+                  context.read<PaymentBloc>().add(
+                    MakePaymentEvent(
+                      paymentIntentInputModel: PaymentIntentInputModel(
+                        amount: amount, // Use the passed amount here
+                        currency: 'USD',
                       ),
-                    ))));
+                    ),
+                  );
+                },
+                child: CustomButton(
+                  isLoading: state is PaymentLoading,
+                  text: "Continue",
+                ),
+              ),
+            ),
+          ),
+        );
       },
     );
   }

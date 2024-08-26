@@ -5,7 +5,7 @@ class TotalOrderModel extends TotalOrder {
     required String orderId,
     required String userId,
     required int totalAmount,
-    required double totalPrice,
+    required String totalPrice,
     required DateTime createdAt,
     required DateTime updatedAt,
   }) : super(
@@ -22,7 +22,7 @@ class TotalOrderModel extends TotalOrder {
       orderId: json['orderId'] as String? ?? '',  
       userId: json['userId'] as String? ?? '',    
       totalAmount: (json['totalAmount'] as num?)?.toInt() ?? 0,  
-      totalPrice: (json['totalPrice'] as num?)?.toDouble() ?? 0.0, 
+      totalPrice: (json['totalPrice'] as num?)?.toString() ?? '', 
       createdAt: DateTime.tryParse(json['createdAt'] as String? ?? '') ?? DateTime.now(), 
       updatedAt: DateTime.tryParse(json['updatedAt'] as String? ?? '') ?? DateTime.now(), 
     );

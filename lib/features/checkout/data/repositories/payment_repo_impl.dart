@@ -60,12 +60,16 @@ class PaymentRepositoryImpl implements PaymentRepository {
   @override
   Future<Either<String, void>> makePayment(
       {required PaymentIntentInputModel paymentIntentInputModel}) async {
+    if (!await networkInfo.isConnected) {
+      return const Left(
+          'No internet connection, Please Connect to Internet and try again');
+    }
     try {
       await paymentRemoteDatasource.makePayment(
           paymentIntentInputModel: paymentIntentInputModel);
       return const Right(null);
-    } catch (e) {
-      return Left("failed to make payment");
+    } on Exception {
+      return const Left('Payment Processing not completed');
     }
   }
 }

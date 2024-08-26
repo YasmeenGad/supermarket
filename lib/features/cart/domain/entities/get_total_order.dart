@@ -4,7 +4,7 @@ class TotalOrder extends Equatable {
   final String id;
   final String userId;
   final int totalAmount;
-  final double totalPrice;
+  final String totalPrice;
   final DateTime createdAt;
   final DateTime updatedAt;
 

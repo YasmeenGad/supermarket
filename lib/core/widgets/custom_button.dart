@@ -38,7 +38,7 @@ class CustomButton extends StatelessWidget {
       child: Center(
         child: isLoading
             ? SpinKitCircle(
-                color: primaryColor,
+                color: Colors.white,
                 size: 40,
               )
             : Text(

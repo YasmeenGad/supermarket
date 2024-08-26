@@ -22,7 +22,7 @@ class CustomGoToCheckoutButton extends StatelessWidget {
       child: BlocBuilder<GetTotalOrderBloc, GetTotalOrderState>(
         builder: (context, totalState) {
           final totalPrice = (totalState is GetTotalOrderSuccess)
-              ? totalState.totalOrder.totalPrice
+              ? totalState.totalOrder.totalPrice.toString()
               : 0.0;
           final totalQuantity = (totalState is GetTotalOrderSuccess)
               ? totalState.totalOrder.totalAmount
@@ -30,7 +30,7 @@ class CustomGoToCheckoutButton extends StatelessWidget {
 
           return GestureDetector(
             onTap: () {
-              showFriendlyBottomSheet(context, totalPrice, totalQuantity);
+              showFriendlyBottomSheet(context, totalPrice.toString(), totalQuantity);
             },
             child: CustomButton(
               text: "Go To Checkout",
@@ -42,7 +42,7 @@ class CustomGoToCheckoutButton extends StatelessWidget {
   }
 
   void showFriendlyBottomSheet(
-      BuildContext context, double totalPrice, int totalQuantity) {
+      BuildContext context, String totalPrice, int totalQuantity) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -99,7 +99,7 @@ class CustomGoToCheckoutButton extends StatelessWidget {
                 CustomListTileCheckout(
                   title: "Total Cost",
                   trailing: Text(
-                    "${totalPrice} EGP",
+                    "\$${totalPrice}",
                     style: AppStyles.styleMedium16(context)
                         .copyWith(color: primaryColor),
                   ),
@@ -119,7 +119,7 @@ class CustomGoToCheckoutButton extends StatelessWidget {
                 const SizedBox(
                   height: 16,
                 ),
-                CustomButtonBloc(),
+                CustomButtonBloc(amount: totalPrice),
               ],
             ),
           ),

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:supermarket/core/constants/api_keys.dart';
 import 'package:supermarket/features/checkout/data/models/payment_intent_input_model.dart';
@@ -22,7 +24,7 @@ class PaymentRemoteDatasourceImpl implements PaymentRemoteDatasource {
   @override
   Future<PaymentIntentModel> createPaymentIntent(
       PaymentIntentInputModel paymentIntentInputModel) async {
-    final body = paymentIntentInputModel.toJson();
+    final data = paymentIntentInputModel.toJson();
     final url = Uri.parse('https://api.stripe.com/v1/payment_intents');
 
     final headers = {
@@ -32,12 +34,13 @@ class PaymentRemoteDatasourceImpl implements PaymentRemoteDatasource {
 
     final response = await client.post(
       url,
-      body: body,
+      body: data,
       headers: headers,
     );
 
     if (response.statusCode == 200) {
-      return PaymentIntentModel.fromJson(response.body as Map<String, dynamic>);
+      final jsonData = jsonDecode(response.body);
+      return PaymentIntentModel.fromJson(jsonData);
     } else {
       throw Exception('Failed to create payment intent');
     }
