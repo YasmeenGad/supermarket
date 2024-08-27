@@ -31,6 +31,7 @@ import 'package:supermarket/features/checkout/data/datasource/payment_remote_dat
 import 'package:supermarket/features/checkout/data/repositories/payment_repo_impl.dart';
 import 'package:supermarket/features/checkout/domain/repositories/payment_repo.dart';
 import 'package:supermarket/features/checkout/domain/usecase/payment_usecase.dart';
+import 'package:supermarket/features/checkout/presentation/bloc/customer_bloc/customer_bloc.dart';
 import 'package:supermarket/features/checkout/presentation/bloc/payment_bloc/payment_bloc.dart';
 import 'package:supermarket/features/explore/data/datasources/category_local_datasource.dart';
 import 'package:supermarket/features/explore/data/datasources/category_remote_datasource.dart';
@@ -47,7 +48,6 @@ import 'package:supermarket/features/favorite/presentation/bloc/add_fav_products
 import 'package:supermarket/features/favorite/presentation/bloc/delete_all_fav/delete_all_favorite_products_bloc.dart';
 import 'package:supermarket/features/favorite/presentation/bloc/delete_one_fav_products/delete_one_favorite_product_bloc.dart';
 import 'package:supermarket/features/favorite/presentation/bloc/get_fav_products/get_favorite_products_bloc.dart';
-
 import 'package:supermarket/features/filter/data/datasources/filtered_products_local_datasource.dart';
 import 'package:supermarket/features/filter/data/datasources/filtered_products_remote_datasource.dart';
 import 'package:supermarket/features/filter/data/repositories/filtered_products_repo_impl.dart';
@@ -57,7 +57,6 @@ import 'package:supermarket/features/filter/presentation/bloc/filtered_products_
 import 'package:supermarket/features/search/data/datasources/search_remote_datasource.dart';
 import 'package:supermarket/features/search/data/repositories/search_product_repo_impl.dart';
 import 'package:supermarket/features/search/domain/repositories/search_product_repo.dart';
-
 import 'package:supermarket/features/search/domain/usecases/search_product_usecase.dart';
 import 'package:supermarket/features/explore/presentation/bloc/search_category_bloc/search_category_bloc.dart';
 import 'package:supermarket/features/search/presentation/bloc/search_product_bloc/search_product_bloc.dart';
@@ -158,8 +157,6 @@ Future<void> init() async {
     ),
   );
 
-
-
   // Auth Repositories
   sl.registerLazySingleton<AuthRepositories>(() => AuthRepositoriesImp(
         authLocalDataSource: sl(),
@@ -250,7 +247,7 @@ Future<void> init() async {
 
   // payment use case
   sl.registerLazySingleton(() => PaymentUsecase(
-       paymentRepository: sl(),
+        paymentRepository: sl(),
       ));
 
   // Auth Blocs
@@ -333,6 +330,11 @@ Future<void> init() async {
 
   // payment Blocs
   sl.registerFactory(() => PaymentBloc(
+        paymentUsecase: sl(),
+      ));
+
+  // create customer bloc
+  sl.registerFactory(() => CustomerBloc(
         paymentUsecase: sl(),
       ));
 }

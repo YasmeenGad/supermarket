@@ -12,7 +12,7 @@ abstract class OrderRemoteDataSource {
   Future<OrderModel> createOrder(List<String> productIds);
   Future<FetchedOrderModel> getOrder();
   Future<TotalOrderModel> getOrderTotals();
-  Future<OrderModel> updateOrder( List<String> productIds);
+  Future<OrderModel> updateOrder(List<String> productIds);
   Future<DeleteOrderModel> deleteOrder(List<String> productIds);
 }
 
@@ -45,7 +45,6 @@ class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
         throw Exception(json['message']);
       }
     } else {
-      print("1");
       throw Exception(jsonDecode(response.body)['message']);
     }
   }
@@ -66,11 +65,9 @@ class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
       if (data['status']) {
         return FetchedOrderModel.fromJson(data['message']);
       } else {
-        print(data['message']);
         throw Exception(data['message']);
       }
     } else {
-      print(jsonDecode(response.body)['message']);
       throw Exception(jsonDecode(response.body)['message']);
     }
   }
@@ -95,8 +92,7 @@ class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
   }
 
   @override
-  Future<OrderModel> updateOrder(
-       List<String> productIds) async {
+  Future<OrderModel> updateOrder(List<String> productIds) async {
     final token = await authLocalDataSource.getCachedLoginResponse();
     final cachedToken = token?.token;
     final response = await client.patch(

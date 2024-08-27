@@ -20,7 +20,7 @@ class DeleteItemBloc extends Bloc<DeleteItemEvent, DeleteItemState> {
     emit(DeleteItemLoading());
     final result = await orderUsecases.deleteOrder(event.productId);
     result.fold(
-      (failure) => emit(DeleteItemError(message: failure.toString())),
+      (failure) => emit(DeleteItemError(message: failure.message)),
       (success) => emit(DeleteItemSuccess(deleteOrder: success)),
     );
   }

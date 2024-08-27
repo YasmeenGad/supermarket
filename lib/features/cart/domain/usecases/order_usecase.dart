@@ -1,15 +1,16 @@
 import 'package:dartz/dartz.dart';
+import 'package:supermarket/core/error/failure.dart';
 import 'package:supermarket/features/cart/domain/entities/create_order_entity.dart';
 import 'package:supermarket/features/cart/domain/entities/delete_order.dart';
 import 'package:supermarket/features/cart/domain/entities/fetch_order_entities.dart';
 import 'package:supermarket/features/cart/domain/entities/get_total_order.dart';
 import 'package:supermarket/features/cart/domain/repositories/order_repo.dart';
 
-typedef OrderResult = Either<String, MyOrder>;
-typedef FetchedOrderResult = Either<String, FetchedOrder>;
-typedef TotalOrderResult = Either<String, TotalOrder>;
+typedef OrderResult = Either<Failure, MyOrder>;
+typedef FetchedOrderResult = Either<Failure, FetchedOrder>;
+typedef TotalOrderResult = Either<Failure, TotalOrder>;
 
-typedef DeleteOrderResult = Either<String, DeleteOrder>;
+typedef DeleteOrderResult = Either<Failure, DeleteOrder>;
 
 class OrderUsecases {
   final OrderRepository repository;

@@ -145,10 +145,25 @@ class _LoginState extends State<Login> {
           BlocConsumer<AuthBloc, AuthState>(
             listener: (context, state) {
               if (state is AuthSuccess) {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text('You have been logged in successfully'),
-                  backgroundColor: Colors.green,
-                ));
+               final snackBar = SnackBar(
+      content: Row(
+        children: [
+          const Icon(Icons.check_circle, color: Colors.white),
+          const SizedBox(width: 10),
+           Text('${state.message}'),
+        ],
+      ),
+      backgroundColor: Colors.green,
+      behavior: SnackBarBehavior.floating,
+      duration: const Duration(seconds: 3),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      action: SnackBarAction(
+        label: 'OK',
+        textColor: Colors.white,
+        onPressed: () {},
+      ),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
                 Navigator.pushNamedAndRemoveUntil(
                   context,
                   AppRoutes.homeLayoutRoute,

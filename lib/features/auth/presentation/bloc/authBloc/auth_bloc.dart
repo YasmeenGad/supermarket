@@ -24,7 +24,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     final result = await authUsecase.login(event.email, event.password);
 
     result.fold(
-      (failure) => emit(AuthFailure(failure.toString())),
+      (failure) => emit(AuthFailure(failure.message)),
       (user) => emit(AuthSuccess(user)),
     );
   }
@@ -34,7 +34,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     final result = await authUsecase.register(event.userName, event.email, event.password);
 
     result.fold(
-      (failure) => emit(AuthFailure(failure.toString())),
+      (failure) => emit(AuthFailure(failure.message)),
       (message) => emit(AuthSuccess(message)),
     );
 

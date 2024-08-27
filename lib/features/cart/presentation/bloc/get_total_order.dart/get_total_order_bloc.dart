@@ -17,7 +17,7 @@ class GetTotalOrderBloc extends Bloc<GetTotalOrderEvent, GetTotalOrderState> {
     emit(GetTotalOrderLoading());
     final result = await totalOderUsecase.calculateOrderTotals();
     result.fold(
-      (l) => emit(GetTotalOrderError(message:l)),
+      (l) => emit(GetTotalOrderError(message:l.message)),
       (r) => emit(GetTotalOrderSuccess(totalOrder: r)),
     );
   }

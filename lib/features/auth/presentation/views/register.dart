@@ -12,6 +12,7 @@ import 'package:supermarket/features/auth/presentation/bloc/authBloc/auth_event.
 import 'package:supermarket/features/auth/presentation/widgets/custom_auth_text_section.dart';
 import 'package:supermarket/features/auth/presentation/widgets/custom_text_auth.dart';
 import 'package:supermarket/features/auth/presentation/widgets/custom_text_field.dart';
+import 'package:supermarket/features/checkout/presentation/bloc/customer_bloc/customer_bloc.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -27,7 +28,7 @@ class _RegisterState extends State<Register> {
   final TextEditingController passwordController = TextEditingController();
   bool isPassword = true;
   bool isEmailValid = false;
-   void validateEmail(String value) {
+  void validateEmail(String value) {
     final email = value;
     if (Validators.validateEmail(email) == null) {
       setState(() {
@@ -111,7 +112,8 @@ class _RegisterState extends State<Register> {
                   textFieldModel: CustomTextFieldModel(
                     text: 'Email',
                     hintText: 'email',
-                    suffixIcon: isEmailValid ? Image.asset(Assets.imagesVector) : null,
+                    suffixIcon:
+                        isEmailValid ? Image.asset(Assets.imagesVector) : null,
                   ),
                 ),
                 CustomTextField(
@@ -129,7 +131,9 @@ class _RegisterState extends State<Register> {
                           isPassword = !isPassword;
                         });
                       },
-                      icon: isPassword ? Icon(Icons.visibility) : Icon(Icons.visibility_off),
+                      icon: isPassword
+                          ? Icon(Icons.visibility)
+                          : Icon(Icons.visibility_off),
                     ),
                   ),
                 ),
@@ -139,18 +143,38 @@ class _RegisterState extends State<Register> {
           BlocConsumer<AuthBloc, AuthState>(
             listener: (context, state) {
               if (state is AuthSuccess) {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text('An account has been created successfully'),
-                  backgroundColor: Colors.green,
-                ));
-                 Navigator.pushReplacementNamed(context, AppRoutes.loginRoute);
+                context
+                    .read<CustomerBloc>()
+                    .add(CreateCustomerEvent(name: usernameController.text));
+               final snackBar = SnackBar(
+      content: Row(
+        children: [
+          const Icon(Icons.check_circle, color: Colors.white),
+          const SizedBox(width: 10),
+           Text('${state.message}'),
+        ],
+      ),
+      backgroundColor: Colors.green,
+      behavior: SnackBarBehavior.floating,
+      duration: const Duration(seconds: 3),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      action: SnackBarAction(
+        label: 'OK',
+        textColor: Colors.white,
+        onPressed: () {},
+      ),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                Navigator.pushReplacementNamed(context, AppRoutes.loginRoute);
               } else if (state is AuthFailure) {
                 CustomAwesomDialog.showErrorDialog(context, state.error);
               }
             },
             builder: (context, state) {
               if (state is AuthLoading) {
-                return const CircularProgressIndicator(color: primaryColor,);
+                return const CircularProgressIndicator(
+                  color: primaryColor,
+                );
               }
               return GestureDetector(
                 onTap: () {
@@ -159,9 +183,8 @@ class _RegisterState extends State<Register> {
                     final email = emailController.text;
                     final password = passwordController.text;
 
-                    context
-                        .read<AuthBloc>()
-                        .add(RegisterEvent(userName: userName, email: email, password: password));
+                    context.read<AuthBloc>().add(RegisterEvent(
+                        userName: userName, email: email, password: password));
                   }
                 },
                 child: CustomButton(
@@ -174,7 +197,10 @@ class _RegisterState extends State<Register> {
             height: 16,
           ),
 
-          CustomTextAuth(text: 'Already have an account?', textAuth: 'Login', route: AppRoutes.loginRoute),
+          CustomTextAuth(
+              text: 'Already have an account?',
+              textAuth: 'Login',
+              route: AppRoutes.loginRoute),
           // SizedBox(height: 16,),
         ],
       ),

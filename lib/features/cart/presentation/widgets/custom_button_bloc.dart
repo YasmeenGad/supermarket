@@ -56,13 +56,14 @@ class CustomButtonBloc extends StatelessWidget {
               child: GestureDetector(
                 onTap: () {
                   context.read<PaymentBloc>().add(
-                    MakePaymentEvent(
-                      paymentIntentInputModel: PaymentIntentInputModel(
-                        amount: amount, // Use the passed amount here
-                        currency: 'USD',
-                      ),
-                    ),
-                  );
+                        MakePaymentEvent(
+                          paymentIntentInputModel: PaymentIntentInputModel(
+                            amount: amount,
+                            currency: 'USD',
+                            customerId: 'cus_QjtC7vekxvYCDe',
+                          ),
+                        ),
+                      );
                 },
                 child: CustomButton(
                   isLoading: state is PaymentLoading,

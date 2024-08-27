@@ -34,7 +34,7 @@ class CreateOrderBloc extends Bloc<CreateOrderEvent, CreateOrderState> {
       List<String> productIds, Emitter<CreateOrderState> emit) async {
     final result = await orderUsecases.createOrder(productIds);
     result.fold(
-      (l) => emit(CreateOrderError(l.toString())),
+      (l) => emit(CreateOrderError(l.message)),
       (r) => emit(CreateOrderSuccess(r)),
     );
   }
@@ -43,7 +43,7 @@ class CreateOrderBloc extends Bloc<CreateOrderEvent, CreateOrderState> {
       Emitter<CreateOrderState> emit) async {
     final result = await orderUsecases.updateOrder( productIds);
     result.fold(
-      (l) => emit(CreateOrderError(l.toString())),
+      (l) => emit(CreateOrderError(l.message)),
       (r) => emit(CreateOrderSuccess(r)),
     );
   }

@@ -17,7 +17,7 @@ class GetOrderBloc extends Bloc<GetOrderEvent, GetOrderState> {
     emit(GetOrderLoading());
     final result = await getOrderUseCase.getOrder();
     result.fold(
-      (l) => emit(GetOrderError(l.toString())),
+      (l) => emit(GetOrderError(l.message)),
       (r) => emit(GetOrderSuccess(r)),
     );
   }

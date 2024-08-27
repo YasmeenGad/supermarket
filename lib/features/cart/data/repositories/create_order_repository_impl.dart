@@ -1,4 +1,8 @@
+import 'dart:async';
+
 import 'package:dartz/dartz.dart';
+import 'package:supermarket/core/error/exceptions.dart';
+import 'package:supermarket/core/error/failure.dart';
 import 'package:supermarket/core/network/network_info.dart';
 import 'package:supermarket/features/cart/data/datasources/create_order_local_datasource.dart';
 import 'package:supermarket/features/cart/data/datasources/order_remote_datasource.dart';
@@ -19,55 +23,70 @@ class OrderRepositoryImpl implements OrderRepository {
       required this.networkInfo});
 
   @override
-  Future<Either<String, MyOrder>> createOrder(List<String> productIds) async {
+  Future<Either<Failure, MyOrder>> createOrder(List<String> productIds) async {
     if (!await networkInfo.isConnected) {
-      return const Left('No internet connection');
+      return Left(NoInternetFailure());
     }
 
     try {
       return Right(await remoteDataSource.createOrder(productIds));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message, e.statusCode));
+    } on TimeoutException {
+      return Left(TimeoutFailure());
     } catch (e) {
-      return Left('Failed to create order');
+      return Left(GeneralFailure(e.toString()));
     }
   }
 
   @override
-  Future<Either<String, FetchedOrder>> getOrder() async {
+  Future<Either<Failure, FetchedOrder>> getOrder() async {
     if (!await networkInfo.isConnected) {
       try {
         final cachedOrder = await localDataSource.getLastFetchedOrder();
         if (cachedOrder != null) {
           return Right(cachedOrder);
         } else {
-          return Left('No internet connection and no cached data available');
+          return Left(CacheFailure());
         }
+      } on ServerException catch (e) {
+        return Left(ServerFailure(e.message, e.statusCode));
+      } on TimeoutException {
+        return Left(TimeoutFailure());
       } catch (e) {
-        return Left('Failed to get order from local cache');
+        return Left(GeneralFailure(e.toString()));
       }
     } else {
       try {
         final fetchedOrder = await remoteDataSource.getOrder();
         await localDataSource.cacheFetchedOrder(fetchedOrder);
         return Right(fetchedOrder);
+      } on ServerException catch (e) {
+        return Left(ServerFailure(e.message, e.statusCode));
+      } on TimeoutException {
+        return Left(TimeoutFailure());
       } catch (e) {
-        return Left('Failed to get order');
+        return Left(GeneralFailure(e.toString()));
       }
     }
   }
 
   @override
-  Future<Either<String, TotalOrder>> calculateOrderTotals(
-      ) async {
+  Future<Either<Failure, TotalOrder>> calculateOrderTotals() async {
     if (!await networkInfo.isConnected) {
       try {
         final cachedTotalOrder = await localDataSource.getTotalOrder();
         if (cachedTotalOrder != null) {
           return Right(cachedTotalOrder);
         } else {
-          return Left('No internet connection and no cached data available');
+          return Left(CacheFailure());
         }
+      } on ServerException catch (e) {
+        return Left(ServerFailure(e.message, e.statusCode));
+      } on TimeoutException {
+        return Left(TimeoutFailure());
       } catch (e) {
-        return Left('Failed to get total order from local cache: $e');
+        return Left(GeneralFailure(e.toString()));
       }
     } else {
       try {
@@ -75,41 +94,50 @@ class OrderRepositoryImpl implements OrderRepository {
         localDataSource.cacheTotalOrder(totalOrder);
         print(totalOrder);
         return Right(totalOrder);
+      } on ServerException catch (e) {
+        return Left(ServerFailure(e.message, e.statusCode));
+      } on TimeoutException {
+        return Left(TimeoutFailure());
       } catch (e) {
-        print(e.toString());
-        return Left('Failed to calculate total order: $e');
+        return Left(GeneralFailure(e.toString()));
       }
     }
   }
 
   @override
-  Future<Either<String, MyOrder>> updateOrder(
-      List<String> productIds) async {
+  Future<Either<Failure, MyOrder>> updateOrder(List<String> productIds) async {
     if (!await networkInfo.isConnected) {
-      return Left('No internet connection');
+      return Left(NoInternetFailure());
     }
     try {
-      final order = await remoteDataSource.updateOrder( productIds);
-      print(order);
+      final order = await remoteDataSource.updateOrder(productIds);
+
       return Right(order);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message, e.statusCode));
+    } on TimeoutException {
+      return Left(TimeoutFailure());
     } catch (e) {
-      print(e.toString());
-      return Left('Failed to update order: $e');
+      return Left(GeneralFailure(e.toString()));
     }
   }
 
   @override
-  Future<Either<String, DeleteOrder>> deleteOrder(
+  Future<Either<Failure, DeleteOrder>> deleteOrder(
       List<String> productIds) async {
     if (!await networkInfo.isConnected) {
-      return Left('No internet connection');
+      return Left(NoInternetFailure());
     }
     try {
       final order = await remoteDataSource.deleteOrder(productIds);
       await localDataSource.removeItemFromCache(productIds[0]);
       return Right(order);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message, e.statusCode));
+    } on TimeoutException {
+      return Left(TimeoutFailure());
     } catch (e) {
-      return Left('Failed to delete order');
+      return Left(GeneralFailure(e.toString()));
     }
   }
 }

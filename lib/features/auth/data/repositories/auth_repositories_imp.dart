@@ -53,6 +53,7 @@ class AuthRepositoriesImp implements AuthRepositories {
     } on TimeoutException {
       return Left(TimeoutFailure());
     } catch (e) {
+   
       return Left(GeneralFailure(e.toString()));
     }
   }

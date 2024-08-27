@@ -3,10 +3,11 @@ import 'package:equatable/equatable.dart';
 class PaymentIntentInputModel extends Equatable {
   final dynamic amount;
   final String currency;
-  const PaymentIntentInputModel({required this.amount, required this.currency});
+  final String customerId;
+  const PaymentIntentInputModel({ required this.customerId ,required this.amount, required this.currency});
 
   toJson() {
-    return {'amount': "${amount}00", 'currency': currency};
+    return {'amount': "${amount}00", 'currency': currency, 'customer': customerId};
   }
 
   @override
