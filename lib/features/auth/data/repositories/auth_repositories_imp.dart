@@ -13,25 +13,29 @@ class AuthRepositoriesImp implements AuthRepositories {
   final AuthRemoteDatasource authRemoteDatasource;
   final NetworkInfo networkInfo;
 
-  AuthRepositoriesImp(
-      {required this.authLocalDataSource,
-      required this.authRemoteDatasource,
-      required this.networkInfo});
+  AuthRepositoriesImp({
+    required this.authLocalDataSource,
+    required this.authRemoteDatasource,
+    required this.networkInfo,
+  });
 
   @override
   Future<Either<Failure, String>> login(String email, String password) async {
     if (!await networkInfo.isConnected) {
-      return Left(NoInternetFailure());
+      return const Left(NoInternetFailure());
     }
 
     try {
       final remoteUser = await authRemoteDatasource.login(email, password);
       await authLocalDataSource.cacheLoginResponse(remoteUser);
-      return Right('Login successful');
+      return const Right('Login successful');
     } on ServerException catch (e) {
+      if (e.statusCode >= 500) {
+        return const Left(InternalServerErrorFailure());
+      }
       return Left(ServerFailure(e.message, e.statusCode));
     } on TimeoutException {
-      return Left(TimeoutFailure());
+      return const Left(TimeoutFailure());
     } catch (e) {
       return Left(GeneralFailure(e.toString()));
     }
@@ -41,19 +45,21 @@ class AuthRepositoriesImp implements AuthRepositories {
   Future<Either<Failure, String>> register(
       String userName, String email, String password) async {
     if (!await networkInfo.isConnected) {
-      return Left(NoInternetFailure());
+      return const Left(NoInternetFailure());
     }
     try {
       // ignore: unused_local_variable
       final newUser =
           await authRemoteDatasource.register(userName, email, password);
-      return Right('Register successful');
+      return const Right('Register successful');
     } on ServerException catch (e) {
+      if (e.statusCode >= 500) {
+        return const Left(InternalServerErrorFailure());
+      }
       return Left(ServerFailure(e.message, e.statusCode));
     } on TimeoutException {
-      return Left(TimeoutFailure());
+      return const Left(TimeoutFailure());
     } catch (e) {
-   
       return Left(GeneralFailure(e.toString()));
     }
   }
@@ -61,15 +67,18 @@ class AuthRepositoriesImp implements AuthRepositories {
   @override
   Future<Either<Failure, String>> sendOtp(String email) async {
     if (!await networkInfo.isConnected) {
-      return Left(NoInternetFailure());
+      return const Left(NoInternetFailure());
     }
     try {
       final message = await authRemoteDatasource.sendOtp(email);
       return Right(message);
     } on ServerException catch (e) {
+      if (e.statusCode >= 500) {
+        return const Left(InternalServerErrorFailure());
+      }
       return Left(ServerFailure(e.message, e.statusCode));
     } on TimeoutException {
-      return Left(TimeoutFailure());
+      return const Left(TimeoutFailure());
     } catch (e) {
       return Left(GeneralFailure(e.toString()));
     }
@@ -78,16 +87,19 @@ class AuthRepositoriesImp implements AuthRepositories {
   @override
   Future<Either<Failure, String>> verifyOtp(String otp) async {
     if (!await networkInfo.isConnected) {
-      return left(NoInternetFailure());
+      return const Left(NoInternetFailure());
     }
     try {
       final token = await authRemoteDatasource.verifyOtp(otp);
-      await authLocalDataSource.cacheToken(token); // Cache the token locally
+      await authLocalDataSource.cacheToken(token);
       return Right(token);
     } on ServerException catch (e) {
+      if (e.statusCode >= 500) {
+        return const Left(InternalServerErrorFailure());
+      }
       return Left(ServerFailure(e.message, e.statusCode));
     } on TimeoutException {
-      return Left(TimeoutFailure());
+      return const Left(TimeoutFailure());
     } catch (e) {
       return Left(GeneralFailure(e.toString()));
     }
@@ -97,16 +109,19 @@ class AuthRepositoriesImp implements AuthRepositories {
   Future<Either<Failure, String>> resetPassword(
       String token, String newPassword) async {
     if (!await networkInfo.isConnected) {
-      return Left(NoInternetFailure());
+      return const Left(NoInternetFailure());
     }
     try {
       final message =
           await authRemoteDatasource.resetPassword(token, newPassword);
       return Right(message);
     } on ServerException catch (e) {
+      if (e.statusCode >= 500) {
+        return const Left(InternalServerErrorFailure());
+      }
       return Left(ServerFailure(e.message, e.statusCode));
     } on TimeoutException {
-      return Left(TimeoutFailure());
+      return const Left(TimeoutFailure());
     } catch (e) {
       return Left(GeneralFailure(e.toString()));
     }

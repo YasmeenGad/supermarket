@@ -33,7 +33,7 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
       final favorite = await remoteDataSource.addFavoriteProducts(productIds);
       return Right(favorite);
     } on ServerException catch (e) {
-      if (e.statusCode == 500) {
+      if (e.statusCode >= 500) {
         return const Left(InternalServerErrorFailure());
       }
       return Left(ServerFailure(e.message, e.statusCode));
@@ -64,7 +64,7 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
       await localDataSource.cacheFavoriteProducts(favorite);
       return Right(favorite);
     } on ServerException catch (e) {
-      if (e.statusCode == 500) {
+      if (e.statusCode >= 500) {
         return const Left(InternalServerErrorFailure());
       }
       return Left(ServerFailure(e.message, e.statusCode));
@@ -98,7 +98,7 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
 
       return Right(result);
     } on ServerException catch (e) {
-      if (e.statusCode == 500) {
+      if (e.statusCode >= 500) {
         return const Left(InternalServerErrorFailure());
       }
       return Left(ServerFailure(e.message, e.statusCode));
@@ -119,7 +119,7 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
       final result = await remoteDataSource.deleteAllFavoriteProducts();
       return Right(result);
     } on ServerException catch (e) {
-      if (e.statusCode == 500) {
+      if (e.statusCode >= 500) {
         return const Left(InternalServerErrorFailure());
       }
       return Left(ServerFailure(e.message, e.statusCode));

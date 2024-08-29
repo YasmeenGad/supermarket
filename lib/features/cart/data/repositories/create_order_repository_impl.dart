@@ -31,6 +31,9 @@ class OrderRepositoryImpl implements OrderRepository {
     try {
       return Right(await remoteDataSource.createOrder(productIds));
     } on ServerException catch (e) {
+      if (e.statusCode >= 500) {
+        return const Left(InternalServerErrorFailure());
+      }
       return Left(ServerFailure(e.message, e.statusCode));
     } on TimeoutException {
       return Left(TimeoutFailure());
@@ -50,6 +53,9 @@ class OrderRepositoryImpl implements OrderRepository {
           return Left(CacheFailure());
         }
       } on ServerException catch (e) {
+        if (e.statusCode >= 500) {
+          return const Left(InternalServerErrorFailure());
+        }
         return Left(ServerFailure(e.message, e.statusCode));
       } on TimeoutException {
         return Left(TimeoutFailure());
@@ -62,6 +68,9 @@ class OrderRepositoryImpl implements OrderRepository {
         await localDataSource.cacheFetchedOrder(fetchedOrder);
         return Right(fetchedOrder);
       } on ServerException catch (e) {
+        if (e.statusCode >= 500) {
+          return const Left(InternalServerErrorFailure());
+        }
         return Left(ServerFailure(e.message, e.statusCode));
       } on TimeoutException {
         return Left(TimeoutFailure());
@@ -82,6 +91,9 @@ class OrderRepositoryImpl implements OrderRepository {
           return Left(CacheFailure());
         }
       } on ServerException catch (e) {
+        if (e.statusCode >= 500) {
+          return const Left(InternalServerErrorFailure());
+        }
         return Left(ServerFailure(e.message, e.statusCode));
       } on TimeoutException {
         return Left(TimeoutFailure());
@@ -95,6 +107,9 @@ class OrderRepositoryImpl implements OrderRepository {
         print(totalOrder);
         return Right(totalOrder);
       } on ServerException catch (e) {
+        if (e.statusCode >= 500) {
+          return const Left(InternalServerErrorFailure());
+        }
         return Left(ServerFailure(e.message, e.statusCode));
       } on TimeoutException {
         return Left(TimeoutFailure());
@@ -114,6 +129,9 @@ class OrderRepositoryImpl implements OrderRepository {
 
       return Right(order);
     } on ServerException catch (e) {
+      if (e.statusCode >= 500) {
+        return const Left(InternalServerErrorFailure());
+      }
       return Left(ServerFailure(e.message, e.statusCode));
     } on TimeoutException {
       return Left(TimeoutFailure());
@@ -133,6 +151,9 @@ class OrderRepositoryImpl implements OrderRepository {
       await localDataSource.removeItemFromCache(productIds[0]);
       return Right(order);
     } on ServerException catch (e) {
+      if (e.statusCode >= 500) {
+        return const Left(InternalServerErrorFailure());
+      }
       return Left(ServerFailure(e.message, e.statusCode));
     } on TimeoutException {
       return Left(TimeoutFailure());
