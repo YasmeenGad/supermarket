@@ -1,4 +1,7 @@
+import 'dart:async';
 import 'package:dartz/dartz.dart';
+import 'package:supermarket/core/error/exceptions.dart';
+import 'package:supermarket/core/error/failure.dart';
 import 'package:supermarket/core/network/network_info.dart';
 import 'package:supermarket/features/favorite/data/datasources/favorite_local_datasource.dart';
 import 'package:supermarket/features/favorite/data/datasources/favorite_remote_datasource.dart';
@@ -14,27 +17,35 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
   final FavoriteLocalDataSource localDataSource;
   final NetworkInfo networkInfo;
 
-  FavoriteRepositoryImpl(
-      {required this.remoteDataSource,
-      required this.networkInfo,
-      required this.localDataSource});
+  FavoriteRepositoryImpl({
+    required this.remoteDataSource,
+    required this.networkInfo,
+    required this.localDataSource,
+  });
 
   @override
-  Future<Either<String, AddFavorite>> addFavoriteProducts(
+  Future<Either<Failure, AddFavorite>> addFavoriteProducts(
       List<String> productIds) async {
     if (!await networkInfo.isConnected) {
-      return const Left('No internet connection');
+      return const Left(NoInternetFailure());
     }
     try {
       final favorite = await remoteDataSource.addFavoriteProducts(productIds);
       return Right(favorite);
+    } on ServerException catch (e) {
+      if (e.statusCode == 500) {
+        return const Left(InternalServerErrorFailure());
+      }
+      return Left(ServerFailure(e.message, e.statusCode));
+    } on TimeoutException {
+      return const Left(TimeoutFailure());
     } catch (e) {
-      return Left(e.toString());
+      return Left(GeneralFailure(e.toString()));
     }
   }
 
   @override
-  Future<Either<String, GetFavorite>> getFavoriteProducts() async {
+  Future<Either<Failure, GetFavorite>> getFavoriteProducts() async {
     if (!await networkInfo.isConnected) {
       try {
         final cachedFavorite =
@@ -42,28 +53,33 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
         if (cachedFavorite != null) {
           return Right(cachedFavorite);
         } else {
-          return const Left(
-              'No Internet Connection and No Cached Data Available');
+          return const Left(CacheFailure());
         }
       } catch (e) {
-        return Left(e.toString());
+        return Left(GeneralFailure(e.toString()));
       }
     }
     try {
       final favorite = await remoteDataSource.getFavoriteProducts();
       await localDataSource.cacheFavoriteProducts(favorite);
       return Right(favorite);
+    } on ServerException catch (e) {
+      if (e.statusCode == 500) {
+        return const Left(InternalServerErrorFailure());
+      }
+      return Left(ServerFailure(e.message, e.statusCode));
+    } on TimeoutException {
+      return const Left(TimeoutFailure());
     } catch (e) {
-      return Left(e.toString());
+      return Left(GeneralFailure(e.toString()));
     }
   }
 
   @override
-  Future<Either<String, DeleteOneFavoriteProduct>> deleteOneFavoriteProduct(
+  Future<Either<Failure, DeleteOneFavoriteProduct>> deleteOneFavoriteProduct(
       List<String> productIds) async {
     if (!await networkInfo.isConnected) {
-      print('no internet connection');
-      return const Left('No internet connection');
+      return const Left(NoInternetFailure());
     }
     try {
       final result =
@@ -81,24 +97,36 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
       }
 
       return Right(result);
+    } on ServerException catch (e) {
+      if (e.statusCode == 500) {
+        return const Left(InternalServerErrorFailure());
+      }
+      return Left(ServerFailure(e.message, e.statusCode));
+    } on TimeoutException {
+      return const Left(TimeoutFailure());
     } catch (e) {
-      print(e.toString());
-      return Left(e.toString());
+      return Left(GeneralFailure(e.toString()));
     }
   }
 
   @override
-  Future<Either<String, DeleteAllFavoritesProducts>>
+  Future<Either<Failure, DeleteAllFavoritesProducts>>
       deleteAllFavoritesProducts() async {
     if (!await networkInfo.isConnected) {
-      return const Left('No internet connection');
+      return const Left(NoInternetFailure());
     }
     try {
       final result = await remoteDataSource.deleteAllFavoriteProducts();
       return Right(result);
+    } on ServerException catch (e) {
+      if (e.statusCode == 500) {
+        return const Left(InternalServerErrorFailure());
+      }
+      return Left(ServerFailure(e.message, e.statusCode));
+    } on TimeoutException {
+      return const Left(TimeoutFailure());
     } catch (e) {
-      print(e.toString());
-      return Left(e.toString());
+      return Left(GeneralFailure(e.toString()));
     }
   }
 }

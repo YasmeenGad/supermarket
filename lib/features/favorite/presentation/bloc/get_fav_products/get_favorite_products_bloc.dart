@@ -19,8 +19,8 @@ class GetFavoriteProductsBloc
     emit(GetFavoriteProductsLoading());
     final result = await usecase.getFavoriteProducts();
     result.fold(
-      (l) => emit(GetFavoriteProductsError(l)),
-      (r) => emit(GetFavoriteProductsSuccess(r)),
+      (failure) => emit(GetFavoriteProductsError(failure.message)),
+      (success) => emit(GetFavoriteProductsSuccess(success)),
     );
   }
 }

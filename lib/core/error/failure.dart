@@ -23,15 +23,6 @@ class ServerFailure extends Failure {
   const ServerFailure(String message, this.statusCode) : super(message);
 }
 
-class UnauthorizedFailure extends ServerFailure {
-  const UnauthorizedFailure()
-      : super('You are not authorized. Please log in.', 401);
-}
-
-class NotFoundFailure extends ServerFailure {
-  const NotFoundFailure() : super('The requested resource was not found.', 404);
-}
-
 class InternalServerErrorFailure extends ServerFailure {
   const InternalServerErrorFailure()
       : super('Internal server error. Please try again later.', 500);

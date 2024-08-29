@@ -17,8 +17,8 @@ class DeleteAllFavoriteProductsBloc extends Bloc<DeleteAllFavoriteProductsEvent,
     emit(DeleteAllFavoriteProductsLoading());
     final deleteAllFavoriteProducts = await deleteUsecase.deleteAllFavoriteProducts();
     deleteAllFavoriteProducts.fold(
-      (l) => emit(DeleteAllFavoriteProductsError(l.toString())),
-      (r) => emit(DeleteAllFavoriteProductsSuccess(r)),
+      (failure) => emit(DeleteAllFavoriteProductsError(failure.message)),
+      (success) => emit(DeleteAllFavoriteProductsSuccess(success)),
     );
     
   }
