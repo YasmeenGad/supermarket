@@ -6,12 +6,14 @@ import 'package:supermarket/core/widgets/custom_button.dart';
 import 'package:supermarket/features/cart/presentation/bloc/get_total_order.dart/get_total_order_bloc.dart';
 import 'package:supermarket/features/cart/presentation/widgets/custom_button_bloc.dart';
 import 'package:supermarket/features/cart/presentation/widgets/custom_list_tile_checkout.dart';
+import 'package:supermarket/features/checkout/domain/entities/create_customer.dart';
 import 'package:supermarket/features/checkout/presentation/widgets/payment_methods.dart';
 
 class CustomGoToCheckoutButton extends StatelessWidget {
-  const CustomGoToCheckoutButton({super.key, this.state, this.orderId});
+  const CustomGoToCheckoutButton({super.key, this.state, this.orderId, required this.customer});
   final state;
   final orderId;
+  final Customer? customer;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +32,7 @@ class CustomGoToCheckoutButton extends StatelessWidget {
 
           return GestureDetector(
             onTap: () {
-              showFriendlyBottomSheet(context, totalPrice.toString(), totalQuantity);
+              showFriendlyBottomSheet(context, totalPrice.toString(), totalQuantity, customer);
             },
             child: CustomButton(
               text: "Go To Checkout",
@@ -42,7 +44,7 @@ class CustomGoToCheckoutButton extends StatelessWidget {
   }
 
   void showFriendlyBottomSheet(
-      BuildContext context, String totalPrice, int totalQuantity) {
+      BuildContext context, String totalPrice, int totalQuantity, Customer? customer) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -119,7 +121,7 @@ class CustomGoToCheckoutButton extends StatelessWidget {
                 const SizedBox(
                   height: 16,
                 ),
-                CustomButtonBloc(amount: totalPrice),
+                CustomButtonBloc(amount: totalPrice, customer: customer,),
               ],
             ),
           ),

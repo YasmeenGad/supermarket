@@ -53,3 +53,13 @@ class ResetPasswordEvent extends AuthEvent {
   @override
   List<Object?> get props => [token, newPassword];
 }
+
+class CreateCustomerEvent extends AuthEvent {
+  final String name;
+
+  CreateCustomerEvent({required this.name});
+
+  @override
+  List<Object?> get props => [name];
+}
+class NavigateToLoginEvent extends AuthEvent {}

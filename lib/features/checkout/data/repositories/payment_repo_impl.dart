@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:supermarket/core/network/network_info.dart';
+import 'package:supermarket/features/checkout/data/datasource/payment_local_datasource.dart';
 import 'package:supermarket/features/checkout/data/datasource/payment_remote_datasource.dart';
 import 'package:supermarket/features/checkout/data/models/payment_intent_input_model.dart';
 import 'package:supermarket/features/checkout/data/models/payment_intent_model.dart';
@@ -9,10 +10,12 @@ import 'package:supermarket/features/checkout/domain/repositories/payment_repo.d
 class PaymentRepositoryImpl implements PaymentRepository {
   final NetworkInfo networkInfo;
   final PaymentRemoteDatasource paymentRemoteDatasource;
+  final PaymentLocalDatasource paymentLocalDatasource;
 
   PaymentRepositoryImpl({
     required this.networkInfo,
     required this.paymentRemoteDatasource,
+    required this.paymentLocalDatasource,
   });
 
   @override
@@ -82,6 +85,7 @@ class PaymentRepositoryImpl implements PaymentRepository {
     }
     try {
       final customer = await paymentRemoteDatasource.createCustomer(name);
+      await paymentLocalDatasource.cacheCustomer(customer);
       return Right(customer);
     } on Exception {
       return const Left('Failed to create customer');

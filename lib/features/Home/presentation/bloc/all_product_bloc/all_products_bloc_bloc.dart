@@ -18,7 +18,7 @@ class AllProductsBlocBloc extends Bloc<AllProductsBlocEvent, AllProductsBlocStat
     final result = await getProductsUseCase.getAllProducts();
 
     result.fold(
-      (failure) => emit(AllProductsBlocError(failure.toString())),
+      (failure) => emit(AllProductsBlocError(failure.message.toString())),
       (products) => emit(AllProductsBlocLoaded(products)),
     );
   }

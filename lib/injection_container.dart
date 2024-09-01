@@ -11,7 +11,6 @@ import 'package:supermarket/features/Home/domain/usecases/get_all_products_useca
 import 'package:supermarket/features/Home/presentation/bloc/BestSellingProducts/best_selling_products_bloc.dart';
 import 'package:supermarket/features/Home/presentation/bloc/all_product_bloc/all_products_bloc_bloc.dart';
 import 'package:supermarket/features/Home/presentation/bloc/update_quantity/update_quantity_bloc.dart';
-
 import 'package:supermarket/features/auth/data/datasources/auth_local_datasource.dart';
 import 'package:supermarket/features/auth/data/datasources/auth_remote_datasources.dart';
 import 'package:supermarket/features/auth/data/repositories/auth_repositories_imp.dart';
@@ -27,11 +26,11 @@ import 'package:supermarket/features/cart/presentation/bloc/delete_item_bloc/del
 import 'package:supermarket/features/cart/presentation/bloc/get_total_order.dart/get_total_order_bloc.dart';
 import 'package:supermarket/features/cart/presentation/bloc/create_order_bloc/create_order_bloc.dart';
 import 'package:supermarket/features/cart/presentation/bloc/get_order_bloc/get_order_bloc.dart';
+import 'package:supermarket/features/checkout/data/datasource/payment_local_datasource.dart';
 import 'package:supermarket/features/checkout/data/datasource/payment_remote_datasource.dart';
 import 'package:supermarket/features/checkout/data/repositories/payment_repo_impl.dart';
 import 'package:supermarket/features/checkout/domain/repositories/payment_repo.dart';
 import 'package:supermarket/features/checkout/domain/usecase/payment_usecase.dart';
-import 'package:supermarket/features/checkout/presentation/bloc/customer_bloc/customer_bloc.dart';
 import 'package:supermarket/features/checkout/presentation/bloc/payment_bloc/payment_bloc.dart';
 import 'package:supermarket/features/explore/data/datasources/category_local_datasource.dart';
 import 'package:supermarket/features/explore/data/datasources/category_remote_datasource.dart';
@@ -156,7 +155,11 @@ Future<void> init() async {
       client: httpClient,
     ),
   );
-
+  
+  // payment local data source
+  sl.registerLazySingleton<PaymentLocalDatasource>(
+    () => PaymentLocalDatasourceImpl(sharedPreferences: sharedPreferences),
+  );
   // Auth Repositories
   sl.registerLazySingleton<AuthRepositories>(() => AuthRepositoriesImp(
         authLocalDataSource: sl(),
@@ -212,6 +215,7 @@ Future<void> init() async {
     () => PaymentRepositoryImpl(
       networkInfo: sl(),
       paymentRemoteDatasource: sl(),
+      paymentLocalDatasource: sl()
     ),
   );
   // Auth Use cases
@@ -253,6 +257,7 @@ Future<void> init() async {
   // Auth Blocs
   sl.registerFactory(() => AuthBloc(
         authUsecase: sl(),
+        paymentUsecase: sl()
       ));
 
   // Product Blocs
@@ -333,8 +338,4 @@ Future<void> init() async {
         paymentUsecase: sl(),
       ));
 
-  // create customer bloc
-  sl.registerFactory(() => CustomerBloc(
-        paymentUsecase: sl(),
-      ));
 }

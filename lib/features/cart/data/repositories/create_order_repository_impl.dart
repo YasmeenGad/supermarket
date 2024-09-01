@@ -90,14 +90,7 @@ class OrderRepositoryImpl implements OrderRepository {
         } else {
           return Left(CacheFailure());
         }
-      } on ServerException catch (e) {
-        if (e.statusCode >= 500) {
-          return const Left(InternalServerErrorFailure());
-        }
-        return Left(ServerFailure(e.message, e.statusCode));
-      } on TimeoutException {
-        return Left(TimeoutFailure());
-      } catch (e) {
+      }  catch (e) {
         return Left(GeneralFailure(e.toString()));
       }
     } else {

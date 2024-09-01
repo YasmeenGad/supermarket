@@ -1,16 +1,16 @@
-part of 'customer_bloc.dart';
+// part of 'customer_bloc.dart';
 
-@immutable
-sealed class CustomerEvent extends Equatable {
-  @override
-  List<Object?> get props => [];
-}
+// @immutable
+// sealed class CustomerEvent extends Equatable {
+//   @override
+//   List<Object?> get props => [];
+// }
 
-class CreateCustomerEvent extends CustomerEvent {
-  final String name;
+// class CreateCustomerEvent extends CustomerEvent {
+//   final String name;
 
-  CreateCustomerEvent({required this.name});
+//   CreateCustomerEvent({required this.name});
 
-  @override
-  List<Object?> get props => [name];
-}
+//   @override
+//   List<Object?> get props => [name];
+// }

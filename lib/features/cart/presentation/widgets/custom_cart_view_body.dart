@@ -9,9 +9,11 @@ import 'package:supermarket/features/cart/presentation/widgets/custom_cart_list.
 import 'package:supermarket/features/cart/presentation/widgets/custom_container_internet_connection.dart';
 import 'package:supermarket/features/cart/presentation/widgets/custom_empty_cart_content.dart';
 import 'package:supermarket/features/cart/presentation/widgets/custom_go_to_checkout_button.dart';
+import 'package:supermarket/features/checkout/domain/entities/create_customer.dart';
 
 class CustomCartViewBody extends StatelessWidget {
-  const CustomCartViewBody({super.key});
+  const CustomCartViewBody({super.key, required this.customer});
+  final Customer? customer;
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +41,7 @@ class CustomCartViewBody extends StatelessWidget {
                       CustomGoToCheckoutButton(
                         state: state,
                         orderId: state.orders.id,
+                        customer: customer,
                       ),
                   ],
                 );

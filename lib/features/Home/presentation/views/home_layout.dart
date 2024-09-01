@@ -3,12 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:supermarket/core/constants/app_colors.dart';
 import 'package:supermarket/features/Home/presentation/widgets/home_widget.dart';
 import 'package:supermarket/features/cart/presentation/views/cart_view.dart';
+import 'package:supermarket/features/checkout/data/datasource/payment_local_datasource.dart';
+import 'package:supermarket/features/checkout/domain/entities/create_customer.dart';
 import 'package:supermarket/features/explore/presentation/views/all_categories_view.dart';
 import 'package:supermarket/features/favorite/presentation/views/fav_view.dart';
+import 'package:supermarket/injection_container.dart';
 
 class HomeLayout extends StatefulWidget {
-  const HomeLayout({super.key, required this.userName});
-  final String userName;
+  const HomeLayout({super.key, required this.customer});
+  final Customer? customer;
 
   @override
   State<HomeLayout> createState() => _HomeLayoutState();
@@ -16,17 +19,35 @@ class HomeLayout extends StatefulWidget {
 
 class _HomeLayoutState extends State<HomeLayout>
     with SingleTickerProviderStateMixin {
+  String? customerId;
   int selectedIndex = 0;
   late List<Widget> widgetOptions;
   late AnimationController _controller;
 
+  Future<void> _initializeCustomerId() async {
+    customerId = await _checkCustomerId();
+    setState(() {}); 
+  }
+
+  Future<String?> _checkCustomerId() async {
+    if (widget.customer == null) {
+      final paymentLocalDatasource = sl<PaymentLocalDatasource>();
+      final customer = await paymentLocalDatasource.getCachedCustomer();
+      return customer?.id;
+    }
+    return null;
+  }
+
   @override
   void initState() {
     super.initState();
+    _initializeCustomerId();
     widgetOptions = <Widget>[
-      HomeWidget(userName: widget.userName),
+      HomeWidget(),
       AllCategoriesView(),
-      CartView(),
+      CartView(
+        customer: widget.customer,
+      ),
       FavView(),
       Container(),
     ];

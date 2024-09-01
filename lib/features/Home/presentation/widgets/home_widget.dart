@@ -15,8 +15,8 @@ import 'package:supermarket/features/cart/presentation/widgets/custom_container_
 import 'package:supermarket/injection_container.dart';
 
 class HomeWidget extends StatefulWidget {
-  const HomeWidget({super.key, required this.userName});
-  final String userName;
+  const HomeWidget({super.key});
+  
 
   @override
   State<HomeWidget> createState() => _HomeWidgetState();
@@ -58,7 +58,7 @@ class _HomeWidgetState extends State<HomeWidget> {
             SliverToBoxAdapter(
               child: Column(
                 children: [
-                  CustomAppBar(userName: widget.userName),
+                  CustomAppBar(),
                   SizedBox(height: 12),
                   ImagePageView(pageController: pageController),
                   SizedBox(height: 16),

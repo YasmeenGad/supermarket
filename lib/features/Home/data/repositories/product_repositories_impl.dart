@@ -1,5 +1,8 @@
-// data/repositories/product_repository_impl.dart
+import 'dart:async';
+
 import 'package:dartz/dartz.dart';
+import 'package:supermarket/core/error/exceptions.dart';
+import 'package:supermarket/core/error/failure.dart';
 import 'package:supermarket/core/network/network_info.dart';
 import 'package:supermarket/features/Home/data/datasources/all_products_local_datasource.dart';
 import 'package:supermarket/features/Home/data/datasources/product_remote_data_source_impl.dart';
@@ -20,14 +23,21 @@ class ProductRepositoryImpl implements ProductRepository {
   });
 
   @override
-  Future<Either<String, List<ProductModel>>> getAllProducts() async {
+  Future<Either<Failure, List<ProductModel>>> getAllProducts() async {
     if (await networkInfo.isConnected) {
       try {
         final products = await remoteDataSource.getAllProducts();
         localDataSource.cacheProducts(products);
         return Right(products);
+      } on ServerException catch (e) {
+        if (e.statusCode >= 500) {
+          return const Left(InternalServerErrorFailure());
+        }
+        return Left(ServerFailure(e.message, e.statusCode));
+      } on TimeoutException {
+        return const Left(TimeoutFailure());
       } catch (e) {
-        return Left('Failed to get products: $e');
+        return Left(GeneralFailure(e.toString()));
       }
     } else {
       try {
@@ -35,16 +45,16 @@ class ProductRepositoryImpl implements ProductRepository {
         if (cachedProducts.isNotEmpty) {
           return Right(cachedProducts);
         } else {
-          return Left('No internet connection and no cached data available');
+          return Left(CacheFailure());
         }
       } catch (e) {
-        return Left('Failed to get products from local cache: $e');
+        return Left(GeneralFailure(e.toString()));
       }
     }
   }
 
   @override
-  Future<Either<String, List<BestSellingProductsModel>>>
+  Future<Either<Failure, List<BestSellingProductsModel>>>
       getBestSellingProducts() async {
     if (await networkInfo.isConnected) {
       try {
@@ -53,8 +63,15 @@ class ProductRepositoryImpl implements ProductRepository {
         localDataSource.cacheBestSellingProducts(bestSellingProducts);
 
         return Right(bestSellingProducts);
+      } on ServerException catch (e) {
+        if (e.statusCode >= 500) {
+          return const Left(InternalServerErrorFailure());
+        }
+        return Left(ServerFailure(e.message, e.statusCode));
+      } on TimeoutException {
+        return const Left(TimeoutFailure());
       } catch (e) {
-        return Left('Failed to get products: $e');
+        return Left(GeneralFailure(e.toString()));
       }
     } else {
       try {
@@ -63,27 +80,34 @@ class ProductRepositoryImpl implements ProductRepository {
         if (cachedProducts.isNotEmpty) {
           return Right(cachedProducts);
         } else {
-          return Left('No internet connection and no cached data available');
+          return Left(CacheFailure());
         }
       } catch (e) {
-        return Left('Failed to get products from local cache: $e');
+        return Left(GeneralFailure(e.toString()));
       }
     }
   }
 
   @override
-  Future<Either<String, Product>> updateQuantity(
+  Future<Either<Failure, Product>> updateQuantity(
       String id, int quantity) async {
     if (!await networkInfo.isConnected) {
-      return Left('No Internet Connection');
+      return Left(NoInternetFailure());
     }
 
     try {
       final updatedProduct =
           await remoteDataSource.updateQuantity(id, quantity);
       return Right(updatedProduct);
+    } on ServerException catch (e) {
+      if (e.statusCode >= 500) {
+        return const Left(InternalServerErrorFailure());
+      }
+      return Left(ServerFailure(e.message, e.statusCode));
+    } on TimeoutException {
+      return const Left(TimeoutFailure());
     } catch (e) {
-      return Left(e.toString());
+      return Left(GeneralFailure(e.toString()));
     }
   }
 }

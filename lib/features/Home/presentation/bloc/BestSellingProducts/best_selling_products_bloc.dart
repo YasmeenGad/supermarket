@@ -18,7 +18,7 @@ class BestSellingProductsBloc extends Bloc<BestSellingProductsEvent, BestSelling
     final result = await getProductsUseCase.getBestSellingProducts();
 
     result.fold(
-      (failure) => emit(BestSellingProductsError(failure.toString())),
+      (failure) => emit(BestSellingProductsError(failure.message.toString())),
       (products) => emit(BestSellingProductsLoaded(products)),
     );
   }

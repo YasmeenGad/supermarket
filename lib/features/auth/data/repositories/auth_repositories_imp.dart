@@ -51,6 +51,7 @@ class AuthRepositoriesImp implements AuthRepositories {
       // ignore: unused_local_variable
       final newUser =
           await authRemoteDatasource.register(userName, email, password);
+          
       return const Right('Register successful');
     } on ServerException catch (e) {
       if (e.statusCode >= 500) {

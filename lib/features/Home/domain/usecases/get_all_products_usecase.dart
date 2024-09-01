@@ -1,12 +1,13 @@
 import 'package:dartz/dartz.dart';
+import 'package:supermarket/core/error/failure.dart';
 
 import 'package:supermarket/features/Home/domain/entities/best_selling_products.dart';
 import 'package:supermarket/features/Home/domain/entities/product.dart';
 import '../repositories/product_repository.dart';
 
-typedef GetAllProductsResult= Either<String, List<Product>>;
-typedef GetBestSellingProductsResult= Either<String, List<BestSellingProducts>>;
-typedef UpdateQuantityResult= Either<String, Product>;
+typedef GetAllProductsResult= Either<Failure, List<Product>>;
+typedef GetBestSellingProductsResult= Either<Failure, List<BestSellingProducts>>;
+typedef UpdateQuantityResult= Either<Failure, Product>;
 class GetProductsUseCase {
   final ProductRepository repository;
 

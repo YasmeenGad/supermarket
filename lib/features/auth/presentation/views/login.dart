@@ -13,9 +13,13 @@ import 'package:supermarket/features/auth/presentation/bloc/authBloc/auth_event.
 import 'package:supermarket/features/auth/presentation/widgets/custom_auth_text_section.dart';
 import 'package:supermarket/features/auth/presentation/widgets/custom_text_auth.dart';
 import 'package:supermarket/features/auth/presentation/widgets/custom_text_field.dart';
+import 'package:supermarket/features/checkout/data/datasource/payment_local_datasource.dart';
+import 'package:supermarket/features/checkout/domain/entities/create_customer.dart';
+import 'package:supermarket/injection_container.dart';
 
 class Login extends StatefulWidget {
-  const Login({super.key});
+  const Login({super.key, this.customer});
+  final Customer? customer;
 
   @override
   State<Login> createState() => _LoginState();
@@ -27,6 +31,34 @@ class _LoginState extends State<Login> {
   final TextEditingController passwordController = TextEditingController();
   bool isPassword = true;
   bool isEmailValid = false;
+  String? customerId;
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeCustomerId();
+  }
+
+  Future<void> _initializeCustomerId() async {
+    customerId = await _checkCustomerId();
+    setState(() {}); // Update UI after customer ID is retrieved
+  }
+
+  Future<String?> _checkCustomerId() async {
+    if (widget.customer == null) {
+      final paymentLocalDatasource = sl<PaymentLocalDatasource>();
+      final customer = await paymentLocalDatasource.getCachedCustomer();
+      return customer?.id;
+    }
+    return null;
+  }
 
   void validateEmail(String value) {
     final email = value;
@@ -39,13 +71,6 @@ class _LoginState extends State<Login> {
         isEmailValid = false;
       });
     }
-  }
-
-  @override
-  void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
-    super.dispose();
   }
 
   @override
@@ -102,7 +127,7 @@ class _LoginState extends State<Login> {
                     text: 'Email',
                     hintText: 'email',
                     suffixIcon: isEmailValid
-                        ? Icon(Icons.check, color: Colors.green)
+                        ? const Icon(Icons.check, color: Colors.green)
                         : null,
                   ),
                 ),
@@ -122,55 +147,58 @@ class _LoginState extends State<Login> {
                         });
                       },
                       icon: isPassword
-                          ? Icon(Icons.visibility)
-                          : Icon(Icons.visibility_off),
+                          ? const Icon(Icons.visibility)
+                          : const Icon(Icons.visibility_off),
                     ),
                   ),
                 ),
                 Align(
-                    alignment: Alignment.centerRight,
-                    child: GestureDetector(
-                        onTap: () {
-                          Navigator.pushNamed(
-                              context, AppRoutes.forgetPasswordRoute);
-                        },
-                        child: Text("Forget Password?",
-                            style: AppStyles.styleMedium16(context)))),
-                const SizedBox(
-                  height: 16,
+                  alignment: Alignment.centerRight,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(
+                          context, AppRoutes.forgetPasswordRoute);
+                    },
+                    child: Text("Forget Password?",
+                        style: AppStyles.styleMedium16(context)),
+                  ),
                 ),
+                const SizedBox(height: 16),
               ],
             ),
           ),
           BlocConsumer<AuthBloc, AuthState>(
             listener: (context, state) {
               if (state is AuthSuccess) {
-               final snackBar = SnackBar(
-      content: Row(
-        children: [
-          const Icon(Icons.check_circle, color: Colors.white),
-          const SizedBox(width: 10),
-           Text('${state.message}'),
-        ],
-      ),
-      backgroundColor: Colors.green,
-      behavior: SnackBarBehavior.floating,
-      duration: const Duration(seconds: 3),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      action: SnackBarAction(
-        label: 'OK',
-        textColor: Colors.white,
-        onPressed: () {},
-      ),
-    );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                final snackBar = SnackBar(
+                  content: Row(
+                    children: [
+                      const Icon(Icons.check_circle, color: Colors.white),
+                      const SizedBox(width: 10),
+                      Text('${state.message}'),
+                    ],
+                  ),
+                  backgroundColor: Colors.green,
+                  behavior: SnackBarBehavior.floating,
+                  duration: const Duration(seconds: 3),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  action: SnackBarAction(
+                    label: 'OK',
+                    textColor: Colors.white,
+                    onPressed: () {},
+                  ),
+                );
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
                 Navigator.pushNamedAndRemoveUntil(
                   context,
                   AppRoutes.homeLayoutRoute,
                   (route) => false,
+                  arguments: widget.customer,
                 );
               } else if (state is AuthFailure) {
-              CustomAwesomDialog.showErrorDialog(context, state.error);
+                CustomAwesomDialog.showErrorDialog(context, state.error);
               }
             },
             builder: (context, state) {
@@ -186,9 +214,9 @@ class _LoginState extends State<Login> {
                     final password = passwordController.text;
 
                     context.read<AuthBloc>().add(LoginEvent(
-                          email: email,
-                          password: password,
-                        ));
+                      email: email,
+                      password: password,
+                    ));
                   }
                 },
                 child: CustomButton(
@@ -197,9 +225,7 @@ class _LoginState extends State<Login> {
               );
             },
           ),
-          const SizedBox(
-            height: 25,
-          ),
+          const SizedBox(height: 25),
           CustomTextAuth(
             text: 'Don\'t have an account?',
             textAuth: ' Sign Up',

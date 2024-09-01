@@ -3,14 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supermarket/core/utils/app_routes.dart';
 import 'package:supermarket/core/widgets/custom_button.dart';
 import 'package:supermarket/features/checkout/data/models/payment_intent_input_model.dart';
+import 'package:supermarket/features/checkout/domain/entities/create_customer.dart';
 import 'package:supermarket/features/checkout/presentation/bloc/payment_bloc/payment_bloc.dart';
 
 class CustomButtonBloc extends StatelessWidget {
-  final dynamic amount; // Pass the total price here
-  const CustomButtonBloc({
-    super.key,
-    required this.amount,
-  });
+  final dynamic amount;
+  final Customer? customer;
+  const CustomButtonBloc(
+      {super.key, required this.amount, required this.customer});
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +60,7 @@ class CustomButtonBloc extends StatelessWidget {
                           paymentIntentInputModel: PaymentIntentInputModel(
                             amount: amount,
                             currency: 'USD',
-                            customerId: 'cus_QjtC7vekxvYCDe',
+                            customerId: '${customer?.id}',
                           ),
                         ),
                       );

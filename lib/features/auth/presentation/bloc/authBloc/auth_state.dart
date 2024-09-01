@@ -47,3 +47,22 @@ class AuthSuccessResetPassword extends AuthState {
   @override
   List<Object> get props => [token];
 }
+
+class CustomerLoading extends AuthState {}
+
+class CustomerLoaded extends AuthState {
+  final Customer customer;
+  CustomerLoaded({required this.customer});
+
+  @override
+  List<Object> get props => [customer];
+}
+
+class CustomerError extends AuthState {
+  final String message;
+
+  CustomerError({required this.message});
+
+  @override
+  List<Object> get props => [message];
+}

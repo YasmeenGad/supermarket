@@ -21,7 +21,7 @@ class UpdateQuantityBloc
         await getProductsUseCase.updateQuantity(event.id, event.quantity);
 
     products.fold(
-      (failure) => emit(UpdateQuantityError(failure.toString())),
+      (failure) => emit(UpdateQuantityError(failure.message.toString())),
       (products) => emit(UpdateQuantitySuccess(products)),
     );
   }
