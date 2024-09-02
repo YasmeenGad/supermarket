@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:supermarket/core/utils/app_routes.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:supermarket/core/constants/app_colors.dart';
+import 'package:supermarket/core/utils/app_styles.dart';
+import 'package:supermarket/core/utils/assets.dart';
 import 'package:supermarket/core/widgets/custom_button.dart';
 import 'package:supermarket/features/checkout/data/models/payment_intent_input_model.dart';
 import 'package:supermarket/features/checkout/domain/entities/create_customer.dart';
@@ -17,33 +20,59 @@ class CustomButtonBloc extends StatelessWidget {
     return BlocConsumer<PaymentBloc, PaymentState>(
       listener: (context, state) {
         if (state is PaymentSuccess) {
-          Navigator.of(context).pushNamedAndRemoveUntil(
-              AppRoutes.paymentSuccessRoute, (Route<dynamic> route) => false);
-        }
-        if (state is PaymentError) {
-          Navigator.pop(context);
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Row(
-                children: [
-                  Icon(Icons.error, color: Colors.white),
-                  const SizedBox(width: 8.0),
-                  Expanded(child: Text(state.message)),
-                ],
-              ),
-              backgroundColor: Colors.red,
-              duration: const Duration(seconds: 3),
-              behavior: SnackBarBehavior.floating,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-              padding: const EdgeInsets.all(16.0),
-              action: SnackBarAction(
-                label: 'OK',
-                textColor: Colors.white,
-                onPressed: () {},
-              ),
-            ),
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                content: Container(
+                  width: MediaQuery.of(context).size.width,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Column(
+                          children: [
+                            SvgPicture.asset(
+                              Assets.imageSuccess,
+                              // width: 269,
+                              // height: 240,
+                            ),
+                            const SizedBox(height: 16),
+                            Text(
+                              'Your Order has been accepted',
+                              style: AppStyles.styleSemiBold28(context)
+                                  .copyWith(color: darkColor),
+                              textAlign: TextAlign.center,
+                            ),
+                            const SizedBox(height: 16),
+                            Text(
+                              'Your items have been placed and are on their way to being processed',
+                              style: AppStyles.styleMedium16(context)
+                                  .copyWith(color: secondaryColor),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 16),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).pop(); // Close the dialog
+                            // Navigator.pushNamedAndRemoveUntil(
+                            //   context,
+                            //   AppRoutes.homeLayoutRoute,
+                            //   (Route<dynamic> route) => false,
+                            // ); // Navigate to the home screen
+                          },
+                          child: CustomButton(text: "Okay"),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            },
           );
         }
       },
