@@ -3,6 +3,7 @@ import 'package:supermarket/core/network/network_info.dart';
 import 'package:supermarket/features/checkout/data/datasource/payment_local_datasource.dart';
 import 'package:supermarket/features/checkout/data/datasource/payment_remote_datasource.dart';
 import 'package:supermarket/features/checkout/data/models/ephemeral_key_model.dart';
+import 'package:supermarket/features/checkout/data/models/init_payment_sheet_input_model.dart';
 import 'package:supermarket/features/checkout/data/models/payment_intent_input_model.dart';
 import 'package:supermarket/features/checkout/data/models/payment_intent_model.dart';
 import 'package:supermarket/features/checkout/domain/entities/create_customer.dart';
@@ -36,13 +37,13 @@ class PaymentRepositoryImpl implements PaymentRepository {
 
   @override
   Future<Either<String, void>> initPaymentSheet(
-      {required String paymentIntentClientSecret}) async {
+      {required InitPaymentSheetInputModel initPaymentSheetInputModel}) async {
     if (!await networkInfo.isConnected) {
       return const Left('No internet connection');
     }
     try {
       await paymentRemoteDatasource.initPaymentSheet(
-          paymentIntentClientSecret: paymentIntentClientSecret);
+          initPaymentSheetInputModel: initPaymentSheetInputModel);
       return const Right(null);
     } on Exception {
       return const Left('Failed to initialize payment sheet');

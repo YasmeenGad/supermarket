@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:supermarket/features/checkout/data/models/ephemeral_key_model.dart';
+import 'package:supermarket/features/checkout/data/models/init_payment_sheet_input_model.dart';
 import 'package:supermarket/features/checkout/data/models/payment_intent_input_model.dart';
 import 'package:supermarket/features/checkout/data/models/payment_intent_model.dart';
 import 'package:supermarket/features/checkout/domain/entities/create_customer.dart';
@@ -8,8 +9,9 @@ import 'package:supermarket/features/checkout/domain/repositories/payment_repo.d
 typedef PaymentIntentResult = Either<String, PaymentIntentModel>;
 typedef InitPaymentSheetResult = Either<String, void>;
 typedef MakePaymentResult = Either<String, void>;
-typedef CreateCustomerResult= Either<String, Customer>;
-typedef CreateEphemeralKeyResult= Either<String, EphemeralKeyModel>;
+typedef CreateCustomerResult = Either<String, Customer>;
+typedef CreateEphemeralKeyResult = Either<String, EphemeralKeyModel>;
+
 class PaymentUsecase {
   final PaymentRepository paymentRepository;
 
@@ -21,9 +23,8 @@ class PaymentUsecase {
   }
 
   Future<InitPaymentSheetResult> initPaymentSheet(
-      {required String paymentIntentClientSecret}) async {
-    return await paymentRepository.initPaymentSheet(
-        paymentIntentClientSecret: paymentIntentClientSecret);
+      {required InitPaymentSheetInputModel initPaymentSheetInputModel}) async {
+    return await paymentRepository.initPaymentSheet(initPaymentSheetInputModel: initPaymentSheetInputModel);
   }
 
   Future<InitPaymentSheetResult> displayPaymentSheet() async {
@@ -36,8 +37,7 @@ class PaymentUsecase {
         paymentIntentInputModel: paymentIntentInputModel);
   }
 
-   Future<CreateCustomerResult> createCustomer(
-      String name) async {
+  Future<CreateCustomerResult> createCustomer(String name) async {
     return await paymentRepository.createCustomer(name);
   }
 
