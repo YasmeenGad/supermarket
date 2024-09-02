@@ -1,4 +1,8 @@
+import 'dart:async';
+
 import 'package:dartz/dartz.dart';
+import 'package:supermarket/core/error/exceptions.dart';
+import 'package:supermarket/core/error/failure.dart';
 import 'package:supermarket/core/network/network_info.dart';
 import 'package:supermarket/features/explore/data/datasources/category_local_datasource.dart';
 import 'package:supermarket/features/explore/data/datasources/category_remote_datasource.dart';
@@ -18,34 +22,52 @@ class CategoryRepositoryImpl implements CategoryRepository {
   });
 
   @override
-  Future<Either<String, List<Categories>>> getCategories() async {
+  Future<Either<Failure, List<Categories>>> getCategories() async {
     if (!await networkInfo.isConnected) {
       try {
         final cachedCategories = await localDataSource.getCachedCategories();
         return right(cachedCategories);
+      } on CacheException {
+        return left(CacheFailure());
       } catch (e) {
-        return left('Failed to load cached categories: $e');
+        return left(GeneralFailure(e.toString()));
       }
     }
     try {
       final remoteCategories = await remoteDataSource.getAllCategories();
       localDataSource.cacheCategories(remoteCategories);
       return right(remoteCategories);
+    } on ServerException catch (e) {
+      if (e.statusCode >= 500) {
+        return left(InternalServerErrorFailure());
+      }
+      return left(ServerFailure(e.message, e.statusCode));
+    } on TimeoutException {
+      return left(TimeoutFailure());
     } catch (e) {
-      return left('Failed to get categories: $e');
+      return left(GeneralFailure(e.toString()));
     }
   }
 
   @override
-  Future<Either<String, SearchedCategory>> getSearchedCategory(String categoryName) async {
+  Future<Either<Failure, SearchedCategory>> getSearchedCategory(
+      String categoryName) async {
     if (!await networkInfo.isConnected) {
-      return left('No internet connection');
+      return left(NoInternetFailure());
     }
     try {
-      final remoteCategory = await remoteDataSource.getSearchedCategory(categoryName);
+      final remoteCategory =
+          await remoteDataSource.getSearchedCategory(categoryName);
       return right(remoteCategory);
+    } on ServerException catch (e) {
+      if (e.statusCode >= 500) {
+        return left(InternalServerErrorFailure());
+      }
+      return left(ServerFailure(e.message, e.statusCode));
+    } on TimeoutException {
+      return left(TimeoutFailure());
     } catch (e) {
-      return left('Failed to get category: $e');
+      return left(GeneralFailure(e.toString()));
     }
   }
 }

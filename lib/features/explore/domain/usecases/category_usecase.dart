@@ -1,11 +1,12 @@
 import 'package:dartz/dartz.dart';
+import 'package:supermarket/core/error/failure.dart';
 import 'package:supermarket/features/explore/domain/entities/category.dart';
 import 'package:supermarket/features/explore/domain/entities/searched_category.dart';
 import 'package:supermarket/features/explore/domain/repositories/category_repo.dart';
 
 
-typedef CategoryResult = Either<String, List<Categories>>;
-typedef SearchedCategoryResult = Either<String, SearchedCategory>;
+typedef CategoryResult = Either<Failure, List<Categories>>;
+typedef SearchedCategoryResult = Either<Failure, SearchedCategory>;
 
 class CategoryUsecase{
   CategoryRepository categoryRepository;

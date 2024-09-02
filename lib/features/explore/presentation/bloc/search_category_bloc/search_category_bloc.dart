@@ -18,7 +18,7 @@ class SearchCategoryBloc extends Bloc<SearchCategoryEvent, SearchCategoryState> 
     emit(SearchCategoryLoading());
     final result = await CategoryUseCase.getSearchedCategory(event.categoryName);
     result.fold(
-      (failure) => emit(SearchCategoryError(message: failure.toString())),
+      (failure) => emit(SearchCategoryError(message: failure.message.toString())),
       (category) => emit(SearchCategoryLoaded(category: category)),
     );
   }
