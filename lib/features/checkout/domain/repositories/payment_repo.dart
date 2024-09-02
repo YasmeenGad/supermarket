@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:supermarket/features/checkout/data/models/ephemeral_key_model.dart';
 import 'package:supermarket/features/checkout/data/models/payment_intent_model.dart';
 import 'package:supermarket/features/checkout/domain/entities/create_customer.dart';
 
@@ -13,4 +14,5 @@ abstract class PaymentRepository {
   Future<Either<String, void>> makePayment(
       {required PaymentIntentInputModel paymentIntentInputModel});
   Future<Either<String, Customer>> createCustomer(String name);
+  Future<Either<String,EphemeralKeyModel>> createEphemeralKey(String customerId);
 }
