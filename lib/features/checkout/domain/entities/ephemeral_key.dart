@@ -1,4 +1,6 @@
-class EphemeralKey {
+import 'package:equatable/equatable.dart';
+
+class EphemeralKey extends Equatable {
   final String id;
   final String object;
   final List<AssociatedObject> associatedObjects;
@@ -16,9 +18,20 @@ class EphemeralKey {
     required this.livemode,
     required this.secret,
   });
+
+  @override
+  List<Object?> get props => [
+        id,
+        object,
+        associatedObjects,
+        created,
+        expires,
+        livemode,
+        secret, 
+      ];
 }
 
-class AssociatedObject {
+class AssociatedObject extends Equatable {
   final String id;
   final String type;
 
@@ -26,4 +39,10 @@ class AssociatedObject {
     required this.id,
     required this.type,
   });
+
+  @override
+  List<Object?> get props => [
+        id,
+        type,
+      ];
 }
