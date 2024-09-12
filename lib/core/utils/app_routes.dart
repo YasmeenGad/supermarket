@@ -45,8 +45,8 @@ class AppRoutes {
             customer: ModalRoute.of(context)?.settings.arguments as Customer?,
           ),
       homeLayoutRoute: (context) => HomeLayout(
-          customer:
-              ModalRoute.of(context)?.settings.arguments as Customer?, ),
+            customer: ModalRoute.of(context)?.settings.arguments as Customer?,
+          ),
       forgetPasswordRoute: (context) => ForgetPassword(),
       otpRoute: (context) => VerifyOtp(),
       resetPasswordRoute: (context) => ResetPassword(
@@ -61,10 +61,13 @@ class AppRoutes {
             title: ModalRoute.of(context)!.settings.arguments as String,
             products: ModalRoute.of(context)!.settings.arguments as List,
           ),
-      cartRoute: (context) =>  CartView(customer:ModalRoute.of(context)!.settings.arguments as Customer,),
+      cartRoute: (context) => CartView(
+            customer: ModalRoute.of(context)!.settings.arguments as Customer,
+          ),
       favRoute: (context) => FavView(),
       paymentDetailsRoute: (context) => const PaymentDetailsView(),
-      paymentSuccessRoute: (context) => const ThankYouView()
+      paymentSuccessRoute: (context) =>  ThankYouView(
+          customer: ModalRoute.of(context)?.settings.arguments as Customer)
     };
   }
 }

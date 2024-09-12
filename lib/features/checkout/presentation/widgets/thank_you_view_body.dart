@@ -5,9 +5,11 @@ import 'package:supermarket/core/utils/app_routes.dart';
 import 'package:supermarket/core/utils/app_styles.dart';
 import 'package:supermarket/core/utils/assets.dart';
 import 'package:supermarket/core/widgets/custom_button.dart';
+import 'package:supermarket/features/checkout/domain/entities/create_customer.dart';
 
 class ThankYouViewBody extends StatelessWidget {
-  const ThankYouViewBody({super.key});
+  const ThankYouViewBody({super.key, required this.customer});
+  final Customer customer;
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +47,7 @@ class ThankYouViewBody extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () {
-                Navigator.pushNamed(context, AppRoutes.homeLayoutRoute);
+                Navigator.pushNamedAndRemoveUntil(context, AppRoutes.homeLayoutRoute,(route) => false, arguments: customer);
               },
               child: CustomButton(text: "Back to Home"),
             ),

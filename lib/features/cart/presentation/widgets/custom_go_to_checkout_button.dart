@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:supermarket/core/constants/app_colors.dart';
 import 'package:supermarket/core/utils/app_styles.dart';
+import 'package:supermarket/core/utils/assets.dart';
 import 'package:supermarket/core/widgets/custom_button.dart';
 import 'package:supermarket/features/cart/presentation/bloc/get_total_order.dart/get_total_order_bloc.dart';
 import 'package:supermarket/features/cart/presentation/widgets/custom_button_bloc.dart';
@@ -88,10 +90,7 @@ class CustomGoToCheckoutButton extends StatelessWidget {
                   },
                   child: CustomListTileCheckout(
                     title: "Payment Methods",
-                    trailing: SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.5,
-                      child: PaymentMethodsListView(),
-                    ),
+                    trailing: SvgPicture.asset(Assets.imagesCard, width: 24, height: 24,),
                   ),
                 ),
                 Divider(

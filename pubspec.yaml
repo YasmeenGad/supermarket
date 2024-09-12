@@ -57,6 +57,8 @@ dependencies:
   pull_to_refresh_flutter3: ^2.0.2
   flutter_spinkit: ^5.2.1
   flutter_stripe: ^11.0.0
+  flutter_paypal_payment: ^1.0.6
+  dio: ^5.6.0
 flutter_assets:
   assets_path: assets/images/
   output_path: lib/core/utils/
