@@ -10,6 +10,7 @@ import 'package:supermarket/core/utils/app_routes.dart';
 import 'package:supermarket/core/utils/app_styles.dart';
 import 'package:supermarket/core/utils/assets.dart';
 import 'package:supermarket/core/widgets/custom_button.dart';
+import 'package:supermarket/features/cart/presentation/bloc/checkout_bloc/checkout_bloc.dart';
 import 'package:supermarket/features/checkout/data/models/payment_intent_input_model.dart';
 import 'package:supermarket/features/checkout/data/models/paypal_item_model.dart';
 import 'package:supermarket/features/checkout/data/models/paypal_model.dart';
@@ -19,8 +20,12 @@ import 'package:supermarket/features/checkout/presentation/bloc/payment_bloc/pay
 class CustomButtonBloc extends StatelessWidget {
   final dynamic amount;
   final Customer? customer;
+  final String orderId;
   const CustomButtonBloc(
-      {super.key, required this.amount, required this.customer});
+      {super.key,
+      required this.amount,
+      required this.customer,
+      required this.orderId});
 
   @override
   Widget build(BuildContext context) {
@@ -29,11 +34,11 @@ class CustomButtonBloc extends StatelessWidget {
         if (state is PaymentSuccess) {
           // successDialog(context);
           Navigator.pushNamedAndRemoveUntil(
-                        context,
-                        AppRoutes.paymentSuccessRoute,
-                        arguments: customer,
-                        (Route<dynamic> route) => false,
-                      ); 
+            context,
+            AppRoutes.paymentSuccessRoute,
+            arguments: customer,
+            (Route<dynamic> route) => false,
+          );
         }
       },
       builder: (context, state) {
@@ -44,6 +49,9 @@ class CustomButtonBloc extends StatelessWidget {
               width: MediaQuery.sizeOf(context).width * 0.5,
               child: GestureDetector(
                 onTap: () {
+                  context
+                      .read<CheckoutBloc>()
+                      .add(Checkout(orderId: orderId, paymentMethod: 'Visa'));
                   context.read<PaymentBloc>().add(
                         MakePaymentEvent(
                           paymentIntentInputModel: PaymentIntentInputModel(
