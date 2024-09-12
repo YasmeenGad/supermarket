@@ -22,6 +22,7 @@ import 'package:supermarket/features/cart/data/datasources/order_remote_datasour
 import 'package:supermarket/features/cart/data/repositories/create_order_repository_impl.dart';
 import 'package:supermarket/features/cart/domain/repositories/order_repo.dart';
 import 'package:supermarket/features/cart/domain/usecases/order_usecase.dart';
+import 'package:supermarket/features/cart/presentation/bloc/checkout_bloc/checkout_bloc.dart';
 import 'package:supermarket/features/cart/presentation/bloc/delete_item_bloc/delete_item_bloc.dart';
 import 'package:supermarket/features/cart/presentation/bloc/get_total_order.dart/get_total_order_bloc.dart';
 import 'package:supermarket/features/cart/presentation/bloc/create_order_bloc/create_order_bloc.dart';
@@ -156,7 +157,7 @@ Future<void> init() async {
       authLocalDataSource: sl(),
     ),
   );
-  
+
   // payment local data source
   sl.registerLazySingleton<PaymentLocalDatasource>(
     () => PaymentLocalDatasourceImpl(sharedPreferences: sharedPreferences),
@@ -214,10 +215,9 @@ Future<void> init() async {
   // payment Repositories
   sl.registerLazySingleton<PaymentRepository>(
     () => PaymentRepositoryImpl(
-      networkInfo: sl(),
-      paymentRemoteDatasource: sl(),
-      paymentLocalDatasource: sl()
-    ),
+        networkInfo: sl(),
+        paymentRemoteDatasource: sl(),
+        paymentLocalDatasource: sl()),
   );
   // Auth Use cases
   sl.registerLazySingleton(() => AuthUsecase(authRepositories: sl()));
@@ -256,10 +256,7 @@ Future<void> init() async {
       ));
 
   // Auth Blocs
-  sl.registerFactory(() => AuthBloc(
-        authUsecase: sl(),
-        paymentUsecase: sl()
-      ));
+  sl.registerFactory(() => AuthBloc(authUsecase: sl(), paymentUsecase: sl()));
 
   // Product Blocs
   sl.registerFactory(() => AllProductsBlocBloc(
@@ -339,4 +336,8 @@ Future<void> init() async {
         paymentUsecase: sl(),
       ));
 
+      // checkout Blocs
+  sl.registerFactory(() => CheckoutBloc(
+        checkout: sl(),
+      ));
 }

@@ -119,6 +119,7 @@ class PaymentRepositoryImpl implements PaymentRepository {
     }
     try {
       final checkout = await paymentRemoteDatasource.updateCheckout(orderId, paymentMethod);
+      await paymentLocalDatasource.cacheCheckout(checkout);
       return Right(checkout);
     } on Exception {
       return const Left('Failed to update checkout');

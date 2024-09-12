@@ -11,8 +11,6 @@ import 'package:supermarket/features/checkout/data/models/init_payment_sheet_inp
 import 'package:supermarket/features/checkout/data/models/payment_intent_input_model.dart';
 import 'package:supermarket/features/checkout/data/models/payment_intent_model.dart';
 import 'package:http/http.dart' as http;
-import 'package:supermarket/features/checkout/domain/entities/checkout.dart';
-
 abstract class PaymentRemoteDatasource {
   Future<PaymentIntentModel> createPaymentIntent(
       PaymentIntentInputModel paymentIntentInputModel);
