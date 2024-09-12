@@ -153,6 +153,7 @@ Future<void> init() async {
   sl.registerLazySingleton<PaymentRemoteDatasource>(
     () => PaymentRemoteDatasourceImpl(
       client: httpClient,
+      authLocalDataSource: sl(),
     ),
   );
   

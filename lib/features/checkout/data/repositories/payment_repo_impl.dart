@@ -6,6 +6,7 @@ import 'package:supermarket/features/checkout/data/models/ephemeral_key_model.da
 import 'package:supermarket/features/checkout/data/models/init_payment_sheet_input_model.dart';
 import 'package:supermarket/features/checkout/data/models/payment_intent_input_model.dart';
 import 'package:supermarket/features/checkout/data/models/payment_intent_model.dart';
+import 'package:supermarket/features/checkout/domain/entities/checkout.dart';
 import 'package:supermarket/features/checkout/domain/entities/create_customer.dart';
 import 'package:supermarket/features/checkout/domain/repositories/payment_repo.dart';
 
@@ -107,6 +108,20 @@ class PaymentRepositoryImpl implements PaymentRepository {
       return Right(ephemeralKey);
     } on Exception {
       return const Left('Failed to create ephemeral key');
+    }
+  }
+
+  @override
+  Future<Either<String, CheckoutEntity>> updateCheckout(String orderId, String paymentMethod)async {
+    if (!await networkInfo.isConnected) {
+      return const Left(
+          'No internet connection, Please Connect to Internet and try again');
+    }
+    try {
+      final checkout = await paymentRemoteDatasource.updateCheckout(orderId, paymentMethod);
+      return Right(checkout);
+    } on Exception {
+      return const Left('Failed to update checkout');
     }
   }
 }

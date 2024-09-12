@@ -3,6 +3,7 @@ import 'package:supermarket/features/checkout/data/models/ephemeral_key_model.da
 import 'package:supermarket/features/checkout/data/models/init_payment_sheet_input_model.dart';
 import 'package:supermarket/features/checkout/data/models/payment_intent_input_model.dart';
 import 'package:supermarket/features/checkout/data/models/payment_intent_model.dart';
+import 'package:supermarket/features/checkout/domain/entities/checkout.dart';
 import 'package:supermarket/features/checkout/domain/entities/create_customer.dart';
 import 'package:supermarket/features/checkout/domain/repositories/payment_repo.dart';
 
@@ -11,6 +12,8 @@ typedef InitPaymentSheetResult = Either<String, void>;
 typedef MakePaymentResult = Either<String, void>;
 typedef CreateCustomerResult = Either<String, Customer>;
 typedef CreateEphemeralKeyResult = Either<String, EphemeralKeyModel>;
+
+typedef CheckoutResult = Either<String, CheckoutEntity>;
 
 class PaymentUsecase {
   final PaymentRepository paymentRepository;
@@ -43,5 +46,9 @@ class PaymentUsecase {
 
   Future<CreateEphemeralKeyResult> createEphemeralKey(String customerId) async {
     return await paymentRepository.createEphemeralKey(customerId);
+  }
+
+  Future<CheckoutResult> updateCheckout(String orderId, String paymentMethod) async {
+    return await paymentRepository.updateCheckout(orderId, paymentMethod);
   }
 }
