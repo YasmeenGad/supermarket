@@ -4,7 +4,7 @@ import 'package:supermarket/core/constants/app_colors.dart';
 import 'package:supermarket/core/models/custom_text_field_model.dart';
 import 'package:supermarket/core/utils/app_routes.dart';
 import 'package:supermarket/core/utils/app_styles.dart';
-import 'package:supermarket/core/utils/validator.dart';
+import 'package:supermarket/core/validators/validator.dart';
 import 'package:supermarket/core/widgets/custom_button.dart';
 import 'package:supermarket/features/auth/data/datasources/auth_local_datasource.dart';
 import 'package:supermarket/features/auth/presentation/bloc/authBloc/auth_bloc.dart';

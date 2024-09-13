@@ -4,7 +4,7 @@ import 'package:supermarket/core/constants/app_colors.dart';
 import 'package:supermarket/core/models/custom_text_field_model.dart';
 import 'package:supermarket/core/utils/app_routes.dart';
 import 'package:supermarket/core/utils/assets.dart';
-import 'package:supermarket/core/utils/validator.dart';
+import 'package:supermarket/core/validators/validator.dart';
 import 'package:supermarket/core/widgets/custom_button.dart';
 import 'package:supermarket/features/auth/presentation/bloc/authBloc/auth_bloc.dart';
 import 'package:supermarket/features/auth/presentation/bloc/authBloc/auth_event.dart';
@@ -99,6 +99,7 @@ class _RegisterState extends State<Register> {
                   textFieldModel: CustomTextFieldModel(
                     text: 'Username',
                     hintText: 'username',
+                    suffixIcon: Icon(Icons.person_outline,color: primaryColor,),
                   ),
                 ),
                 CustomTextField(
@@ -111,7 +112,7 @@ class _RegisterState extends State<Register> {
                     text: 'Email',
                     hintText: 'email',
                     suffixIcon:
-                        isEmailValid ? Image.asset(Assets.imagesVector) : null,
+                        Icon(Icons.email_outlined, color: isEmailValid ? primaryColor : Colors.grey),
                   ),
                 ),
                 CustomTextField(
@@ -122,7 +123,7 @@ class _RegisterState extends State<Register> {
                   controller: passwordController,
                   textFieldModel: CustomTextFieldModel(
                     text: 'Password',
-                    hintText: '****',
+                    hintText: '******',
                     suffixIcon: IconButton(
                       onPressed: () {
                         setState(() {
@@ -130,8 +131,8 @@ class _RegisterState extends State<Register> {
                         });
                       },
                       icon: isPassword
-                          ? Icon(Icons.visibility)
-                          : Icon(Icons.visibility_off),
+                          ? Icon(Icons.visibility,color: primaryColor,)
+                          : Icon(Icons.visibility_off,color: primaryColor,),
                     ),
                   ),
                 ),

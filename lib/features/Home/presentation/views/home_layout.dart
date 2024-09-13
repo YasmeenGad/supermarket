@@ -7,6 +7,7 @@ import 'package:supermarket/features/checkout/data/datasource/payment_local_data
 import 'package:supermarket/features/checkout/domain/entities/create_customer.dart';
 import 'package:supermarket/features/explore/presentation/views/all_categories_view.dart';
 import 'package:supermarket/features/favorite/presentation/views/fav_view.dart';
+import 'package:supermarket/features/profile/presentation/views/profile_view.dart';
 import 'package:supermarket/injection_container.dart';
 
 class HomeLayout extends StatefulWidget {
@@ -49,7 +50,7 @@ class _HomeLayoutState extends State<HomeLayout>
         customer: widget.customer,
       ),
       FavView(),
-      Container(),
+      ProfileView(),
     ];
     _controller = AnimationController(
       duration: const Duration(milliseconds: 300),

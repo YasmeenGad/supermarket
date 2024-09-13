@@ -1,12 +1,9 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supermarket/features/auth/data/models/login_response.dart';
 import 'package:supermarket/features/checkout/data/models/create_customer_model.dart';
-import '../models/user_model.dart';
 import 'dart:convert';
 
 abstract class AuthLocalDataSource {
-  Future<void> cacheUser(UserModel user);
-  Future<UserModel?> getCachedUser();
   Future<void> cacheToken(String token);
   Future<String?> getCachedToken();
   Future<void> removeCachedToken();
@@ -14,6 +11,7 @@ abstract class AuthLocalDataSource {
   Future<LoginResponse?> getCachedLoginResponse();
   Future<void> cacheCustomer(CustomerModel customer);
   Future<CustomerModel?> getCachedCustomer();
+  Future<void> logout();
 }
 
 class AuthLocalDataSourceImpl implements AuthLocalDataSource {
@@ -24,21 +22,6 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   final SharedPreferences sharedPreferences;
 
   AuthLocalDataSourceImpl({required this.sharedPreferences});
-
-  @override
-  Future<void> cacheUser(UserModel user) async {
-    final userJson = user.toJson();
-    await sharedPreferences.setString(CACHED_USER, json.encode(userJson));
-  }
-
-  @override
-  Future<UserModel?> getCachedUser() async {
-    final jsonString = sharedPreferences.getString(CACHED_USER);
-    if (jsonString == null || jsonString.isEmpty) {
-      return null; // or handle this case appropriately
-    }
-    return UserModel.fromJson(jsonDecode(jsonString));
-  }
 
   @override
   Future<void> cacheToken(String token) async {
@@ -84,5 +67,11 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
       return CustomerModel.fromJson(json.decode(customerJson));
     }
     return null;
+  }
+
+  @override
+  Future<void> logout() async {
+    await sharedPreferences.remove(CASHED_TOKEN);
+    await sharedPreferences.remove(CACHED_LOGIN_RESPONSE);
   }
 }

@@ -5,7 +5,7 @@ import 'package:supermarket/core/models/custom_text_field_model.dart';
 import 'package:supermarket/core/utils/app_routes.dart';
 import 'package:supermarket/core/utils/app_styles.dart';
 import 'package:supermarket/core/utils/assets.dart';
-import 'package:supermarket/core/utils/validator.dart';
+import 'package:supermarket/core/validators/validator.dart';
 import 'package:supermarket/core/widgets/custom_awesome_dialog.dart';
 import 'package:supermarket/core/widgets/custom_button.dart';
 import 'package:supermarket/features/auth/presentation/bloc/authBloc/auth_bloc.dart';
@@ -126,9 +126,10 @@ class _LoginState extends State<Login> {
                   textFieldModel: CustomTextFieldModel(
                     text: 'Email',
                     hintText: 'email',
-                    suffixIcon: isEmailValid
-                        ? const Icon(Icons.check, color: Colors.green)
-                        : null,
+                    suffixIcon: Icon(
+                      Icons.email_outlined,
+                      color: isEmailValid ? primaryColor : Colors.grey,
+                    ),
                   ),
                 ),
                 CustomTextField(
@@ -139,7 +140,7 @@ class _LoginState extends State<Login> {
                   controller: passwordController,
                   textFieldModel: CustomTextFieldModel(
                     text: 'Password',
-                    hintText: '*****',
+                    hintText: '******',
                     suffixIcon: IconButton(
                       onPressed: () {
                         setState(() {
@@ -147,8 +148,14 @@ class _LoginState extends State<Login> {
                         });
                       },
                       icon: isPassword
-                          ? const Icon(Icons.visibility)
-                          : const Icon(Icons.visibility_off),
+                          ? const Icon(
+                              Icons.visibility,
+                              color: primaryColor,
+                            )
+                          : const Icon(
+                              Icons.visibility_off,
+                              color: primaryColor,
+                            ),
                     ),
                   ),
                 ),
@@ -214,9 +221,9 @@ class _LoginState extends State<Login> {
                     final password = passwordController.text;
 
                     context.read<AuthBloc>().add(LoginEvent(
-                      email: email,
-                      password: password,
-                    ));
+                          email: email,
+                          password: password,
+                        ));
                   }
                 },
                 child: CustomButton(
