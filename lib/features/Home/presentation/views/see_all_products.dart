@@ -46,7 +46,7 @@ class SeeAllProducts extends StatelessWidget {
                   crossAxisCount: 2,
                   mainAxisSpacing: 10.0,
                   crossAxisSpacing: 10.0,
-                  childAspectRatio: 0.60,
+                  childAspectRatio: 0.69,
                 ),
                 itemBuilder: (context, index) {
                   return GestureDetector(

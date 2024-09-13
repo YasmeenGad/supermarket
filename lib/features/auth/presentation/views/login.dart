@@ -6,8 +6,9 @@ import 'package:supermarket/core/utils/app_routes.dart';
 import 'package:supermarket/core/utils/app_styles.dart';
 import 'package:supermarket/core/utils/assets.dart';
 import 'package:supermarket/core/validators/validator.dart';
-import 'package:supermarket/core/widgets/custom_awesome_dialog.dart';
 import 'package:supermarket/core/widgets/custom_button.dart';
+import 'package:supermarket/core/widgets/custom_loading_indicator.dart';
+import 'package:supermarket/core/widgets/custome_snackbar.dart';
 import 'package:supermarket/features/auth/presentation/bloc/authBloc/auth_bloc.dart';
 import 'package:supermarket/features/auth/presentation/bloc/authBloc/auth_event.dart';
 import 'package:supermarket/features/auth/presentation/widgets/custom_auth_text_section.dart';
@@ -18,8 +19,8 @@ import 'package:supermarket/features/checkout/domain/entities/create_customer.da
 import 'package:supermarket/injection_container.dart';
 
 class Login extends StatefulWidget {
-  const Login({super.key, this.customer});
-  final Customer? customer;
+  Login({super.key, this.customer});
+  Customer? customer;
 
   @override
   State<Login> createState() => _LoginState();
@@ -48,7 +49,7 @@ class _LoginState extends State<Login> {
 
   Future<void> _initializeCustomerId() async {
     customerId = await _checkCustomerId();
-    setState(() {}); // Update UI after customer ID is retrieved
+    setState(() {});
   }
 
   Future<String?> _checkCustomerId() async {
@@ -75,6 +76,8 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
+    widget.customer = ModalRoute.of(context)!.settings.arguments as Customer?;
+
     return Scaffold(
       body: GestureDetector(
         onTap: () {
@@ -164,7 +167,8 @@ class _LoginState extends State<Login> {
                   child: GestureDetector(
                     onTap: () {
                       Navigator.pushNamed(
-                          context, AppRoutes.forgetPasswordRoute);
+                          context, AppRoutes.forgetPasswordRoute,
+                          arguments: widget.customer);
                     },
                     child: Text("Forget Password?",
                         style: AppStyles.styleMedium16(context)),
@@ -177,27 +181,7 @@ class _LoginState extends State<Login> {
           BlocConsumer<AuthBloc, AuthState>(
             listener: (context, state) {
               if (state is AuthSuccess) {
-                final snackBar = SnackBar(
-                  content: Row(
-                    children: [
-                      const Icon(Icons.check_circle, color: Colors.white),
-                      const SizedBox(width: 10),
-                      Text('${state.message}'),
-                    ],
-                  ),
-                  backgroundColor: Colors.green,
-                  behavior: SnackBarBehavior.floating,
-                  duration: const Duration(seconds: 3),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  action: SnackBarAction(
-                    label: 'OK',
-                    textColor: Colors.white,
-                    onPressed: () {},
-                  ),
-                );
-                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                CustomeSnackbar.showSuccessSnackbar(context, state.message);
                 Navigator.pushNamedAndRemoveUntil(
                   context,
                   AppRoutes.homeLayoutRoute,
@@ -205,14 +189,12 @@ class _LoginState extends State<Login> {
                   arguments: widget.customer,
                 );
               } else if (state is AuthFailure) {
-                CustomAwesomDialog.showErrorDialog(context, state.error);
+                CustomeSnackbar.showSuccessSnackbar(context, state.error);
               }
             },
             builder: (context, state) {
               if (state is AuthLoading) {
-                return const CircularProgressIndicator(
-                  color: primaryColor,
-                );
+                return const CustomLoadingIndicator();
               }
               return GestureDetector(
                 onTap: () {

@@ -39,8 +39,8 @@ class ExclusiveOfferWidget extends StatelessWidget {
             Align(
               alignment: Alignment.center,
               child: Container(
-                width: MediaQuery.sizeOf(context).width * 0.35,
-                height: MediaQuery.sizeOf(context).height * 0.18,
+                width: MediaQuery.sizeOf(context).width * 0.3,
+                height: MediaQuery.sizeOf(context).height * 0.12,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
@@ -76,7 +76,7 @@ class ExclusiveOfferWidget extends StatelessWidget {
                     "\$${product.price}",
                     style: AppStyles.styleSemiBold18(context).copyWith(
                       color: darkColor,
-                      fontSize: 20,
+                      fontSize: 18,
                       shadows: [
                         Shadow(
                           color: Colors.black.withOpacity(0.1),

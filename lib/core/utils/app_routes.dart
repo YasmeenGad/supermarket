@@ -47,10 +47,11 @@ class AppRoutes {
       homeLayoutRoute: (context) => HomeLayout(
             customer: ModalRoute.of(context)?.settings.arguments as Customer?,
           ),
-      forgetPasswordRoute: (context) => ForgetPassword(),
-      otpRoute: (context) => VerifyOtp(),
+      forgetPasswordRoute: (context) => ForgetPassword(customer: ModalRoute.of(context)?.settings.arguments as Customer),
+      otpRoute: (context) => VerifyOtp(customer: ModalRoute.of(context)?.settings.arguments as Customer),
       resetPasswordRoute: (context) => ResetPassword(
             token: ModalRoute.of(context)!.settings.arguments as String,
+            customer: ModalRoute.of(context)?.settings.arguments as Customer,
           ),
       searchViewRoute: (context) => const SearchView(),
       productDeatailsRoute: (context) => ProductDetailsView(

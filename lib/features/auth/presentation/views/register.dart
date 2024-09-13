@@ -6,6 +6,8 @@ import 'package:supermarket/core/utils/app_routes.dart';
 import 'package:supermarket/core/utils/assets.dart';
 import 'package:supermarket/core/validators/validator.dart';
 import 'package:supermarket/core/widgets/custom_button.dart';
+import 'package:supermarket/core/widgets/custom_loading_indicator.dart';
+import 'package:supermarket/core/widgets/custome_snackbar.dart';
 import 'package:supermarket/features/auth/presentation/bloc/authBloc/auth_bloc.dart';
 import 'package:supermarket/features/auth/presentation/bloc/authBloc/auth_event.dart';
 import 'package:supermarket/features/auth/presentation/widgets/custom_auth_text_section.dart';
@@ -99,7 +101,10 @@ class _RegisterState extends State<Register> {
                   textFieldModel: CustomTextFieldModel(
                     text: 'Username',
                     hintText: 'username',
-                    suffixIcon: Icon(Icons.person_outline,color: primaryColor,),
+                    suffixIcon: Icon(
+                      Icons.person_outline,
+                      color: primaryColor,
+                    ),
                   ),
                 ),
                 CustomTextField(
@@ -111,8 +116,8 @@ class _RegisterState extends State<Register> {
                   textFieldModel: CustomTextFieldModel(
                     text: 'Email',
                     hintText: 'email',
-                    suffixIcon:
-                        Icon(Icons.email_outlined, color: isEmailValid ? primaryColor : Colors.grey),
+                    suffixIcon: Icon(Icons.email_outlined,
+                        color: isEmailValid ? primaryColor : Colors.grey),
                   ),
                 ),
                 CustomTextField(
@@ -131,8 +136,14 @@ class _RegisterState extends State<Register> {
                         });
                       },
                       icon: isPassword
-                          ? Icon(Icons.visibility,color: primaryColor,)
-                          : Icon(Icons.visibility_off,color: primaryColor,),
+                          ? Icon(
+                              Icons.visibility,
+                              color: primaryColor,
+                            )
+                          : Icon(
+                              Icons.visibility_off,
+                              color: primaryColor,
+                            ),
                     ),
                   ),
                 ),
@@ -141,12 +152,10 @@ class _RegisterState extends State<Register> {
           ),
           BlocConsumer<AuthBloc, AuthState>(
             listener: (context, state) {
-              if (state is CustomerLoaded) {
-                // Customer creation successful, navigate to login screen
+              if (state is CustomerLoaded && state is AuthSuccess) {
                 Navigator.pushReplacementNamed(context, AppRoutes.loginRoute,
                     arguments: state.customer);
               } else if (state is AuthFailure || state is CustomerError) {
-                // Show error message
                 String errorMessage;
                 if (state is AuthFailure) {
                   errorMessage = state.error;
@@ -156,16 +165,12 @@ class _RegisterState extends State<Register> {
                   errorMessage = 'An unexpected error occurred';
                 }
 
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(errorMessage)),
-                );
+                CustomeSnackbar.showErrorSnackbar(context, errorMessage);
               }
             },
             builder: (context, state) {
               if (state is AuthLoading || state is CustomerLoading) {
-                return const CircularProgressIndicator(
-                  color: primaryColor,
-                );
+                return const CustomLoadingIndicator();
               }
               return GestureDetector(
                 onTap: () {

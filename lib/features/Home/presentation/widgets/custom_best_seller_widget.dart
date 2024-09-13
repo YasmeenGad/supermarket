@@ -16,7 +16,7 @@ class CustomBestSellerWidget extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(12),
       width: MediaQuery.sizeOf(context).width * 0.9,
-      height: MediaQuery.sizeOf(context).height * 0.18,
+      height: MediaQuery.sizeOf(context).height * 0.16,
       decoration: BoxDecoration(
         color: Colors.white.withOpacity(0.8),
         borderRadius: BorderRadius.circular(20),
@@ -38,7 +38,7 @@ class CustomBestSellerWidget extends StatelessWidget {
         children: [
           Expanded(
             child: Container(
-              height: MediaQuery.sizeOf(context).height * 0.17,
+              height: MediaQuery.sizeOf(context).height * 0.12,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
                 gradient: LinearGradient(
@@ -80,7 +80,7 @@ class CustomBestSellerWidget extends StatelessWidget {
                           "\$${product.price}",
                           style: AppStyles.styleSemiBold18(context).copyWith(
                             color: darkColor,
-                            fontSize: 22,
+                            fontSize: 19,
                             letterSpacing: 0.5,
                             shadows: [
                               Shadow(

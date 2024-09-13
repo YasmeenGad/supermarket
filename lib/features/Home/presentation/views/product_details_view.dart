@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:supermarket/core/widgets/custome_snackbar.dart';
 
 import 'package:supermarket/features/Home/presentation/widgets/custom_overlay.dart';
 import 'package:supermarket/features/Home/presentation/widgets/custom_product_details.dart';
@@ -54,26 +54,8 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
             setState(() {
               _showLoading = false;
             });
-                      // Dismiss the loading Snackbar
-          ScaffoldMessenger.of(context).hideCurrentSnackBar();
-
-          // Show an error Snackbar
-          final snackBar = SnackBar(
-            content: Row(
-              children: [
-                Icon(Icons.error, color: Colors.white),
-                SizedBox(width: 10),
-                Text('${state.message}'),
-              ],
-            ),
-            backgroundColor: Colors.red,
-            behavior: SnackBarBehavior.floating,
-            duration: Duration(seconds: 3),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-            ),
-          );
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+            CustomeSnackbar.showErrorSnackbar(context, state.message);
           }
         },
         child: Stack(

@@ -9,9 +9,11 @@ import 'package:supermarket/core/widgets/custom_button.dart';
 import 'package:supermarket/core/widgets/custom_loading_indicator.dart';
 import 'package:supermarket/features/auth/presentation/bloc/authBloc/auth_bloc.dart';
 import 'package:supermarket/features/auth/presentation/bloc/authBloc/auth_event.dart';
+import 'package:supermarket/features/checkout/domain/entities/create_customer.dart';
 
 class VerifyOtp extends StatefulWidget {
-  const VerifyOtp({Key? key}) : super(key: key);
+  VerifyOtp({Key? key, required this.customer}) : super(key: key);
+  Customer customer;
 
   @override
   State<VerifyOtp> createState() => _VerifyOtpState();
@@ -22,6 +24,8 @@ class _VerifyOtpState extends State<VerifyOtp> {
 
   @override
   Widget build(BuildContext context) {
+    widget.customer = ModalRoute.of(context)!.settings.arguments as Customer;
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: GestureDetector(
@@ -80,12 +84,14 @@ class _VerifyOtpState extends State<VerifyOtp> {
                 BlocConsumer<AuthBloc, AuthState>(
                   listener: (context, state) {
                     if (state is AuthSuccessResetPassword) {
-                      Navigator.pushNamed(
-                          context, AppRoutes.resetPasswordRoute, arguments: state.token);
-                          print(state.token);
+                      Navigator.pushNamed(context, AppRoutes.resetPasswordRoute,
+                          arguments: {
+                            'token': state.token,
+                            'customer': widget.customer,
+                          });
                     } else if (state is AuthFailureResetPassword) {
-                    CustomAwesomDialog.showErrorDialog(context, state.error);
-                  }
+                      CustomAwesomDialog.showErrorDialog(context, state.error);
+                    }
                   },
                   builder: (context, state) {
                     if (state is AuthLoadingResetPassword) {

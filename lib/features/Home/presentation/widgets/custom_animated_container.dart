@@ -11,8 +11,8 @@ class CustomAnimatedContainer extends StatelessWidget {
       child: AnimatedContainer(
         duration: Duration(milliseconds: 200),
         curve: Curves.easeInOut,
-        height: 50,
-        width: 50,
+        height: 40,
+        width: 40,
         decoration: BoxDecoration(
           color: primaryColor,
           borderRadius: BorderRadius.circular(15),
@@ -30,7 +30,7 @@ class CustomAnimatedContainer extends StatelessWidget {
             end: Alignment.bottomRight,
           ),
         ),
-        child: Icon(Icons.add, color: Colors.white, size: 28),
+        child: Icon(Icons.add, color: Colors.white, size: 25),
       ),
     );
   }
