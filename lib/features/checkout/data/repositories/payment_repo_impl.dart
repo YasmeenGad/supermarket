@@ -1,4 +1,7 @@
+import 'dart:async';
 import 'package:dartz/dartz.dart';
+import 'package:supermarket/core/error/exceptions.dart';
+import 'package:supermarket/core/error/failure.dart';
 import 'package:supermarket/core/network/network_info.dart';
 import 'package:supermarket/features/checkout/data/datasource/payment_local_datasource.dart';
 import 'package:supermarket/features/checkout/data/datasource/payment_remote_datasource.dart';
@@ -22,107 +25,154 @@ class PaymentRepositoryImpl implements PaymentRepository {
   });
 
   @override
-  Future<Either<String, PaymentIntentModel>> createPaymentIntent(
+  Future<Either<Failure, PaymentIntentModel>> createPaymentIntent(
       PaymentIntentInputModel paymentIntentInputModel) async {
     if (!await networkInfo.isConnected) {
-      return const Left('No internet connection');
+      return const Left(NoInternetFailure());
     }
     try {
       final paymentIntentModel = await paymentRemoteDatasource
           .createPaymentIntent(paymentIntentInputModel);
       return Right(paymentIntentModel);
-    } on Exception {
-      return const Left('Failed to create payment intent');
+    } on ServerException catch (e) {
+      if (e.statusCode >= 500) {
+        return const Left(InternalServerErrorFailure());
+      }
+      return Left(ServerFailure(e.message, e.statusCode));
+    } on TimeoutException {
+      return const Left(TimeoutFailure());
+    } catch (e) {
+      return Left(GeneralFailure(e.toString()));
     }
   }
 
   @override
-  Future<Either<String, void>> initPaymentSheet(
+  Future<Either<Failure, void>> initPaymentSheet(
       {required InitPaymentSheetInputModel initPaymentSheetInputModel}) async {
     if (!await networkInfo.isConnected) {
-      return const Left('No internet connection');
+      return const Left(NoInternetFailure());
     }
     try {
       await paymentRemoteDatasource.initPaymentSheet(
           initPaymentSheetInputModel: initPaymentSheetInputModel);
       return const Right(null);
-    } on Exception {
-      return const Left('Failed to initialize payment sheet');
+    } on ServerException catch (e) {
+      if (e.statusCode >= 500) {
+        return const Left(InternalServerErrorFailure());
+      }
+      return Left(ServerFailure(e.message, e.statusCode));
+    } on TimeoutException {
+      return const Left(TimeoutFailure());
+    } catch (e) {
+      return Left(GeneralFailure(e.toString()));
     }
   }
 
   @override
-  Future<Either<String, void>> displayPaymentSheet() async {
+  Future<Either<Failure, void>> displayPaymentSheet() async {
     if (!await networkInfo.isConnected) {
-      return const Left('No internet connection');
+      return const Left(NoInternetFailure());
     }
     try {
       await paymentRemoteDatasource.displayPaymentSheet();
       return const Right(null);
-    } on Exception {
-      return const Left('Failed to display payment sheet');
+    } on ServerException catch (e) {
+      if (e.statusCode >= 500) {
+        return const Left(InternalServerErrorFailure());
+      }
+      return Left(ServerFailure(e.message, e.statusCode));
+    } on TimeoutException {
+      return const Left(TimeoutFailure());
+    } catch (e) {
+      return Left(GeneralFailure(e.toString()));
     }
   }
 
   @override
-  Future<Either<String, void>> makePayment(
+  Future<Either<Failure, void>> makePayment(
       {required PaymentIntentInputModel paymentIntentInputModel}) async {
     if (!await networkInfo.isConnected) {
-      return const Left(
-          'No internet connection, Please Connect to Internet and try again');
+      return const Left(NoInternetFailure());
     }
     try {
       await paymentRemoteDatasource.makePayment(
           paymentIntentInputModel: paymentIntentInputModel);
       return const Right(null);
-    } on Exception {
-      return const Left('Payment Processing not completed');
+    } on ServerException catch (e) {
+      if (e.statusCode >= 500) {
+        return const Left(InternalServerErrorFailure());
+      }
+      return Left(ServerFailure(e.message, e.statusCode));
+    } on TimeoutException {
+      return const Left(TimeoutFailure());
+    } catch (e) {
+      return Left(GeneralFailure(e.toString()));
     }
   }
 
   @override
-  Future<Either<String, Customer>> createCustomer(String name) async {
+  Future<Either<Failure, Customer>> createCustomer(String name) async {
     if (!await networkInfo.isConnected) {
-      return const Left(
-          'No internet connection, Please Connect to Internet and try again');
+      return const Left(NoInternetFailure());
     }
     try {
       final customer = await paymentRemoteDatasource.createCustomer(name);
       await paymentLocalDatasource.cacheCustomer(customer);
       return Right(customer);
-    } on Exception {
-      return const Left('Failed to create customer');
+    } on ServerException catch (e) {
+      if (e.statusCode >= 500) {
+        return const Left(InternalServerErrorFailure());
+      }
+      return Left(ServerFailure(e.message, e.statusCode));
+    } on TimeoutException {
+      return const Left(TimeoutFailure());
+    } catch (e) {
+      return Left(GeneralFailure(e.toString()));
     }
   }
 
   @override
-  Future<Either<String, EphemeralKeyModel>> createEphemeralKey(
+  Future<Either<Failure, EphemeralKeyModel>> createEphemeralKey(
       String customerId) async {
     if (!await networkInfo.isConnected) {
-      return const Left(
-          'No internet connection, Please Connect to Internet and try again');
+      return const Left(NoInternetFailure());
     }
     try {
       final ephemeralKey =
           await paymentRemoteDatasource.createEphemeralKey(customerId);
       return Right(ephemeralKey);
-    } on Exception {
-      return const Left('Failed to create ephemeral key');
+    } on ServerException catch (e) {
+      if (e.statusCode >= 500) {
+        return const Left(InternalServerErrorFailure());
+      }
+      return Left(ServerFailure(e.message, e.statusCode));
+    } on TimeoutException {
+      return const Left(TimeoutFailure());
+    } catch (e) {
+      return Left(GeneralFailure(e.toString()));
     }
   }
 
   @override
-  Future<Either<String, CheckoutEntity>> updateCheckout(String orderId, String paymentMethod)async {
+  Future<Either<Failure, CheckoutEntity>> updateCheckout(
+      String orderId, String paymentMethod) async {
     if (!await networkInfo.isConnected) {
-      return const Left(
-          'No internet connection, Please Connect to Internet and try again');
+      return const Left(NoInternetFailure());
     }
     try {
-      final checkout = await paymentRemoteDatasource.updateCheckout(orderId, paymentMethod);
+      final checkout =
+          await paymentRemoteDatasource.updateCheckout(orderId, paymentMethod);
       await paymentLocalDatasource.cacheCheckout(checkout);
       return Right(checkout);
-    } on Exception {
-      return const Left('Failed to update checkout');
+    } on ServerException catch (e) {
+      if (e.statusCode >= 500) {
+        return const Left(InternalServerErrorFailure());
+      }
+      return Left(ServerFailure(e.message, e.statusCode));
+    } on TimeoutException {
+      return const Left(TimeoutFailure());
+    } catch (e) {
+      return Left(GeneralFailure(e.toString()));
     }
   }
 }

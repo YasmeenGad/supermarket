@@ -8,7 +8,7 @@ import 'package:supermarket/features/checkout/domain/entities/create_customer.da
 import 'package:supermarket/features/explore/presentation/views/all_categories_view.dart';
 import 'package:supermarket/features/favorite/presentation/views/fav_view.dart';
 import 'package:supermarket/features/profile/presentation/views/profile_view.dart';
-import 'package:supermarket/injection_container.dart';
+import 'package:supermarket/core/config/injection_container.dart';
 
 class HomeLayout extends StatefulWidget {
   const HomeLayout({super.key, required this.customer});

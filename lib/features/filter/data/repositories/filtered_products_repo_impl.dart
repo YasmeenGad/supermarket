@@ -1,4 +1,7 @@
+import 'dart:async';
 import 'package:dartz/dartz.dart';
+import 'package:supermarket/core/error/exceptions.dart';
+import 'package:supermarket/core/error/failure.dart';
 import 'package:supermarket/core/network/network_info.dart';
 import 'package:supermarket/features/filter/data/datasources/filtered_products_local_datasource.dart';
 import 'package:supermarket/features/filter/data/datasources/filtered_products_remote_datasource.dart';
@@ -14,7 +17,7 @@ class FilteredProductsRepositoryImpl implements FilteredProductsRepository {
       this.remoteDataSource, this.networkInfo, this.localDataSource);
 
   @override
-  Future<Either<String, List<FilteredProducts>>> getProductsByCategory(
+  Future<Either<Failure, List<FilteredProducts>>> getProductsByCategory(
       String categoryName) async {
     if (!await networkInfo.isConnected) {
       final localProducts = await localDataSource.getLastProductsByCategory();
@@ -47,8 +50,15 @@ class FilteredProductsRepositoryImpl implements FilteredProductsRepository {
                   bestSelling: model.bestSelling,
                 ))
             .toList());
+      } on ServerException catch (e) {
+        if (e.statusCode >= 500) {
+          return const Left(InternalServerErrorFailure());
+        }
+        return Left(ServerFailure(e.message, e.statusCode));
+      } on TimeoutException {
+        return const Left(TimeoutFailure());
       } catch (e) {
-        return Left(e.toString());
+        return Left(GeneralFailure(e.toString()));
       }
     }
   }

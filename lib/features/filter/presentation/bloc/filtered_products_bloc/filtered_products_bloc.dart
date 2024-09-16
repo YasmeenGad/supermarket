@@ -19,7 +19,7 @@ class FilteredProductsBloc
     emit(FilteredProductsLoading());
     final result = await filteredProductsUsecase.getProductsByCategory(event.categoryName);
     result.fold(
-      (failure) => emit(FilteredProductsError(message: failure.toString())),
+      (failure) => emit(FilteredProductsError(message: failure.message.toString())),
       (filteredProducts) =>
           emit(FilteredProductsLoaded(products: filteredProducts)),
     );

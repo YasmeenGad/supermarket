@@ -1,8 +1,9 @@
 import 'package:dartz/dartz.dart';
+import 'package:supermarket/core/error/failure.dart';
 import 'package:supermarket/features/filter/domain/entities/filtered_products.dart';
 import 'package:supermarket/features/filter/domain/repositories/filtered_products_repo.dart';
 
-typedef GetProductsByCategory = Either<String, List<FilteredProducts>>;
+typedef GetProductsByCategory = Either<Failure, List<FilteredProducts>>;
 class FilteredProductsUsecase {
   final FilteredProductsRepository repository;
 

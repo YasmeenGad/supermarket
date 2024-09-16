@@ -4,7 +4,7 @@ import 'package:supermarket/core/utils/app_styles.dart';
 import 'package:supermarket/features/auth/data/datasources/auth_local_datasource.dart';
 import 'package:supermarket/features/profile/presentation/widgets/profile_menu.dart';
 import 'package:supermarket/features/profile/presentation/widgets/profile_pic.dart';
-import 'package:supermarket/injection_container.dart';
+import 'package:supermarket/core/config/injection_container.dart';
 
 class ProfileView extends StatelessWidget {
   const ProfileView({super.key});

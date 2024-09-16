@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:supermarket/core/error/failure.dart';
 import 'package:supermarket/features/checkout/data/models/ephemeral_key_model.dart';
 import 'package:supermarket/features/checkout/data/models/init_payment_sheet_input_model.dart';
 import 'package:supermarket/features/checkout/data/models/payment_intent_input_model.dart';
@@ -7,13 +8,13 @@ import 'package:supermarket/features/checkout/domain/entities/checkout.dart';
 import 'package:supermarket/features/checkout/domain/entities/create_customer.dart';
 import 'package:supermarket/features/checkout/domain/repositories/payment_repo.dart';
 
-typedef PaymentIntentResult = Either<String, PaymentIntentModel>;
-typedef InitPaymentSheetResult = Either<String, void>;
-typedef MakePaymentResult = Either<String, void>;
-typedef CreateCustomerResult = Either<String, Customer>;
-typedef CreateEphemeralKeyResult = Either<String, EphemeralKeyModel>;
+typedef PaymentIntentResult = Either<Failure, PaymentIntentModel>;
+typedef InitPaymentSheetResult = Either<Failure, void>;
+typedef MakePaymentResult = Either<Failure, void>;
+typedef CreateCustomerResult = Either<Failure, Customer>;
+typedef CreateEphemeralKeyResult = Either<Failure, EphemeralKeyModel>;
 
-typedef CheckoutResult = Either<String, CheckoutEntity>;
+typedef CheckoutResult = Either<Failure, CheckoutEntity>;
 
 class PaymentUsecase {
   final PaymentRepository paymentRepository;

@@ -61,7 +61,7 @@ import 'package:supermarket/features/search/domain/usecases/search_product_useca
 import 'package:supermarket/features/explore/presentation/bloc/search_category_bloc/search_category_bloc.dart';
 import 'package:supermarket/features/search/presentation/bloc/search_product_bloc/search_product_bloc.dart';
 
-import 'core/network/network_info.dart';
+import '../network/network_info.dart';
 
 final sl = GetIt.instance;
 

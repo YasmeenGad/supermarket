@@ -6,7 +6,7 @@ import 'package:supermarket/features/checkout/data/datasource/payment_local_data
 import 'package:supermarket/features/checkout/domain/entities/create_customer.dart';
 import 'package:supermarket/features/splash/presentation/views/onboarding_view.dart';
 import 'package:supermarket/features/splash/presentation/widgets/container_splash_view.dart';
-import 'package:supermarket/injection_container.dart';
+import 'package:supermarket/core/config/injection_container.dart';
 
 class SplashView extends StatelessWidget {
   const SplashView({super.key});

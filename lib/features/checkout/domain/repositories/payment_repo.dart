@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:supermarket/core/error/failure.dart';
 import 'package:supermarket/features/checkout/data/models/ephemeral_key_model.dart';
 import 'package:supermarket/features/checkout/data/models/init_payment_sheet_input_model.dart';
 import 'package:supermarket/features/checkout/data/models/payment_intent_model.dart';
@@ -8,14 +9,14 @@ import 'package:supermarket/features/checkout/domain/entities/create_customer.da
 import '../../data/models/payment_intent_input_model.dart';
 
 abstract class PaymentRepository {
-  Future<Either<String, PaymentIntentModel>> createPaymentIntent(
+  Future<Either<Failure, PaymentIntentModel>> createPaymentIntent(
       PaymentIntentInputModel paymentIntentInputModel);
-  Future<Either<String, void>> initPaymentSheet(
+  Future<Either<Failure, void>> initPaymentSheet(
       {required InitPaymentSheetInputModel initPaymentSheetInputModel});
-  Future<Either<String, void>> displayPaymentSheet();
-  Future<Either<String, void>> makePayment(
+  Future<Either<Failure, void>> displayPaymentSheet();
+  Future<Either<Failure, void>> makePayment(
       {required PaymentIntentInputModel paymentIntentInputModel});
-  Future<Either<String, Customer>> createCustomer(String name);
-  Future<Either<String,EphemeralKeyModel>> createEphemeralKey(String customerId);
-  Future<Either<String, CheckoutEntity>> updateCheckout(String orderId, String paymentMethod);
+  Future<Either<Failure, Customer>> createCustomer(String name);
+  Future<Either<Failure,EphemeralKeyModel>> createEphemeralKey(String customerId);
+  Future<Either<Failure, CheckoutEntity>> updateCheckout(String orderId, String paymentMethod);
 }

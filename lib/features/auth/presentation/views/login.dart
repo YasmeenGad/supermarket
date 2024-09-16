@@ -16,7 +16,7 @@ import 'package:supermarket/features/auth/presentation/widgets/custom_text_auth.
 import 'package:supermarket/features/auth/presentation/widgets/custom_text_field.dart';
 import 'package:supermarket/features/checkout/data/datasource/payment_local_datasource.dart';
 import 'package:supermarket/features/checkout/domain/entities/create_customer.dart';
-import 'package:supermarket/injection_container.dart';
+import 'package:supermarket/core/config/injection_container.dart';
 
 class Login extends StatefulWidget {
   Login({super.key, this.customer});

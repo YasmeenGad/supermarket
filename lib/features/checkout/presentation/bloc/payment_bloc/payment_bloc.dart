@@ -23,7 +23,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
         paymentIntentInputModel: event.paymentIntentInputModel);
 
     result.fold(
-      (failure) => emit(PaymentError(message: failure.toString())),
+      (failure) => emit(PaymentError(message: failure.message.toString())),
       (success) => emit(PaymentSuccess()),
     );
   }

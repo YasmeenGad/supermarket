@@ -12,7 +12,7 @@ import 'package:supermarket/features/Home/presentation/widgets/custom_header_exc
 import 'package:supermarket/features/Home/presentation/widgets/dot_indicator.dart';
 import 'package:supermarket/features/Home/presentation/widgets/exclusive_offer_widget_list_view.dart';
 import 'package:supermarket/features/cart/presentation/widgets/custom_container_internet_connection.dart';
-import 'package:supermarket/injection_container.dart';
+import 'package:supermarket/core/config/injection_container.dart';
 
 class HomeWidget extends StatefulWidget {
   const HomeWidget({super.key});

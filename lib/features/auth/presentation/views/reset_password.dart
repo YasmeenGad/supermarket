@@ -13,7 +13,7 @@ import 'package:supermarket/features/auth/presentation/bloc/authBloc/auth_bloc.d
 import 'package:supermarket/features/auth/presentation/bloc/authBloc/auth_event.dart';
 import 'package:supermarket/features/auth/presentation/widgets/custom_text_field.dart';
 import 'package:supermarket/features/checkout/domain/entities/create_customer.dart';
-import 'package:supermarket/injection_container.dart';
+import 'package:supermarket/core/config/injection_container.dart';
 
 class ResetPassword extends StatefulWidget {
   String token;

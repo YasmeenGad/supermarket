@@ -22,7 +22,7 @@ class SearchProductBloc extends Bloc<SearchProductEvent, SearchProductState> {
     final result = await searchProductUsecase(event.query);
 
     result.fold(
-      (failure) => emit(SearchProductError(message: failure)),
+      (failure) => emit(SearchProductError(message: failure.message.toString())),
       (products) => emit(SearchProductLoaded(products: products)),
     );
   }
