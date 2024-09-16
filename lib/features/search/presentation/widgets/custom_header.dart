@@ -10,7 +10,20 @@ class CustomHeader extends StatelessWidget {
     
     return Align(
       alignment: Alignment.center,
-      child: FittedBox(
+      child: Row(
+        children: [
+          InkWell(
+            onTap: (){
+              Navigator.pop(context);
+            },
+            child: Icon(
+              Icons.arrow_back_ios,
+              color: darkColor,
+              size: 20,
+            ),
+          ),
+          const SizedBox(width: 60),
+          FittedBox(
         fit: BoxFit.scaleDown,
         alignment: Alignment.center,
         child: Text(
@@ -18,6 +31,8 @@ class CustomHeader extends StatelessWidget {
           style: AppStyles.styleBold20(context).copyWith(color: darkColor),
         ),
       ),
+        ]
+      )
     );
   }
 }

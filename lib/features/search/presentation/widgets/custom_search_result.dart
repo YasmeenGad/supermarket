@@ -32,7 +32,7 @@ class CustomSearchResult extends StatelessWidget {
                   crossAxisCount: 2,
                   mainAxisSpacing: 10.0,
                   crossAxisSpacing: 10.0,
-                  childAspectRatio: 0.56,
+                  childAspectRatio: 0.65,
                 ),
                 itemBuilder: (context, index) {
                   return ExclusiveOfferWidget(product: state.products[index]);

@@ -50,8 +50,8 @@ class AppRoutes {
       forgetPasswordRoute: (context) => ForgetPassword(customer: ModalRoute.of(context)?.settings.arguments as Customer),
       otpRoute: (context) => VerifyOtp(customer: ModalRoute.of(context)?.settings.arguments as Customer),
       resetPasswordRoute: (context) => ResetPassword(
-            token: ModalRoute.of(context)!.settings.arguments as String,
-            customer: ModalRoute.of(context)?.settings.arguments as Customer,
+            token: ModalRoute.of(context)!.settings.arguments as Map<String,dynamic>,
+            customer: ModalRoute.of(context)?.settings.arguments as Map<String,dynamic>,
           ),
       searchViewRoute: (context) => const SearchView(),
       productDeatailsRoute: (context) => ProductDetailsView(

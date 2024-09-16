@@ -16,8 +16,8 @@ import 'package:supermarket/features/checkout/domain/entities/create_customer.da
 import 'package:supermarket/core/config/injection_container.dart';
 
 class ResetPassword extends StatefulWidget {
-  String token;
-  Customer customer;
+  dynamic token;
+  dynamic customer;
 
   ResetPassword({Key? key, required this.token, required this.customer})
       : super(key: key);
