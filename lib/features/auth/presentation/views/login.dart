@@ -189,7 +189,7 @@ class _LoginState extends State<Login> {
                   arguments: widget.customer,
                 );
               } else if (state is AuthFailure) {
-                CustomeSnackbar.showSuccessSnackbar(context, state.error);
+                CustomeSnackbar.showErrorSnackbar(context, state.error);
               }
             },
             builder: (context, state) {
