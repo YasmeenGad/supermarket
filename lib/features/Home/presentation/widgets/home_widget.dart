@@ -78,7 +78,10 @@ class _HomeWidgetState extends State<HomeWidget> {
                         BlocBuilder<AllProductsBlocBloc, AllProductsBlocState>(
                       builder: (context, state) {
                         if (state is AllProductsBlocLoading) {
-                          return CustomLoadingIndicator();
+                          return Container(
+                            width: 300,
+                            height: 400,
+                            child: CustomLoadingIndicator());
                         } else if (state is AllProductsBlocLoaded) {
                           return ExclusiveOfferWidgetListView(
                               products: state.products);

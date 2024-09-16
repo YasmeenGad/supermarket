@@ -19,7 +19,6 @@ import 'package:supermarket/features/favorite/presentation/bloc/add_fav_products
 import 'package:supermarket/features/favorite/presentation/bloc/delete_all_fav/delete_all_favorite_products_bloc.dart';
 import 'package:supermarket/features/favorite/presentation/bloc/delete_one_fav_products/delete_one_favorite_product_bloc.dart';
 import 'package:supermarket/features/favorite/presentation/bloc/get_fav_products/get_favorite_products_bloc.dart';
-
 import 'package:supermarket/features/filter/presentation/bloc/filtered_products_bloc/filtered_products_bloc.dart';
 import 'package:supermarket/features/explore/presentation/bloc/search_category_bloc/search_category_bloc.dart';
 import 'package:supermarket/features/search/presentation/bloc/search_product_bloc/search_product_bloc.dart';
